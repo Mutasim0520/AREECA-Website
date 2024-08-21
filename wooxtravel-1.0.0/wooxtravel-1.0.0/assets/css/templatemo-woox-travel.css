@@ -712,10 +712,9 @@ Banner Style
 #section-1 {
   margin-top: 0px;
   height: 55vh;
-  margin-left: 16vw;
-  margin-right: 16vw;
+  /* margin-left: 16%;
+  margin-right: 16%; */
   color: #fff;
-  background-color: #222;
   position: relative;
 }
 #section-1 .content-slider {
@@ -799,7 +798,6 @@ Banner Style
   position: absolute;
   width: 100%;
   top: 40%;
-  transform: translateY(-50%);
 }
 #section-1 .content-slider .slider .banner .banner-inner-wrapper h2 {
   font-weight: 500;
