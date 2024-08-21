@@ -44,11 +44,11 @@
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
-                        <li><a href="index.html" class="active">Home</a></li>
-                        <li><a href="about.html">Map Viewer</a></li>
-                        <li><a href="deals.html">Dashboard</a></li>
-                        <li><a href="reservation.html">Documents</a></li>
-                        <li><a href="reservation.html">contacts</a></li>
+                        <li><a href="http://localhost/AREECA/template/views/index.php" class="active">Home</a></li>
+                        <li><a href="http://localhost/AREECA/template/views/map_viewer.php">Map Viewer</a></li>
+                        <li><a href="http://localhost/AREECA/template/views/dashboard.php">Dashboard</a></li>
+                        <li><a href="http://localhost/AREECA/template/views/document.php">Documents</a></li>
+                        <li><a href="http://localhost/AREECA/template/views/contact.php">contacts</a></li>
                     </ul>   
                     <a class='menu-trigger'>
                         <span>Menu</span>
