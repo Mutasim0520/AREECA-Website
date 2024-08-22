@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 <body>
 
 <!-- ***** Menu bar ***** -->
@@ -17,98 +20,75 @@
       </div>
     </div>
   </div>
-
-  <div class="more-info reservation-info">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-4 col-sm-6">
-          <div class="info-item">
-            <i class="fa fa-phone"></i>
-            <h4>Make a Phone Call</h4>
-            <a href="#">+123 456 789 (0)</a>
-          </div>
-        </div>
-        <div class="col-lg-4 col-sm-6">
-          <div class="info-item">
-            <i class="fa fa-envelope"></i>
-            <h4>Contact Us via Email</h4>
-            <a href="#">company@email.com</a>
-          </div>
-        </div>
-        <div class="col-lg-4 col-sm-6">
-          <div class="info-item">
-            <i class="fa fa-map-marker"></i>
-            <h4>Visit Our Offices</h4>
-            <a href="#">24th Street North Avenue London, UK</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <div class="reservation-form">
     <div class="container">
       <div class="row">
-        <div class="col-lg-12">
-          <div id="map">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12469.776493332698!2d-80.14036379941481!3d25.907788681148624!2m3!1f357.26927939317244!2f20.870722720054623!3f0!3m2!1i1024!2i768!4f35!3m3!1m2!1s0x88d9add4b4ac788f%3A0xe77469d09480fcdb!2sSunny%20Isles%20Beach!5e1!3m2!1sen!2sth!4v1642869952544!5m2!1sen!2sth" width="100%" height="450px" frameborder="0" style="border:0; border-top-left-radius: 23px; border-top-right-radius: 23px;" allowfullscreen=""></iframe>
-          </div>
+        <div class="section-heading">
+          <h2>Explore the data</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
         </div>
-        <div class="col-lg-12">
-          <form id="reservation-form" name="gs" method="submit" role="search" action="#">
-            <div class="row">
-              <div class="col-lg-12">
-                <h4>Make Your <em>Reservation</em> Through This <em>Form</em></h4>
-              </div>
-              <div class="col-lg-6">
-                  <fieldset>
-                      <label for="Name" class="form-label">Your Name</label>
-                      <input type="text" name="Name" class="Name" placeholder="Ex. John Smithee" autocomplete="on" required>
-                  </fieldset>
-              </div>
-              <div class="col-lg-6">
-                <fieldset>
-                    <label for="Number" class="form-label">Your Phone Number</label>
-                    <input type="text" name="Number" class="Number" placeholder="Ex. +xxx xxx xxx" autocomplete="on" required>
-                </fieldset>
-              </div>
-              <div class="col-lg-6">
-                  <fieldset>
-                      <label for="chooseGuests" class="form-label">Number Of Guests</label>
-                      <select name="Guests" class="form-select" aria-label="Default select example" id="chooseGuests" onChange="this.form.click()">
-                          <option selected>ex. 3 or 4 or 5</option>
-                          <option type="checkbox" name="option1" value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                          <option value="4+">4+</option>
-                      </select>
-                  </fieldset>
-              </div>
-              <div class="col-lg-6">
-                <fieldset>
-                    <label for="Number" class="form-label">Check In Date</label>
-                    <input type="date" name="date" class="date" required>
-                </fieldset>
-              </div>
-              <div class="col-lg-12">
-                  <fieldset>
-                      <label for="chooseDestination" class="form-label">Choose Your Destination</label>
-                      <select name="Destination" class="form-select" aria-label="Default select example" id="chooseCategory" onChange="this.form.click()">
-                          <option selected>ex. Switzerland, Lausanne</option>
-                          <option value="Italy, Roma">Italy, Roma</option>
-                          <option value="France, Paris">France, Paris</option>
-                          <option value="Engaland, London">Engaland, London</option>
-                          <option value="Switzerland, Lausanne">Switzerland, Lausanne</option>
-                      </select>
-                  </fieldset>
-              </div>
-              <div class="col-lg-12">                        
-                  <fieldset>
-                      <button class="main-button">Make Your Reservation Now</button>
-                  </fieldset>
-              </div>
-            </div>
-          </form>
+        <div class="col-lg-8" id="map">
+          <script>
+            var map = L.map('map').setView([-14.996665839805985, 35.04404396532377], 9.5);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            // Load GeoJSON data
+            fetch('data.geojson')  // Replace with the path to your GeoJSON file
+                .then(response => response.json())
+                .then(geojsonData => {
+                    L.geoJSON(geojsonData, {
+                        onEachFeature: function (feature, layer) {
+                            // Define a function to create the popup content
+                            function createPopupContent() {
+                                var name = feature.properties.name;
+                                var coordinates = feature.geometry.coordinates;
+                                return `
+                                    <table class="popup-table">
+                                        <tr><th>Name</th><td>${name}</td></tr>
+                                        <tr><th>Latitude</th><td>${coordinates[1]}</td></tr>
+                                        <tr><th>Longitude</th><td>${coordinates[0]}</td></tr>
+                                    </table>
+                                `;
+                            }
+
+                            // Bind a popup to the marker, set it to open when the marker is clicked
+                            layer.bindPopup(createPopupContent());
+
+                            // Ensure the popup opens on click every time
+                            layer.on('click', function() {
+                                layer.openPopup();
+                            });
+                        }
+                    }).addTo(map);
+                })
+                .catch(error => console.error('Error loading GeoJSON:', error));
+          </script>
+        </div>
+        <div class="col-lg-4">
+              <table class="table">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Data File</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>Malawi point sample data</td>
+                    <td>
+                      <div class="main-button">
+                        <a href="reservation.html">View</a>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
         </div>
       </div>
     </div>

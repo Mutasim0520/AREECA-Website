@@ -2115,7 +2115,9 @@ Reservation Page Style
 }
 
 .reservation-form #map {
+  height: 65vh; 
   margin-bottom: -6px;
+  position: relative;
 }
 
 .reservation-form #reservation-form h4 {
@@ -2177,6 +2179,10 @@ Reservation Page Style
 
 .reservation-form #reservation-form button:hover {
   opacity: 0.8;
+}
+
+#map_data_table{
+  max-width: 100%;
 }
 
 
