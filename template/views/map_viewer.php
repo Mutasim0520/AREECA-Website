@@ -27,7 +27,10 @@
           <h2>Explore the data</h2>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
         </div>
-        <div class="col-lg-8" id="map">
+        <div class="col-lg-8">
+          <div class="col-lg-12" id="map">
+          </div>
+        </div>
           <script>
             var map = L.map('map').setView([-14.996665839805985, 35.04404396532377], 9.5);
 
@@ -67,7 +70,6 @@
                 })
                 .catch(error => console.error('Error loading GeoJSON:', error));
           </script>
-        </div>
         <div class="col-lg-4">
               <table class="table">
                 <thead class="thead-light">

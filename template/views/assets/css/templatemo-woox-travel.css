@@ -200,7 +200,7 @@ section {
   position: relative;
   z-index: 2;
   margin-top: 0px;
-  margin-bottom: 80px;
+  margin-bottom: 15px;
   text-align: left;
 }
 
@@ -2114,10 +2114,15 @@ Reservation Page Style
   margin: 120px 0px;
 }
 
-.reservation-form #map {
+#map{
   height: 65vh; 
-  margin-bottom: -6px;
+  overflow: hidden;
   position: relative;
+  z-index: 10;
+}
+
+.reservation-form #map{
+  margin-bottom: -6px;
 }
 
 .reservation-form #reservation-form h4 {
