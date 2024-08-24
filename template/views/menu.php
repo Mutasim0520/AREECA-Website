@@ -8,13 +8,13 @@
     <title>WoOx Travel Bootstrap 5 Theme</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="public/assets/css/fontawesome.css">
-    <link rel="stylesheet" href="public/assets/css/templatemo-woox-travel.css">
-    <link rel="stylesheet" href="public/assets/css/owl.css">
-    <link rel="stylesheet" href="public/assets/css/animate.css">
+    <link rel="stylesheet" href="assets/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/css/templatemo-woox-travel.css">
+    <link rel="stylesheet" href="assets/css/owl.css">
+    <link rel="stylesheet" href="assets/css/animate.css">
     <link rel="stylesheet"href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
@@ -40,16 +40,16 @@
                 <nav class="main-nav">
                     <!-- ***** Logo Start ***** -->
                     <a href="index.html" class="logo">
-                        <img src="../public/assets/images/logo.png" alt="">
+                        <img src="assets/images/logo.png" alt="">
                     </a>
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
-                        <li><a href="http://localhost/AREECA/index" class="active">Home</a></li>
+                        <li><a href="http://localhost/AREECA/template/views/index.php" class="active">Home</a></li>
                         <li><a href="http://localhost/AREECA/template/views/map_viewer.php">Map Viewer</a></li>
-                        <li><a href="http://localhost/AREECA/dashboard/dashboard">Dashboard</a></li>
+                        <li><a href="http://localhost/AREECA/template/views/dashboard.php">Dashboard</a></li>
                         <li><a href="http://localhost/AREECA/template/views/document.php">Documents</a></li>
-                        <li><a href="http://localhost/AREECA/dashboard/dashboard">contacts</a></li>
+                        <li><a href="http://localhost/AREECA/template/views/contact.php">contacts</a></li>
                     </ul>   
                     <a class='menu-trigger'>
                         <span>Menu</span>
