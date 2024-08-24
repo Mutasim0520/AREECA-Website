@@ -74,7 +74,7 @@
                   <div class="row">
                     <div class="col-lg-4 col-sm-5">
                       <div class="image">
-                        <img src="assets/images/country-01.jpg" alt="">
+                        <img src="public/assets/images/country-01.jpg" alt="">
                       </div>
                     </div>
                     <div class="col-lg-8 col-sm-7">
@@ -103,7 +103,7 @@
                   <div class="row">
                     <div class="col-lg-4 col-sm-5">
                       <div class="image">
-                        <img src="assets/images/country-02.jpg" alt="">
+                        <img src="public/assets/images/country-02.jpg" alt="">
                       </div>
                     </div>
                     <div class="col-lg-8 col-sm-7">
@@ -132,7 +132,7 @@
                   <div class="row">
                     <div class="col-lg-4 col-sm-5">
                       <div class="image">
-                        <img src="assets/images/country-03.jpg" alt="">
+                        <img src="public/assets/images/country-03.jpg" alt="">
                       </div>
                     </div>
                     <div class="col-lg-8 col-sm-7">
@@ -193,12 +193,12 @@
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 
-  <script src="assets/js/isotope.min.js"></script>
-  <script src="assets/js/owl-carousel.js"></script>
-  <script src="assets/js/wow.js"></script>
-  <script src="assets/js/tabs.js"></script>
-  <script src="assets/js/popup.js"></script>
-  <script src="assets/js/custom.js"></script>
+  <script src="public/assets/js/isotope.min.js"></script>
+  <script src="public/assets/js/owl-carousel.js"></script>
+  <script src="public/assets/js/wow.js"></script>
+  <script src="public/assets/js/tabs.js"></script>
+  <script src="public/assets/js/popup.js"></script>
+  <script src="public/assets/js/custom.js"></script>
 
   <!-- ***** footer ***** -->
   <?php require 'footer.php'; ?>
