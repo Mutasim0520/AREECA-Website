@@ -39,9 +39,11 @@ class DashboardController extends Controller {
         
                             if (move_uploaded_file($fileTmpName, $fileDestination)) {
                                 $mapModel = $this->model('Map');
-                                $maps = $mapModel->insert($fileNewName,$map_type,$district, $description);
-                                $this->view('dashboard', ['map' => $maps]);
-                                echo "File is valid and was successfully uploaded.\n";
+                                $maps = $mapModel->insert($fileNewName, $uploadDir, $map_type, $district, $description);
+                                if($maps){
+                                    $this->view('dashboard', ['map' => $maps]);
+                                    echo "File is valid and was successfully uploaded.\n";
+                                }
                             } else {
                                 echo "Error uploading file.\n";
                             }

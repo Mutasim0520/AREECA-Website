@@ -9,14 +9,15 @@ class Map extends Model {
         return $query->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function insert($name, $map_type, $district, $description) {
+    public function insert($name, $path, $map_type, $district, $description) {
         try {
             // Prepare an SQL statement
-            $query = "INSERT INTO " . $this->table . " (name,path,map_type,district,description) VALUES (:name, :path, :map_type, :district, :description)";
+            $query = "INSERT INTO " . $this->table . "(name,path,map_type,district,description) VALUES (:name, :path, :map_type, :district, :description)";
             $stmt = $this->db->prepare($query);
             
             // Bind parameters
             $stmt->bindParam(':name', $name);
+            $stmt->bindParam(':path', $path);
             $stmt->bindParam(':map_type', $map_type);
             $stmt->bindParam(':district', $district);
             $stmt->bindParam(':description', $description);
