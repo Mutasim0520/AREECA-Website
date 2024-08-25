@@ -2240,6 +2240,11 @@ body {
   .main-button a {
     text-align: center;
   }
+
+  .main-button .ar_small a {
+    padding: 6px 13px;
+  }
+
   #section-1 .more-info h4 {
     font-size: 14px !important;
   }
