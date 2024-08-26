@@ -71,7 +71,35 @@
             <form id="uploadForm" action="uploadMapData" method="POST" enctype="multipart/form-data">
               <div class="form-group">
                 <label for="fileInput">Choose file</label>
-                <input type="file" class="form-control-file" id="fileInput" name="file">
+                <input type="file" class="form-control" id="fileInput" name="file" required>
+              </div>
+              <div class="form-group">
+                <label for="map_type">Select Map Type</label>
+                <select class="custom-select" id="map_type" name="map_type" required>
+                    <option value="point" selected>Point</option>
+                    <option value="line">Line</option>
+                    <option value="polygone">Ploygone</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="district">Select District</label>
+                <select class="custom-select" id="district" name="district" required>
+                  <?php
+                    $filePath = 'C:\xampp\htdocs\AREECA\public\assets\districts.txt';
+
+                    // Read the file content into an array
+                    $districts = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+                    foreach($districts as $item): ?>
+                      <option value="<?php echo $item; ?>"><?php echo $item; ?></option>
+              
+                    
+
+                  <?php endforeach ?>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="description">Description of the file</label>
+                <textarea class="form-control" rows="5" id="comment" name="description"></textarea>
               </div>
             </form>
           </div>

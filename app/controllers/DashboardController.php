@@ -12,20 +12,21 @@ class DashboardController extends Controller {
 
     public function uploadMapData() {
         $_SESSION['message_type'] = 'error';
+        $valid_input = $this->validateInput();
         $mapModel = $this->model('Map');
         $redirect_path = Base_Path. 'dashboard/dashboard';
         
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if (isset($_FILES['file']) && $_FILES['file']['error'] == 0) {
+            if (isset($_FILES['file']) && $_FILES['file']['error'] == 0 && $valid_input) {
                 $allowedExtensions = ['geojson', 'json'];
                 $fileName = $_FILES['file']['name'];
                 $fileTmpName = $_FILES['file']['tmp_name'];
                 $fileSize = $_FILES['file']['size'];
                 $fileError = $_FILES['file']['error'];
                 $fileType = $_FILES['file']['type'];
-                $map_type = "Pointer";
-                $district = "Kakao";
-                $description = "Random text";
+                $district = $_REQUEST['district'];
+                $map_type = $_REQUEST['map_type'];
+                $description = $_REQUEST['description'];
         
                 $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
         
@@ -91,5 +92,30 @@ class DashboardController extends Controller {
             return true;
         }
         return false;
+    }
+
+    private function validateInput(){
+        $district = $_REQUEST['district'];
+        $map_type = $_REQUEST['map_type'];
+        $description = $_REQUEST['description'];
+
+        //Check for required fields
+        if($district && $map_type){
+            //check length
+            if(strlen($district) <= 100 && strlen($map_type) <= 100 && strlen($description) <= 500){
+                //Check for special character to stop XSS
+                if((preg_match("/^[a-zA-Z-' ]*$/", $description)) && (preg_match("/^[a-zA-Z-' ]*$/", $map_type)) && (preg_match("/^[a-zA-Z-' ]*$/", $district))){
+                    return TRUE;
+                }
+                else return FALSE;
+
+            }
+            else
+                return FALSE;
+        }
+        else{
+            return FALSE;
+        }
+
     }
 }
