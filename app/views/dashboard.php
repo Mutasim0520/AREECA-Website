@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<?php require 'includes/header.php'; ?>
+
 <body>
 
     <!-- ***** Menu bar ***** -->
-    <?php require 'menu.php'; ?>
+    <?php require 'includes/menu.php'; ?>
+    <?php require 'includes/alert.php'; ?>
 
+  
   <div class="weekly-offers">
     <div class="container">
       <div class="row">
@@ -29,7 +33,7 @@
                 </div>
               
             </div>
-              <table class="table">
+              <table class="table" id="data-table">
                   <thead class="thead-light">
                     <tr>
                       <th scope="col">#</th>
@@ -40,25 +44,13 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <?php 
-                      foreach($maps as $map) {
-                        echo('<tr>');
-                        echo('<th scope="row">'. $map['id']. '</th>');
-                        echo('<td>'. $map['name']. '</td>');
-                        echo('<td>'. $map['map_type']. '</td>');
-                        echo('<td>'. $map['district']. '</td>');
-                        echo('<td>
-                          <div class="main-button">
-                            <a href="reservation.html"><i class="fas fa-eye" title="View DataFile"></i></a>
-                            <a href="reservation.html"><i class="fas fa-sync" title="Update DataFile"></i></a>
-                            <a href="reservation.html"><i class="fas fa-trash" title="Delete DataFile"></i></a>
-                          </div>
-                        </td>');
-                        echo('</tr>');
-                      }
-                    ?>
                   </tbody>
                 </table>
+                <nav>
+                  <ul class="pagination" id="pagination">
+                      <!-- Pagination links will be inserted here -->
+                  </ul>
+        </nav>
             </div>
         </div>
       </div>
@@ -91,48 +83,8 @@
       </div>
     </div>
 
-    <!-- ***** Popup form of session message ***** -->
-    <div class="container mt-4">
-    <?php
-    // Check if there is a message in the session
-    if (isset($_SESSION['message']) && isset($_SESSION['message_type'])):
-        $message = $_SESSION['message'];
-        $message_type = $_SESSION['message_type'];
-
-        // Determine the alert class and icon based on message type
-        switch ($message_type) {
-            case 'success':
-                $alert_class = 'alert-success';
-                $icon_class = 'fa-check-circle';
-                break;
-            case 'error':
-                $alert_class = 'alert-danger';
-                $icon_class = 'fa-exclamation-circle';
-                break;
-            default:
-                $alert_class = 'alert-secondary';
-                $icon_class = 'fa-info-circle';
-                break;
-        }
-    ?>
-        <!-- Display the message with appropriate styling -->
-        <div class="alert <?php echo $alert_class; ?> alert-dismissible fade show" role="alert">
-            <i class="fas <?php echo $icon_class; ?>"></i> <?php echo $message; ?>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    <?php
-        // Clear the message and type from the session to prevent it from showing again
-        unset($_SESSION['message']);
-        unset($_SESSION['message_type']);
-    endif;
-    ?>
-</div>
-
-
    <!-- ***** footer ***** -->
-   <?php require 'footer.php'; ?>
+   <?php require 'includes/footer.php'; ?>
 
 
   <!-- Scripts -->
@@ -154,15 +106,79 @@
     });
   </script>
 
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <!-- table pagination -->
+
+  <script id="data-script" type="application/json">
+        <?php echo(json_encode($maps)); ?>
+  </script>
+  <script>
+        const rowsPerPage = 10;
+        let currentPage = 1;
+        let data = JSON.parse(document.getElementById('data-script').textContent);
+        function loadData() {
+          renderTable();
+          renderPagination();
+        }
+
+        function renderTable() {
+            const startIndex = (currentPage - 1) * rowsPerPage;
+            const endIndex = startIndex + rowsPerPage;
+            const paginatedData = data.slice(startIndex, endIndex);
+
+            $('#data-table tbody').empty();
+            paginatedData.forEach(row => {
+                $('#data-table tbody').append(`
+                    <tr>
+                        <td>${row.id}</td>
+                        <td>${row.name}</td>
+                        <td>${row.map_type}</td>
+                        <td>${row.district}</td>
+                        <td>
+                          <div class="main-button">
+                            <a style="padding:5px 12px" href="reservation.html"><i class="fas fa-eye" title="View DataFile"></i></a>
+                            <a style="padding:5px 12px" href="reservation.html"><i class="fas fa-sync" title="Update DataFile"></i></a>
+                            <a style="padding:5px 12px" href="reservation.html"><i class="fas fa-trash" title="Delete DataFile"></i></a>
+                          </div>
+                        </td>
+                    </tr>
+                `);
+            });
+        }
+
+        function renderPagination() {
+            const pageCount = Math.ceil(data.length / rowsPerPage);
+            $('#pagination').empty();
+
+            for (let i = 1; i <= pageCount; i++) {
+                $('#pagination').append(`
+                    <li class="page-item ${i === currentPage ? 'active' : ''}">
+                        <a class="page-link" href="#" data-page="${i}">${i}</a>
+                    </li>
+                `);
+            }
+        }
+
+        $(document).ready(function() {
+            loadData(); // Load data when the document is ready
+
+            $(document).on('click', '#pagination .page-link', function(e) {
+                e.preventDefault();
+                currentPage = $(this).data('page');
+                renderTable();
+                renderPagination();
+            });
+        });
+    </script>
 
   <script>
     document.getElementById('uploadButton').addEventListener('click', function() {
         document.getElementById('uploadForm').submit();
     });
-    </script>
+  </script>
 
   </body>
 
