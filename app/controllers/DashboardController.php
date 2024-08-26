@@ -2,7 +2,7 @@
 
 class DashboardController extends Controller {
 
-    public function dashboard() {
+    public function index() {
         $mapModel = $this->model('Map');
 
         $maps = $mapModel->getMaps();
@@ -14,7 +14,7 @@ class DashboardController extends Controller {
         $_SESSION['message_type'] = 'error';
         $valid_input = $this->validateInput();
         $mapModel = $this->model('Map');
-        $redirect_path = Base_Path. 'dashboard/dashboard';
+        $redirect_path = Base_Path. 'dashboard/index';
         
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (isset($_FILES['file']) && $_FILES['file']['error'] == 0 && $valid_input) {

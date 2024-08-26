@@ -76,7 +76,8 @@
               <div class="form-group">
                 <label for="map_type">Select Map Type</label>
                 <select class="custom-select" id="map_type" name="map_type" required>
-                    <option value="point" selected>Point</option>
+                    <option value="" selected>Select Type</option>
+                    <option value="point">Point</option>
                     <option value="line">Line</option>
                     <option value="polygone">Ploygone</option>
                 </select>
@@ -84,6 +85,7 @@
               <div class="form-group">
                 <label for="district">Select District</label>
                 <select class="custom-select" id="district" name="district" required>
+                  <option value="" selected>Select District</option>
                   <?php
                     $filePath = 'C:\xampp\htdocs\AREECA\public\assets\districts.txt';
 
@@ -147,6 +149,8 @@
         const rowsPerPage = 10;
         let currentPage = 1;
         let data = JSON.parse(document.getElementById('data-script').textContent);
+        var BASE_URL = '<?php echo BASE_URL; ?>';
+
         function loadData() {
           renderTable();
           renderPagination();
@@ -167,9 +171,9 @@
                         <td>${row.district}</td>
                         <td>
                           <div class="main-button">
-                            <a style="padding:5px 12px" href="reservation.html"><i class="fas fa-eye" title="View DataFile"></i></a>
-                            <a style="padding:5px 12px" href="reservation.html"><i class="fas fa-sync" title="Update DataFile"></i></a>
-                            <a style="padding:5px 12px" href="reservation.html"><i class="fas fa-trash" title="Delete DataFile"></i></a>
+                            <a style="padding:5px 12px" href="${BASE_URL}/map/index?id=${row.id}"><i class="fas fa-eye" title="View DataFile"></i></a>
+                            <a style="padding:5px 12px" href="${BASE_URL}/map/update?id=${row.id}"><i class="fas fa-sync" title="Update DataFile"></i></a>
+                            <a style="padding:5px 12px" href="${BASE_URL}/map/delete?id=${row.id}"><i class="fas fa-trash" title="Delete DataFile"></i></a>
                           </div>
                         </td>
                     </tr>
