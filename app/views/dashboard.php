@@ -33,22 +33,30 @@
                   <thead class="thead-light">
                     <tr>
                       <th scope="col">#</th>
-                      <th scope="col">Data File</th>
-                      <th scope="col">Action</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Map Type</th>
+                      <th scope="col">District</th>
+                      <th scope="col">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>Malawi point sample data</td>
-                      <td>
-                        <div class="main-button">
-                          <a href="reservation.html"><i class="fas fa-eye" title="View DataFile"></i></a>
-                          <a href="reservation.html"><i class="fas fa-sync" title="Update DataFile"></i></a>
-                          <a href="reservation.html"><i class="fas fa-trash" title="Delete DataFile"></i></a>
-                        </div>
-                      </td>
-                    </tr>
+                    <?php 
+                      foreach($maps as $map) {
+                        echo('<tr>');
+                        echo('<th scope="row">'. $map['id']. '</th>');
+                        echo('<td>'. $map['name']. '</td>');
+                        echo('<td>'. $map['map_type']. '</td>');
+                        echo('<td>'. $map['district']. '</td>');
+                        echo('<td>
+                          <div class="main-button">
+                            <a href="reservation.html"><i class="fas fa-eye" title="View DataFile"></i></a>
+                            <a href="reservation.html"><i class="fas fa-sync" title="Update DataFile"></i></a>
+                            <a href="reservation.html"><i class="fas fa-trash" title="Delete DataFile"></i></a>
+                          </div>
+                        </td>');
+                        echo('</tr>');
+                      }
+                    ?>
                   </tbody>
                 </table>
             </div>
@@ -57,6 +65,7 @@
     </div>
   </div>
 
+  <!-- ***** Popup form of map file upload ***** -->
   <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -81,6 +90,46 @@
         </div>
       </div>
     </div>
+
+    <!-- ***** Popup form of session message ***** -->
+    <div class="container mt-4">
+    <?php
+    // Check if there is a message in the session
+    if (isset($_SESSION['message']) && isset($_SESSION['message_type'])):
+        $message = $_SESSION['message'];
+        $message_type = $_SESSION['message_type'];
+
+        // Determine the alert class and icon based on message type
+        switch ($message_type) {
+            case 'success':
+                $alert_class = 'alert-success';
+                $icon_class = 'fa-check-circle';
+                break;
+            case 'error':
+                $alert_class = 'alert-danger';
+                $icon_class = 'fa-exclamation-circle';
+                break;
+            default:
+                $alert_class = 'alert-secondary';
+                $icon_class = 'fa-info-circle';
+                break;
+        }
+    ?>
+        <!-- Display the message with appropriate styling -->
+        <div class="alert <?php echo $alert_class; ?> alert-dismissible fade show" role="alert">
+            <i class="fas <?php echo $icon_class; ?>"></i> <?php echo $message; ?>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    <?php
+        // Clear the message and type from the session to prevent it from showing again
+        unset($_SESSION['message']);
+        unset($_SESSION['message_type']);
+    endif;
+    ?>
+</div>
+
 
    <!-- ***** footer ***** -->
    <?php require 'footer.php'; ?>

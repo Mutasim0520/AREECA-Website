@@ -9,6 +9,14 @@ class Map extends Model {
         return $query->fetch(PDO::FETCH_ASSOC);
     }
 
+    //fetch data from map model
+    public function getMaps() {
+        $query = $this->db->prepare("SELECT * FROM maps");
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    //insert into map model
     public function insert($name, $path, $map_type, $district, $description) {
         try {
             // Prepare an SQL statement
@@ -24,9 +32,7 @@ class Map extends Model {
             
             // Execute the query
             if ($stmt->execute()) {
-                $query = $this->db->prepare("SELECT * FROM maps");
-                $query->execute();
-                return $query->fetch(PDO::FETCH_ASSOC);
+                return true;
             }
             return false;
         } catch (PDOException $e) {
