@@ -12,7 +12,7 @@
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
                         <li><a href="<?php echo BASE_URL?>/index" class="active">Home</a></li>
-                        <li><a href="http://localhost/AREECA/template/views/map_viewer.php">Map Viewer</a></li>
+                        <li><a href="<?php echo BASE_URL?>/map/index">Map Viewer</a></li>
                         <li><a href="<?php echo BASE_URL?>/dashboard/index">Dashboard</a></li>
                         <li><a href="http://localhost/AREECA/template/views/document.php">Documents</a></li>
                         <li><a href="http://localhost/AREECA/dashboard/dashboard">contacts</a></li>

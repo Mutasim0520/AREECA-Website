@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<?php require 'includes/header.php'; ?>
+
 <body>
 
   <!-- ***** Menu bar ***** -->
-  <?php require 'menu.php'; ?>
+  <?php require 'includes/menu.php'; ?>
 
   <!-- ***** Main Banner Area Start ***** -->
   <section id="section-1" class="container">
@@ -201,7 +203,7 @@
   <script src="/AREECA/public/assets/js/custom.js"></script>
 
   <!-- ***** footer ***** -->
-  <?php require 'footer.php'; ?>
+  <?php require 'includes/footer.php'; ?>
 
   <script>
     function bannerSwitcher() {

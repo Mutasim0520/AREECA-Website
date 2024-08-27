@@ -3,11 +3,12 @@
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<?php require 'includes/header.php'; ?>
 
 <body>
 
 <!-- ***** Menu bar ***** -->
-<?php require 'menu.php'; ?>
+<?php require 'includes/menu.php'; ?>
   <div class="second-page-heading">
     <div class="container">
       <div class="row">
@@ -96,20 +97,20 @@
     </div>
   </div>
 
-  <?php require 'footer.php'; ?>
+  <?php require 'includes/footer.php'; ?>
 
 
   <!-- Scripts -->
   <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+  <script src="/AREECA/vendor/jquery/jquery.min.js"></script>
+  <script src="/AREECA/vendor/bootstrap/js/bootstrap.min.js"></script>
 
-  <script src="assets/js/isotope.min.js"></script>
-  <script src="assets/js/owl-carousel.js"></script>
-  <script src="assets/js/wow.js"></script>
-  <script src="assets/js/tabs.js"></script>
-  <script src="assets/js/popup.js"></script>
-  <script src="assets/js/custom.js"></script>
+  <script src="/AREECA/public/assets/js/isotope.min.js"></script>
+  <script src="/AREECA/public/assets/js/owl-carousel.js"></script>
+  <script src="/AREECA/public/assets/js/wow.js"></script>
+  <script src="/AREECA/public/assets/js/tabs.js"></script>
+  <script src="/AREECA/public/assets/js/popup.js"></script>
+  <script src="/AREECA/public/assets/js/custom.js"></script>
 
   <script>
     $(".option").click(function(){

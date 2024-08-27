@@ -1,19 +1,18 @@
 <?php
 
 class MapController extends Controller {
+    public function __construct() {
+        $redirect_path = BASE_URL. '/map/index';
+    }
 
     public function index() {
-        $userModel = $this->model('Map'); // Loads the User model
-        $user = $userModel->getUserById(1);
-        // $this->view('home/index', ['user' => $user]); // Passing data to the view
-        // $user = $this->model('User');
-        // $userData = $user->getUser(1);
-        // $this->view('home/index', ['name' => $userData['name']]);
-        $this->view('index', []);
+        $mapModel = $this->model('Map');
+        $maps = $mapModel->getMaps();
+        $this->view('map_viewer', ['maps' => $maps]);
     }
 
     public function delete() {
-        $redirect_path = Base_Path. '/dashboard/index';
+        $this->redirect_path = BASE_URL. '/dashboard/index';
         if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             $id = $_REQUEST['id'];
             $_SESSION['message_type'] = 'error';
@@ -25,16 +24,16 @@ class MapController extends Controller {
                 $maps = $mapModel->getMaps();
                 $_SESSION['message_type'] = 'success'; 
                 $_SESSION['message'] = "File Deleted successfully";
-                $this->redirect($redirect_path);
+                $this->redirect($this->redirect_path);
             }
             else{
                 $_SESSION['message'] = "File Could Not Be Deleted";
-                $this->redirect($redirect_path);
+                $this->redirect($this->redirect_path);
             }
         }
         else{
             $_SESSION['message'] = "Request error";
-            $this->redirect($redirect_path);
+            $this->redirect($this->redirect_path);
         }
     }
 
@@ -42,7 +41,7 @@ class MapController extends Controller {
         $_SESSION['message_type'] = 'error';
         $valid_input = $this->validateInput();
         $mapModel = $this->model('Map');
-        $redirect_path = Base_Path. 'dashboard/index';
+        $this->redirect_path = BASE_URL. 'dashboard/index';
         
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (isset($_FILES['file']) && $_FILES['file']['error'] == 0 && $valid_input) {
@@ -73,27 +72,27 @@ class MapController extends Controller {
                                 if($maps){
                                     $_SESSION['message_type'] = 'success'; 
                                     $_SESSION['message'] = "File uploaded successfully";
-                                    $this->redirect($redirect_path);
+                                    $this->redirect($this->redirect_path);
                                 }
                             } else {
                                 $_SESSION['message'] = "Error uploading file.\n";
-                                $this->redirect($redirect_path);
+                                $this->redirect($this->redirect_path);
                             }
                         } else {
                             $_SESSION['message'] = "Uploaded file is not a valid GeoJSON.\n";
-                            $this->redirect($redirect_path);
+                            $this->redirect($this->redirect_path);
                         }
                     } else {
                         $_SESSION['message'] = "File size is too large.\n";
-                        $this->redirect($redirect_path);
+                        $this->redirect($this->redirect_path);
                     }
                 } else {
                     $_SESSION['message'] = "Invalid file type. Only .geojson and .json files are allowed.\n";
-                    $this->redirect($redirect_path);
+                    $this->redirect($this->redirect_path);
                 }
             } else {
                 $_SESSION['message'] = "No file was uploaded or there was an error.\n";
-                $this->redirect($redirect_path);
+                $this->redirect($this->redirect_path);
             }
         }
     }
