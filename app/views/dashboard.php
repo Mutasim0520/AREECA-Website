@@ -50,7 +50,7 @@
                   <ul class="pagination" id="pagination">
                       <!-- Pagination links will be inserted here -->
                   </ul>
-        </nav>
+                </nav>
             </div>
         </div>
       </div>

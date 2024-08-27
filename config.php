@@ -17,6 +17,6 @@ define('App_Name', 'AREECA');
 define('Copyright', 'AREECA');
 
 //Directorie Path Configuration
-define('BASE_URL', 'http://localhost/AREECA');
+define('BASE_URL', 'http://localhost/AREECA/');
 define('Base_Path','AREECA');
 define('Storage_Path',  __DIR__ .'/app/storage/');
