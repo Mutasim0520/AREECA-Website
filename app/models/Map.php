@@ -48,7 +48,6 @@ class Map extends Model {
     }
 
     //delete item
-
     public function deleteMap($id){
         if($id){
             $query = $this->db->prepare("DELETE FROM maps WHERE id = :id");

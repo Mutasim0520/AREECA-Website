@@ -68,7 +68,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <form id="uploadForm" action="uploadMapData" method="POST" enctype="multipart/form-data">
+            <form id="uploadForm" action="<?php echo BASE_URL?>/map/upload" method="POST" enctype="multipart/form-data">
               <div class="form-group">
                 <label for="fileInput">Choose file</label>
                 <input type="file" class="form-control" id="fileInput" name="file" required>
