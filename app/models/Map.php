@@ -10,8 +10,14 @@ class Map extends Model {
     }
 
     //fetch data from map model
-    public function getMaps() {
-        $query = $this->db->prepare("SELECT * FROM maps");
+    public function getMaps($id=NULL) {
+        if($id){
+            $query = $this->db->prepare("SELECT * FROM maps WHERE id = :id");
+            $query->bindParam(':id', $id);
+        }
+        else{
+            $query = $this->db->prepare("SELECT * FROM maps");
+        }
         $query->execute();
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -38,6 +44,20 @@ class Map extends Model {
         } catch (PDOException $e) {
             echo 'Insert error: ' . $e->getMessage();
             return false;
+        }
+    }
+
+    //delete item
+
+    public function deleteMap($id){
+        if($id){
+            $query = $this->db->prepare("DELETE FROM maps WHERE id = :id");
+            $query->bindParam(':id', $id);
+            $query->execute();
+            return TRUE;
+        }
+        else{
+            return FALSE;
         }
     }
 }

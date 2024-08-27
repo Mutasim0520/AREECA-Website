@@ -111,6 +111,29 @@
           </div>
         </div>
       </div>
+  </div>
+
+  <!-- ***** Confirmation Box for delete record ***** -->
+
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header alert alert-danger">
+              <h5 class="modal-title" id="deleteModalLabel"><i class="fas fa-exclamation-triangle"></i><span> </span>Confimation: Delete Map </h5>
+            </div>
+            <div class="modal-body">
+              <p>Are you sure about Deleting this file?</p>
+              <form id="deleteMapForm" action="<?php echo BASE_URL?>/map/delete" method="POST">
+                  <input type="hidden" name="id" id="map_id_delete"> <!-- Item ID to delete -->
+              </form>
+            </div>
+            
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" id="deleteMapButton">Confirm</button>
+            </div>
+          </div>
+        </div>
     </div>
 
    <!-- ***** footer ***** -->
@@ -173,7 +196,7 @@
                           <div class="main-button">
                             <a style="padding:5px 12px" href="${BASE_URL}/map/index?id=${row.id}"><i class="fas fa-eye" title="View DataFile"></i></a>
                             <a style="padding:5px 12px" href="${BASE_URL}/map/update?id=${row.id}"><i class="fas fa-sync" title="Update DataFile"></i></a>
-                            <a style="padding:5px 12px" href="${BASE_URL}/map/delete?id=${row.id}"><i class="fas fa-trash" title="Delete DataFile"></i></a>
+                            <a style="padding:5px 12px" href="#" data-toggle="modal" data-target="#deleteModal" data-id="${row.id}"><i class="fas fa-trash" title="Delete DataFile"></i></a>
                           </div>
                         </td>
                     </tr>
@@ -203,6 +226,20 @@
                 renderTable();
                 renderPagination();
             });
+
+
+            //delete map modal: Set id of map
+            $('#deleteModal').on('show.bs.modal', function (event) {
+                  // Get the button or link that triggered the modal
+                  var button = $(event.relatedTarget); 
+                  
+                  // Extract the ID from data-id attribute
+                  var recordId = button.data('id'); 
+                  
+                  // Update the modal's hidden input with this ID
+                  var modal = $(this);
+                  modal.find('#map_id_delete').val(recordId);
+                });
         });
     </script>
 
@@ -210,6 +247,10 @@
     document.getElementById('uploadButton').addEventListener('click', function() {
         document.getElementById('uploadForm').submit();
     });
+    document.getElementById('deleteMapButton').addEventListener('click', function() {
+        document.getElementById('deleteMapForm').submit();
+    });
+    
   </script>
 
   </body>
