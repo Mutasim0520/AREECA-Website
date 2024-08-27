@@ -8,16 +8,24 @@
 
 <!-- ***** Menu bar ***** -->
 <?php require 'includes/menu.php'; ?>
-  <div class="reservation-form">
-    <div class="container">
+  <div class="weekly-offers">
+    <div class="container-fluid">
       <div class="row">
         <div class="section-heading">
           <h1>Explore The Data</h1>
           <p id="map_data_detail">To see the map data click on the <i class="fas fa-eye" title="View DataFile"></i> icon on the records of the Data Files table.</p>
         </div>
-        <div class="col-lg-8">
-          <div id="map">
+        <div class="col-sm-10 more-info" id="map_more_info">
+          <div class="info-item">
+            <i class="fa fa-phone"></i>
+            <h4>Make a Phone Call</h4>
+            <a href="#">+123 456 789 (0)</a>
           </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-8">
+          <div id="map"></div>
         </div>
         <div class="col-lg-4">
           <table class="table table-responsive" id="data-table">

@@ -2118,6 +2118,7 @@ Reservation Page Style
   overflow: hidden;
   position: relative;
   z-index: 10;
+  margin-left: -13px;
 }
 
 .reservation-form #map{
