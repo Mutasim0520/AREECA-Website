@@ -8,70 +8,17 @@
 
 <!-- ***** Menu bar ***** -->
 <?php require 'includes/menu.php'; ?>
-  <div class="second-page-heading">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12">
-          <h4>Book Prefered Deal Here</h4>
-          <h2>Make Your Reservation</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt uttersi labore et dolore magna aliqua is ipsum suspendisse ultrices gravida</p>
-          <div class="main-button"><a href="about.html">Discover More</a></div>
-        </div>
-      </div>
-    </div>
-  </div>
   <div class="reservation-form">
     <div class="container">
       <div class="row">
         <div class="section-heading">
-          <h2>Explore the data</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
+          <h1>Explore The Data</h1>
+          <p id="map_data_detail">To see the map data click on the <i class="fas fa-eye" title="View DataFile"></i> icon on the records of the Data Files table.</p>
         </div>
         <div class="col-lg-8">
           <div id="map">
           </div>
         </div>
-          <script>
-            var map = L.map('map').setView([-14.996665839805985, 35.04404396532377], 9.5);
-
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
-
-            // Load GeoJSON data
-            var base_url = '<?php echo BASE_URL; ?>';
-            var data_file_path = base_url + 'app/storage/map_data_files/data.geojson';
-            fetch(data_file_path)  // Replace with the path to your GeoJSON file
-                .then(response => response.json())
-                .then(geojsonData => {
-                    L.geoJSON(geojsonData, {
-                        onEachFeature: function (feature, layer) {
-                            // Define a function to create the popup content
-                            function createPopupContent() {
-                                var name = feature.properties.name;
-                                var coordinates = feature.geometry.coordinates;
-                                return `
-                                    <table class="popup-table">
-                                        <tr><th>Name</th><td>${name}</td></tr>
-                                        <tr><th>Latitude</th><td>${coordinates[1]}</td></tr>
-                                        <tr><th>Longitude</th><td>${coordinates[0]}</td></tr>
-                                    </table>
-                                `;
-                            }
-
-                            // Bind a popup to the marker, set it to open when the marker is clicked
-                            layer.bindPopup(createPopupContent());
-
-                            // Ensure the popup opens on click every time
-                            layer.on('click', function() {
-                                layer.openPopup();
-                            });
-                        }
-                    }).addTo(map);
-                })
-                .catch(error => console.error('Error loading GeoJSON:', error));
-          </script>
         <div class="col-lg-4">
           <table class="table table-responsive" id="data-table">
             <thead class="thead-light">
@@ -142,7 +89,7 @@
                         <td>${row.district}</td>
                         <td>
                           <div class="main-button">
-                            <a style="padding:5px 12px" href="${BASE_URL}/map/index?id=${row.id}"><i class="fas fa-eye" title="View DataFile"></i></a>
+                            <a style="padding:5px 12px" href="#" onclick="renderMap('${row.name}')"><i class="fas fa-eye" title="View DataFile"></i></a>
                           </div>
                         </td>
                     </tr>
@@ -162,6 +109,59 @@
                 `);
             }
         }
+
+        //Initial map
+        var map = L.map('map').setView([-14.996665839805985, 35.04404396532377], 9.5);
+        var currentLayer = null;
+        var base_url = '<?php echo BASE_URL; ?>';
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+
+        function renderMap(file_name) {
+              var data_file_path = base_url + 'app/storage/map_data_files/' + file_name;
+
+              fetch(data_file_path)  // Fetch the GeoJSON file
+                  .then(response => response.json())
+                  .then(geojsonData => {
+
+                      // Remove the current layer if it exists
+                      if (currentLayer) {
+                          map.removeLayer(currentLayer);
+                      }
+
+                      // Add the new GeoJSON layer to the map and store it in currentLayer
+                      currentLayer = L.geoJSON(geojsonData, {
+                          onEachFeature: function (feature, layer) {
+                              // Define a function to create the popup content
+                              function createPopupContent() {
+                                  var name = feature.properties.name;
+                                  var coordinates = feature.geometry.coordinates;
+                                  return `
+                                      <table class="popup-table">
+                                          <tr><th>Name</th><td>${name}</td></tr>
+                                          <tr><th>Latitude</th><td>${coordinates[1]}</td></tr>
+                                          <tr><th>Longitude</th><td>${coordinates[0]}</td></tr>
+                                      </table>
+                                  `;
+                              }
+
+                              // Bind a popup to the marker, set it to open when the marker is clicked
+                              layer.bindPopup(createPopupContent());
+
+                              // Ensure the popup opens on click every time
+                              layer.on('click', function() {
+                                  layer.openPopup();
+                              });
+                          }
+                      }).addTo(map);
+
+                  })
+                  .catch(error => console.error('Error loading GeoJSON:', error));
+          }
 
         $(document).ready(function() {
             loadData(); // Load data when the document is ready

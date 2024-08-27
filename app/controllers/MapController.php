@@ -64,7 +64,7 @@ class MapController extends Controller {
                         $fileContent = file_get_contents($fileTmpName);
                         if ($this->validateGeoJSON($fileContent)) {
                             $uploadDir = Storage_Path.'map_data_files/';
-                            $fileNewName = uniqid('', true) . "." . $fileExt;
+                            $fileNewName = uniqid('') . "." . $fileExt;
                             $fileDestination = $uploadDir . $fileNewName;
         
                             if (move_uploaded_file($fileTmpName, $fileDestination)) {
