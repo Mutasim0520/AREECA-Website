@@ -15,13 +15,6 @@
           <h1>Explore The Data</h1>
           <p id="map_data_detail">To see the map data click on the <i class="fas fa-eye" title="View DataFile"></i> icon on the records of the Data Files table.</p>
         </div>
-        <div class="col-sm-10 more-info" id="map_more_info">
-          <div class="info-item">
-            <i class="fa fa-phone"></i>
-            <h4>Make a Phone Call</h4>
-            <a href="#">+123 456 789 (0)</a>
-          </div>
-        </div>
       </div>
       <div class="row">
         <div class="col-lg-8">
@@ -125,7 +118,7 @@
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            attribution: '&copy;<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a><span id="loaded_file_name" style="font-size:bold"></span>'
         }).addTo(map);
 
 
@@ -166,10 +159,24 @@
                               });
                           }
                       }).addTo(map);
+                      
+                      //Dynamically focus map based on data
+                      var bounds = currentLayer.getBounds();
+                      map.fitBounds(bounds);
+
+                      var contentDiv = document.getElementById("loaded_file_name");
+                      contentDiv.innerHTML = `<span style="font-weight:bold;">  Current File: ${file_name}</span>`
 
                   })
                   .catch(error => console.error('Error loading GeoJSON:', error));
           }
+
+        function updateContent(element_id,content) {
+          // Get the div element by its ID
+          
+  
+          contentDiv.appendChild(newParagraph);
+    }
 
         $(document).ready(function() {
             loadData(); // Load data when the document is ready
