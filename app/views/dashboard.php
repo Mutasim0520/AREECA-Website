@@ -9,7 +9,6 @@
     <?php require 'includes/menu.php'; ?>
     <?php require 'includes/alert.php'; ?>
 
-  
   <div class="weekly-offers">
     <div class="container">
       <div class="row">
@@ -30,28 +29,26 @@
               <p>You can ee the available data files in the following table.</p>
               <div class="border-button">
                 <a href="#" data-toggle="modal" data-target="#uploadModal">Upload New Data File</a>
-                </div>
-              
+              </div>
             </div>
-              <table class="table" id="data-table">
-                  <thead class="thead-light">
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Name</th>
-                      <th scope="col">Map Type</th>
-                      <th scope="col">District</th>
-                      <th scope="col">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  </tbody>
-                </table>
-                <nav>
-                  <ul class="pagination" id="pagination">
-                      <!-- Pagination links will be inserted here -->
-                  </ul>
-                </nav>
-            </div>
+            <table class="table" id="data-table">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Map Type</th>
+                  <th scope="col">District</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+            <nav>
+              <ul class="pagination" id="pagination">
+                    <!-- Pagination links will be inserted here -->
+              </ul>
+            </nav>
+          </div>
         </div>
       </div>
     </div>
@@ -59,81 +56,77 @@
 
   <!-- ***** Popup form of map file upload ***** -->
   <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="uploadModalLabel">Upload File</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form id="uploadForm" action="<?php echo BASE_URL?>/map/upload" method="POST" enctype="multipart/form-data">
-              <div class="form-group">
-                <label for="fileInput">Choose file</label>
-                <input type="file" class="form-control" id="fileInput" name="file" required>
-              </div>
-              <div class="form-group">
-                <label for="map_type">Select Map Type</label>
-                <select class="custom-select" id="map_type" name="map_type" required>
-                    <option value="" selected>Select Type</option>
-                    <option value="point">Point</option>
-                    <option value="line">Line</option>
-                    <option value="polygone">Ploygone</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="district">Select District</label>
-                <select class="custom-select" id="district" name="district" required>
-                  <option value="" selected>Select District</option>
-                  <?php
-                    $filePath = 'C:\xampp\htdocs\AREECA\public\assets\districts.txt';
-
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="uploadModalLabel">Upload File</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="uploadForm" action="<?php echo BASE_URL?>/map/upload" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+              <label for="fileInput">Choose file</label>
+              <input type="file" class="form-control" id="fileInput" name="file" required>
+            </div>
+            <div class="form-group">
+              <label for="map_type">Select Map Type</label>
+              <select class="custom-select" id="map_type" name="map_type" required>
+                  <option value="" selected>Select Type</option>
+                  <option value="point">Point</option>
+                  <option value="line">Line</option>
+                  <option value="polygone">Ploygone</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="district">Select District</label>
+              <select class="custom-select" id="district" name="district" required>
+                <option value="" selected>Select District</option>
+                <?php
+                  $filePath = 'C:\xampp\htdocs\AREECA\public\assets\districts.txt';
                     // Read the file content into an array
-                    $districts = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-                    foreach($districts as $item): ?>
-                      <option value="<?php echo $item; ?>"><?php echo $item; ?></option>
-              
-                    
-
-                  <?php endforeach ?>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="description">Description of the file</label>
-                <textarea class="form-control" rows="5" id="comment" name="description"></textarea>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="uploadButton">Upload</button>
-          </div>
+                  $districts = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+                  foreach($districts as $item): ?>
+                    <option value="<?php echo $item; ?>"><?php echo $item; ?>
+                    </option> 
+                <?php endforeach ?>
+               </select>
+            </div>
+            <div class="form-group">
+              <label for="description">Description of the file</label>
+              <textarea class="form-control" rows="5" id="comment" name="description"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="uploadButton">Upload</button>
         </div>
       </div>
+    </div>
   </div>
 
   <!-- ***** Confirmation Box for delete record ***** -->
 
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header alert alert-danger">
-              <h5 class="modal-title" id="deleteModalLabel"><i class="fas fa-exclamation-triangle"></i><span> </span>Confimation: Delete Map </h5>
-            </div>
-            <div class="modal-body">
-              <p>Are you sure about Deleting this file?</p>
-              <form id="deleteMapForm" action="<?php echo BASE_URL?>/map/delete" method="POST">
-                  <input type="hidden" name="id" id="map_id_delete"> <!-- Item ID to delete -->
-              </form>
-            </div>
-            
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" id="deleteMapButton">Confirm</button>
-            </div>
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header alert alert-danger">
+            <h5 class="modal-title" id="deleteModalLabel"><i class="fas fa-exclamation-triangle"></i><span> </span>Confimation: Delete Map </h5>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure about Deleting this file?</p>
+            <form id="deleteMapForm" action="<?php echo BASE_URL?>/map/delete" method="POST">
+                <input type="hidden" name="id" id="map_id_delete"> <!-- Item ID to delete -->
+            </form>
+          </div>  
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="deleteMapButton">Confirm</button>
           </div>
         </div>
+      </div>
     </div>
 
    <!-- ***** footer ***** -->
