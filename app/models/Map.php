@@ -1,14 +1,37 @@
 <?php
 
 class Map extends Model {
-    private $table = "maps";
-    public function getUserById($id) {
-        $query = $this->db->prepare("SELECT * FROM users WHERE id = :id");
-        $query->bindParam(':id', $id);
-        $query->execute();
-        return $query->fetch(PDO::FETCH_ASSOC);
+    
+    public function __construct() {
+        parent::__construct();  // Call the parent constructor to initialize $db
+        try {
+            $this->createMapTable();
+        } catch (Exception $e) {
+            echo 'Table Creation Error: ' . $e->getMessage();
+        }
     }
 
+    private function createMapTable(){
+        try{
+            $sql = "CREATE TABLE IF NOT EXISTS maps (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    name VARCHAR(100) NOT NULL,
+                    path VARCHAR(100) NOT NULL,
+                    map_type VARCHAR(100),
+                    district VARCHAR(100),
+                    description VARCHAR(500),
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                )
+            ";
+            $this->db->exec($sql);
+            echo "Maps table created successfully.<br>";
+        }catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }     
+    }
+
+    private $table = "maps";
     //fetch data from map model
     public function getMaps($id=NULL) {
         if($id){
