@@ -5,9 +5,9 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <?php require 'includes/header.php'; ?>
 <body>
+  <!-- ***** Menu bar ***** -->
+  <?php require 'includes/menu.php'; ?>
 
-<!-- ***** Menu bar ***** -->
-<?php require 'includes/menu.php'; ?>
   <div class="weekly-offers">
     <div class="container-fluid">
       <div class="row">
