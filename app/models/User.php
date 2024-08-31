@@ -31,10 +31,10 @@ class User extends Model {
     }
 
     public function getUserById($id) {
-        $query = $this->db->prepare("SELECT * FROM users WHERE id = :id");
+        $query = $this->db->prepare("SELECT * FROM users WHERE id = :id ORDER BY id ASC LIMIT 1");
         $query->bindParam(':id', $id);
         $query->execute();
-        return $query->fetch(PDO::FETCH_ASSOC);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getRoles($user_id) {
