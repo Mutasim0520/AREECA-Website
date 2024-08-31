@@ -15,7 +15,6 @@ class Permission extends Model {
             // SQL to create Permissons table for Users
             $sql = "CREATE TABLE IF NOT EXISTS permissions (
                     id INT AUTO_INCREMENT PRIMARY KEY,
-                    name VARCHAR(100) NOT NULL,
                     model VARCHAR(100) NOT NULL,
                     raed_permission BOOLEAN NOT NULL DEFAULT TRUE,
                     write_permission BOOLEAN NOT NULL DEFAULT FALSE,
