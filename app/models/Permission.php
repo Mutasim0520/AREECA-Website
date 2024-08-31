@@ -5,7 +5,6 @@ class Permission extends Model {
         parent::__construct();  // Call the parent constructor to initialize $db
         try {
             $this->createPermissionTable();
-            $this->createPermissionRoleTable();
         } catch (Exception $e) {
             echo 'Table Creation Error: ' . $e->getMessage();
         }
@@ -21,10 +20,11 @@ class Permission extends Model {
                     raed_permission BOOLEAN NOT NULL DEFAULT TRUE,
                     write_permission BOOLEAN NOT NULL DEFAULT FALSE,
                     delete_permission BOOLEAN NOT NULL DEFAULT FALSE,
+                    role_id INT NOT NULL,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-                )
-            ";
+                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE
+                )";
             $this->db->exec($sql);
             echo "Permissions table created successfully.<br>";
         }catch (PDOException $e) {
@@ -32,20 +32,11 @@ class Permission extends Model {
         }  
     }
 
-    private function createPermissionRoleTable(){
-        try{
-            $sql = "CREATE TABLE IF NOT EXISTS role_permissions (
-                    role_id INT NOT NULL,
-                    permission_id INT NOT NULL,
-                    PRIMARY KEY (role_id, permission_id),
-                    FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE,
-                    FOREIGN KEY (permission_id) REFERENCES permissions(id) ON DELETE CASCADE
-        )
-            ";
-            $this->db->exec($sql);
-            echo "RolePermissions table created successfully.<br>";
-        }catch (PDOException $e) {
-            echo "Error: " . $e->getMessage();
-        }    
+    public function getPermissionsByRoleId($roleId) {
+        $sql = "SELECT * FROM permissions WHERE role_id = :role_id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(['role_id' => $roleId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
+

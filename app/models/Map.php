@@ -1,6 +1,7 @@
 <?php
 
 class Map extends Model {
+    private $table = "maps";
     
     public function __construct() {
         parent::__construct();  // Call the parent constructor to initialize $db
@@ -30,8 +31,6 @@ class Map extends Model {
             echo "Error: " . $e->getMessage();
         }     
     }
-
-    private $table = "maps";
     //fetch data from map model
     public function getMaps($id=NULL) {
         if($id){
