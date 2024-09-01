@@ -14,19 +14,20 @@
       <div class="row">
         <div class="col-lg-6 offset-lg-3">
           <div class="section-heading text-center">
-            <h2>Best Weekly Offers In Each City</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
+            <h1>D A S H B O A R D</h1>
+            <p>Manage Your Website HERE</p>
           </div>
         </div>
       </div>
     </div>
+
     <div class="container-fluid">
       <div class="row">
         <div class="col-lg-12">
           <div class="item">
             <div class="section-heading">
               <h3>Map Data Files Management</h3>
-              <p>You can ee the available data files in the following table.</p>
+              <p>You can see the available data files in the following table.</p>
               <div class="border-button">
                 <a href="#" data-toggle="modal" data-target="#uploadModal">Upload New Data File</a>
               </div>
@@ -49,6 +50,101 @@
               </ul>
             </nav>
           </div>
+
+          <hr>
+
+          <div class="item">
+              <div class="section-heading">
+                <h3>User Management</h3>
+                <div class="col-sm-8">
+                  <p>Create a new user with appropriate roles and also Update and Delete the USER INFO(Ex: email,password, role).</p>
+                  <p>Users can have a role of <b>ADMIN</b> or <b>Moderator</b> or by default <b>GUEST</b> The Flowwing table shows the allowed actions of a Role.</p>
+                </div>
+                <div class="col-sm-4">
+                  <table class="table">
+                    <thead class="thead-light">
+                      <tr>
+                        <th scope="col">User Role</th>
+                        <th scope="col">Can See</th>
+                        <th scope="col">Can Create</th>
+                        <th scope="col">Can Update</th>
+                        <th scope="col">Can Delete</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td scope="col">Admin</td>
+                        <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
+                        <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
+                        <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
+                        <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
+                      </tr>
+                      <tr>
+                        <td scope="col">Moderator</td>
+                        <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
+                        <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
+                        <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
+                        <td scope="col"><i class="fas fa-ban" title="Not Allowed"></i></td>
+                      </tr>
+
+                      <tr>
+                        <td scope="col">Guest</td>
+                        <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
+                        <td scope="col"><i class="fas fa-ban" title="Not Allowed"></i></td>
+                        <td scope="col"><i class="fas fa-ban" title="Not Allowed"></i></td>
+                        <td scope="col"><i class="fas fa-ban" title="Not Allowed"></i></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                
+                <div class="border-button">
+                  <a href="#" data-toggle="modal" data-target="#uploadModal">Create New User</a>
+                </div>
+              </div>
+              <table class="table">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+              <nav>
+                <ul class="pagination" id="pagination">
+                      <!-- Pagination links will be inserted here -->
+                </ul>
+              </nav>
+            </div>
+
+            <hr>
+
+          <div class="item">
+              <div class="section-heading">
+                <h3>WEBSITE Management</h3>
+                <p>Basic Changes!!! of your website pages HERE. Changes include Description and Images of following avilable webpages.</p>
+              </div>
+              <table class="table">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+              <nav>
+                <ul class="pagination" id="pagination">
+                      <!-- Pagination links will be inserted here -->
+                </ul>
+              </nav>
+            </div>
+
         </div>
       </div>
     </div>

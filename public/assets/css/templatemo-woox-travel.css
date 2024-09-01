@@ -2121,6 +2121,13 @@ Reservation Page Style
   margin-left: -13px;
 }
 
+.dashboard-list ul li {
+  font-size: 15px;
+  line-height: 30px;
+  color: #afafaf;
+  font-style: italic;
+}
+
 .reservation-form #map{
   margin-bottom: -6px;
 }
