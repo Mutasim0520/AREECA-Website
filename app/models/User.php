@@ -41,15 +41,22 @@ class User extends Model {
         $sql = "SELECT roles.* FROM roles
                 JOIN user_roles ON roles.id = user_roles.role_id
                 WHERE user_roles.user_id = :user_id";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute(['user_id' => $user_id]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $query = $this->db->prepare($sql);
+        $query->execute(['user_id' => $user_id]);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getUserIdByToken($token) {
         $sql = "SELECT id FROM users WHERE token = :token";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute(['token' => $token]);
-        return $stmt->fetchALL(PDO::FETCH_ASSOC);
+        $query = $this->db->prepare($sql);
+        $query->execute(['token' => $token]);
+        return $query->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getUserByEmail($email){
+        $query = $this->db->prepare("SELECT * FROM users WHERE email = :email ORDER BY id ASC LIMIT 1");
+        $query->bindParam(':email', $email);
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_ASSOC);  
     }
 }
