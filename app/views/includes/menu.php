@@ -13,9 +13,11 @@
                     <ul class="nav">
                         <li><a href="<?php echo BASE_URL?>index" class="active">Home</a></li>
                         <li><a href="<?php echo BASE_URL?>map/index">Map Viewer</a></li>
-                        <li><a href="<?php echo BASE_URL?>dashboard/index">Dashboard</a></li>
+                        <?php if (isset($_SESSION['auth_token'])): ?><li><a href="<?php echo BASE_URL?>dashboard/index">Dashboard</a></li><?php endif ?>
                         <li><a href="http://localhost/AREECA/template/views/document.php">Documents</a></li>
                         <li><a href="http://localhost/AREECA/dashboard/dashboard">contacts</a></li>
+                        <?php if (!isset($_SESSION['auth_token'])): ?><li><a href="<?php echo BASE_URL?>auth/signInForm">Sign In</a></li><?php endif ?>
+                        <?php if (isset($_SESSION['auth_token'])): ?><li><a href="<?php echo BASE_URL?>auth/signout">Sign Out</a></li><?php endif ?>
                     </ul>   
                     <a class='menu-trigger'>
                         <span>Menu</span>

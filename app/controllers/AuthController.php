@@ -2,28 +2,32 @@
 
 class AuthController extends Controller {
 
-    public function loginForm() {
-        return $this->view('auth');
+    public function signInForm() {
+        if (!isset($_SESSION['auth_token'])){
+            return $this->view('auth');
+        }
+        else{ 
+            $this->redirectBack();
+        }
     }
 
     public function login() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+            $redirect_path = BASE_URL. 'dashboard/index';
             $email = $_REQUEST['email'];
             $password = $_REQUEST['password'];
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             $user = $this->model('User')->getUserByEmail($email);
-
-            if ($user && password_verify($hashedPassword, $user[0]['password'])) {
+            if ($user && password_verify($password, $user[0]['password'])) {
                 $_SESSION['auth_token'] = $user[0]['token'];
                 $this->setUserAuthInfo($user);
-                return $this->view('dashboard');
+                $this->redirect($redirect_path);
             } else {
                 $_SESSION['message_type'] = 'error';
                 $_SESSION['message'] = "Login failed. Please check your email and password.";
                 return $this->view('auth');
             }
         } else{
-
+            $this->redirectBack();
         }
     }
     
@@ -51,5 +55,18 @@ class AuthController extends Controller {
             $this->userAuth["roles"] = $roles;
             $this->userAuth["permissions"] = $permissionArray;
         }
+    }
+
+    public function signout(){
+        if (isset($_SESSION['auth_token'])){
+            unset($_SESSION['auth_token']);
+            $redirect_path = BASE_URL. 'auth/signInForm';
+            $this->redirect($redirect_path);
+        }
+        else{ 
+            $this->redirectBack();
+        }
+        
+        
     }
 }

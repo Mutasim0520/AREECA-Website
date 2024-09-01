@@ -1,12 +1,16 @@
 <?php
 
 class DashboardController extends Controller {
-
+    
     public function index() {
-        $mapModel = $this->model('Map');
+        if (isset($_SESSION['auth_token'])){
+            $maps = $this->model('Map')->getMaps();
 
-        $maps = $mapModel->getMaps();
-        // print_r($maps);
-        $this->view('dashboard', ['maps' => $maps]);
+            $this->view('dashboard', ['maps' => $maps]);
+        }
+        else{
+            $redirect_path = BASE_URL. 'auth/signInForm';
+            $this->redirect($redirect_path);
+        }
     }
 }

@@ -30,7 +30,7 @@
               </div>
               <div class="col-lg-12">                        
                   <fieldset>
-                      <button class="main-button">Log In</button>
+                      <button class="main-button">Sign In</button>
                   </fieldset>
               </div>
             </div>
