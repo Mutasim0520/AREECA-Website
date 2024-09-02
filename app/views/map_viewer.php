@@ -12,7 +12,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="section-heading">
-          <h1>Explore The Data</h1>
+          <h1>E X P L O R E &nbsp;&nbsp;  M A P S</h1>
           <p id="map_data_detail">To see the map data click on the <i class="fas fa-eye" title="View DataFile"></i> icon on the records of the Data Files table.</p>
         </div>
       </div>
@@ -112,7 +112,7 @@
         }
 
         //Initial map
-        var map = L.map('map').setView([-14.996665839805985, 35.04404396532377], 9.5);
+        var map = L.map('map').setView([-14.996665839805985, 35.04404396532377], 7.5);
         var currentLayer = null;
         var base_url = '<?php echo BASE_URL; ?>';
 

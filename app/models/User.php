@@ -59,4 +59,21 @@ class User extends Model {
         $query->execute();
         return $query->fetchAll(PDO::FETCH_ASSOC);  
     }
+
+    public function getAllUsersWithRoles() {
+        $sql = "SELECT users.id AS user_id,
+                        users.email AS user_email,
+                        roles.id AS role_id,
+                        roles.name AS role_name
+                FROM
+                    users
+                JOIN
+                    user_roles ON users.id = user_roles.user_id
+                JOIN
+                    roles ON user_roles.role_id = roles.id";
+        $query = $this->db->prepare($sql);
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+ 
 }

@@ -34,6 +34,7 @@ class AuthController extends Controller {
     protected function setUserAuthInfo($user){
         if (isset($_SESSION['auth_token'])) {
             $roles = $this->model('User')->getRoles($user[0]["id"]);
+            $_SESSION['role'] = $roles[0]['name'];
             $permissionArray = [];
             foreach($roles as $role){
                 $permissions = $this->model('Permission')->getPermissionsByRoleId($role["id"]);
@@ -60,6 +61,7 @@ class AuthController extends Controller {
     public function signout(){
         if (isset($_SESSION['auth_token'])){
             unset($_SESSION['auth_token']);
+            $_SESSION['role'] = 'Guest';
             $redirect_path = BASE_URL. 'auth/signInForm';
             $this->redirect($redirect_path);
         }

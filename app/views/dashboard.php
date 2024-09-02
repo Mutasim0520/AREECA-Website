@@ -32,7 +32,7 @@
                 <a href="#" data-toggle="modal" data-target="#uploadModal">Upload New Data File</a>
               </div>
             </div>
-            <table class="table" id="data-table">
+            <table class="table" id="map-data-table">
               <thead class="thead-light">
                 <tr>
                   <th scope="col">#</th>
@@ -45,7 +45,7 @@
               <tbody></tbody>
             </table>
             <nav>
-              <ul class="pagination" id="pagination">
+              <ul class="pagination" id="map-table-pagination">
                     <!-- Pagination links will be inserted here -->
               </ul>
             </nav>
@@ -102,7 +102,7 @@
                   <a href="#" data-toggle="modal" data-target="#uploadModal">Create New User</a>
                 </div>
               </div>
-              <table class="table">
+              <table class="table" id="user-data-table">
                 <thead class="thead-light">
                   <tr>
                     <th scope="col">#</th>
@@ -114,7 +114,7 @@
                 <tbody></tbody>
               </table>
               <nav>
-                <ul class="pagination" id="pagination">
+                <ul class="pagination" id="user-table-pagination">
                       <!-- Pagination links will be inserted here -->
                 </ul>
               </nav>
@@ -205,11 +205,11 @@
 
   <!-- ***** Confirmation Box for delete record ***** -->
 
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteModalMap" tabindex="-1" role="dialog" aria-labelledby="deleteModalMapLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header alert alert-danger">
-            <h5 class="modal-title" id="deleteModalLabel"><i class="fas fa-exclamation-triangle"></i><span> </span>Confimation: Delete Map </h5>
+            <h5 class="modal-title" id="deleteModalMapLabel"><i class="fas fa-exclamation-triangle"></i><span> </span>Confimation: Delete Map </h5>
           </div>
           <div class="modal-body">
             <p>Are you sure about Deleting this file?</p>
@@ -240,6 +240,7 @@
   <script src="/AREECA/public/assets/js/tabs.js"></script>
   <script src="/AREECA/public/assets/js/popup.js"></script>
   <script src="/AREECA/public/assets/js/custom.js"></script>
+  <script src="/AREECA/public/assets/js/functions.js"></script>
 
   <script>
     $(".option").click(function(){
@@ -253,60 +254,34 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
   <!-- table pagination -->
-  <script id="data-script" type="application/json">
+  <script id="map-data" type="application/json">
         <?php echo(json_encode($maps)); ?>
   </script>
+
+  <script id="user-data" type="application/json">
+        <?php echo(json_encode($users)); ?>
+  </script>
   <script>
-        const rowsPerPage = 10;
-        let currentPage = 1;
-        let data = JSON.parse(document.getElementById('data-script').textContent);
-        var BASE_URL = '<?php echo BASE_URL; ?>';
+        // const rowsPerPage = 10;
+        // let currentPage = 1;
 
-        function loadData() {
-          renderTable();
-          renderPagination();
+        function loadMapData() {
+          let map_data = JSON.parse(document.getElementById('map-data').textContent);
+          let map_data_indexes = ['id','name', 'map_type', 'district'];
+          let map_row_actions = ['/map/index' , '/map/update' , '#'];
+          renderTable('map',map_data, map_data_indexes, map_row_actions);
         }
 
-        function renderTable() {
-            const startIndex = (currentPage - 1) * rowsPerPage;
-            const endIndex = startIndex + rowsPerPage;
-            const paginatedData = data.slice(startIndex, endIndex);
-
-            $('#data-table tbody').empty();
-            paginatedData.forEach(row => {
-                $('#data-table tbody').append(`
-                    <tr>
-                        <td>${row.id}</td>
-                        <td>${row.name}</td>
-                        <td>${row.map_type}</td>
-                        <td>${row.district}</td>
-                        <td>
-                          <div class="main-button">
-                            <a style="padding:5px 12px" href="${BASE_URL}/map/index?id=${row.id}"><i class="fas fa-eye" title="View DataFile"></i></a>
-                            <a style="padding:5px 12px" href="${BASE_URL}/map/update?id=${row.id}"><i class="fas fa-sync" title="Update DataFile"></i></a>
-                            <a style="padding:5px 12px" href="#" data-toggle="modal" data-target="#deleteModal" data-id="${row.id}"><i class="fas fa-trash" title="Delete DataFile"></i></a>
-                          </div>
-                        </td>
-                    </tr>
-                `);
-            });
-        }
-
-        function renderPagination() {
-            const pageCount = Math.ceil(data.length / rowsPerPage);
-            $('#pagination').empty();
-
-            for (let i = 1; i <= pageCount; i++) {
-                $('#pagination').append(`
-                    <li class="page-item ${i === currentPage ? 'active' : ''}">
-                        <a class="page-link" href="#" data-page="${i}">${i}</a>
-                    </li>
-                `);
-            }
+        function loadUserData() {
+          let user_data = JSON.parse(document.getElementById('user-data').textContent);
+          let user_data_indexes = ['user_id','user_email', 'role_name'];
+          let user_row_actions = ['/map/index' , '/map/update' , '#'];
+          renderTable('user',user_data, user_data_indexes, user_row_actions);
         }
 
         $(document).ready(function() {
-            loadData(); // Load data when the document is ready
+          loadMapData();
+          loadUserData();
 
             $(document).on('click', '#pagination .page-link', function(e) {
                 e.preventDefault();
@@ -317,7 +292,7 @@
 
 
             //delete map modal: Set id of map
-            $('#deleteModal').on('show.bs.modal', function (event) {
+            $('#deleteModalMap').on('show.bs.modal', function (event) {
                   // Get the button or link that triggered the modal
                   var button = $(event.relatedTarget); 
                   
