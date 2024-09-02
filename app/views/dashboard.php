@@ -50,62 +50,64 @@
               </ul>
             </nav>
           </div>
-
+          <br>
+          <br>
           <hr>
-
           <div class="item">
               <div class="section-heading">
                 <h3>User Management</h3>
-                <div class="col-sm-8">
-                  <p>Create a new user with appropriate roles and also Update and Delete the USER INFO(Ex: email,password, role).</p>
-                  <p>Users can have a role of <b>ADMIN</b> or <b>Moderator</b> or by default <b>GUEST</b> The Flowwing table shows the allowed actions of a Role.</p>
-                </div>
-                <div class="col-sm-4">
-                  <table class="table">
-                    <thead class="thead-light">
-                      <tr>
-                        <th scope="col">User Role</th>
-                        <th scope="col">Can See</th>
-                        <th scope="col">Can Create</th>
-                        <th scope="col">Can Update</th>
-                        <th scope="col">Can Delete</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td scope="col">Admin</td>
-                        <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
-                        <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
-                        <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
-                        <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
-                      </tr>
-                      <tr>
-                        <td scope="col">Moderator</td>
-                        <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
-                        <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
-                        <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
-                        <td scope="col"><i class="fas fa-ban" title="Not Allowed"></i></td>
-                      </tr>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <p>Create a new user with appropriate roles and also Update and Delete the USER INFO(Ex: email,password, role).</p>
+                    <p>Users can have a role of <b>ADMIN</b> or <b>Moderator</b> or by default <b>GUEST</b> The Flowwing table shows the allowed actions of a Role.</p>
+                    <div class="border-button">
+                      <a href="#" data-toggle="modal" data-target="#uploadModal">Create New User</a>
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <table class="table table-bordered" style="font-size:x-small; color:#6db1bf; text-align:center">
+                      <thead class="thead-light">
+                        <tr>
+                          <th scope="col">Role</th>
+                          <th scope="col">See</th>
+                          <th scope="col">Create</th>
+                          <th scope="col">Update</th>
+                          <th scope="col">Delete</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td scope="col">Admin</td>
+                          <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
+                          <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
+                          <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
+                          <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
+                        </tr>
+                        <tr>
+                          <td scope="col">Moderator</td>
+                          <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
+                          <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
+                          <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
+                          <td scope="col"><i class="fas fa-ban" title="Not Allowed"></i></td>
+                        </tr>
 
-                      <tr>
-                        <td scope="col">Guest</td>
-                        <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
-                        <td scope="col"><i class="fas fa-ban" title="Not Allowed"></i></td>
-                        <td scope="col"><i class="fas fa-ban" title="Not Allowed"></i></td>
-                        <td scope="col"><i class="fas fa-ban" title="Not Allowed"></i></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                
-                <div class="border-button">
-                  <a href="#" data-toggle="modal" data-target="#uploadModal">Create New User</a>
+                        <tr>
+                          <td scope="col">Guest</td>
+                          <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
+                          <td scope="col"><i class="fas fa-ban" title="Not Allowed"></i></td>
+                          <td scope="col"><i class="fas fa-ban" title="Not Allowed"></i></td>
+                          <td scope="col"><i class="fas fa-ban" title="Not Allowed"></i></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
               <table class="table" id="user-data-table">
                 <thead class="thead-light">
                   <tr>
                     <th scope="col">#</th>
+                    <th scope="col">Username</th>
                     <th scope="col">Email</th>
                     <th scope="col">Role</th>
                     <th scope="col">Actions</th>
@@ -119,9 +121,9 @@
                 </ul>
               </nav>
             </div>
-
+            <br>
+            <br>
             <hr>
-
           <div class="item">
               <div class="section-heading">
                 <h3>WEBSITE Management</h3>
@@ -274,7 +276,7 @@
 
         function loadUserData() {
           let user_data = JSON.parse(document.getElementById('user-data').textContent);
-          let user_data_indexes = ['user_id','user_email', 'role_name'];
+          let user_data_indexes = ['user_id','username','user_email', 'role_name'];
           let user_row_actions = ['/map/index' , '/map/update' , '#'];
           renderTable('user',user_data, user_data_indexes, user_row_actions);
         }

@@ -63,6 +63,7 @@ class User extends Model {
     public function getAllUsersWithRoles() {
         $sql = "SELECT users.id AS user_id,
                         users.email AS user_email,
+                        users.username,
                         roles.id AS role_id,
                         roles.name AS role_name
                 FROM

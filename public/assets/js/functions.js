@@ -17,7 +17,7 @@ function renderTable(table, data, data_indexes, row_actions) {
         let tdElementsActions = '';
 
         // Loop through the list of data indexes or keys you want to add as <td>
-        let counter = 0;
+        let counter = 1;
         data_indexes.forEach(index => {
             tdElements += `<td>${row[index]}</td>`;
         });
