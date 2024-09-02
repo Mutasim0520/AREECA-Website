@@ -137,23 +137,27 @@
                       // Add the new GeoJSON layer to the map and store it in currentLayer
                       currentLayer = L.geoJSON(geojsonData, {
                           onEachFeature: function (feature, layer) {
+                            var coordinates = feature.geometry.coordinates;
                               // Define a function to create the popup content
                               function createPopupContent() {
                                   var properties = feature.properties;
-                                  var tableContent = '<table class="table table-responsive" style="font-size:smaller"><thead><tr>';
+                                  var tableContent = `<div>
+                                                        <div>
+                                                          <p style="border-bottom: 1px solid #dfe2e6;">${file_name}</p>
+                                                        </div>
+                                                        <div>
+                                                          <p><span style="font-size:smaller">Lattitude: </span><span style="font-size:smaller"> ${coordinates[0]}</span></p>
+                                                          <p><span style="font-size:smaller">Longitude: </span><span style="font-size:smaller"> ${coordinates[1]}</span></p>
+                                                        </div>
+                                                        <div style="max-height: 40vh; overflow-y: auto;"><table class="table" style="font-size:smaller">
+                                                          <tbody>`;
                                   for (var key in properties) {
                                       if (properties.hasOwnProperty(key)) {
-                                          tableContent += `<th>${key}</th>`;
-                                      }
-                                  }
-                                  tableContent += '</thead></tr><tr><tbody>'
-                                  for (var key in properties) {
-                                      if (properties.hasOwnProperty(key)) {
-                                          tableContent += `<td>${properties[key]}</td>`;
+                                          tableContent += `<tr><th>${key}</th><td>${properties[key]}</td></tr>`;
                                       }
                                   }
 
-                                  tableContent += '</tbody></tr></table>'
+                                  tableContent += '</tbody></table></div></div></div>'
                                   return tableContent;
                               }
 

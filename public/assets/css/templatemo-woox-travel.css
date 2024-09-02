@@ -2113,6 +2113,15 @@ Reservation Page Style
   margin: 120px 0px;
 }
 
+.table-container {
+  max-height: 40vh; overflow-y: auto; border: 1px solid #ddd; /* Optional border around the table */
+}
+
+.table-container table {
+  width: 100%; /* Ensures the table takes full width of the container */
+  border-collapse: collapse; /* Optional: to remove spacing between cells */
+}
+
 #map{
   height: 65vh; 
   overflow: hidden;

@@ -15,4 +15,14 @@ class SetupController extends Controller {
         echo("admin: " .$a."<br>");
         echo("moderator: " .$b."<br>");
     }
+
+    public function map(){
+        $jsonFilePath = __DIR__ .'\data.geojson';
+        $jsonString = file_get_contents($jsonFilePath);
+        $dataArray = json_decode($jsonString, true);
+        $features = $dataArray[0]['features'];
+        foreach($dataArray as $item){
+
+        }
+    }
 }
