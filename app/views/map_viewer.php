@@ -139,15 +139,22 @@
                           onEachFeature: function (feature, layer) {
                               // Define a function to create the popup content
                               function createPopupContent() {
-                                  var name = feature.properties.name;
-                                  var coordinates = feature.geometry.coordinates;
-                                  return `
-                                      <table class="popup-table">
-                                          <tr><th>Name</th><td>${name}</td></tr>
-                                          <tr><th>Latitude</th><td>${coordinates[1]}</td></tr>
-                                          <tr><th>Longitude</th><td>${coordinates[0]}</td></tr>
-                                      </table>
-                                  `;
+                                  var properties = feature.properties;
+                                  var tableContent = '<table class="table table-responsive" style="font-size:smaller"><thead><tr>';
+                                  for (var key in properties) {
+                                      if (properties.hasOwnProperty(key)) {
+                                          tableContent += `<th>${key}</th>`;
+                                      }
+                                  }
+                                  tableContent += '</thead></tr><tr><tbody>'
+                                  for (var key in properties) {
+                                      if (properties.hasOwnProperty(key)) {
+                                          tableContent += `<td>${properties[key]}</td>`;
+                                      }
+                                  }
+
+                                  tableContent += '</tbody></tr></table>'
+                                  return tableContent;
                               }
 
                               // Bind a popup to the marker, set it to open when the marker is clicked
