@@ -129,7 +129,7 @@ class MapController extends Controller {
         //Check for required fields
         if($district && $map_type){
             //check length
-            if(strlen($district) <= 100 && strlen($map_type) <= 100 && strlen($description) <= 500){
+            if(strlen($district) <= 100 && strlen($map_type) <= 100 && strlen($description) <= 5000){
                 //Check for special character to stop XSS
                 if((preg_match("/^[a-zA-Z-' ]*$/", $description)) && (preg_match("/^[a-zA-Z-' ]*$/", $map_type)) && (preg_match("/^[a-zA-Z-' ]*$/", $district))){
                     return TRUE;

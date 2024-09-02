@@ -2,6 +2,8 @@
 <html lang="en">
 
 <?php require 'includes/header.php'; ?>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <body>
 
@@ -227,6 +229,28 @@
       </div>
     </div>
 
+  <!-- ***** Popup for MAP View ***** -->
+  <div class="modal fade bd-example-modal-lg" id="viewModalMap" tabindex="-1" role="dialog" aria-labelledby="viewModalMapLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="viewModalMapLabel">MAP</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div id="map"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    
+
    <!-- ***** footer ***** -->
    <?php require 'includes/footer.php'; ?>
 
@@ -266,24 +290,36 @@
   <script>
         // const rowsPerPage = 10;
         // let currentPage = 1;
+        var map = L.map('map').setView([-14.996665839805985, 35.04404396532377], 7.5);
+        var currentLayer = null;
+       
 
-        function loadMapData() {
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy;<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a><span id="loaded_file_name" style="font-size:bold"></span>'
+        }).addTo(map);
+
+        function loadMapDataTable() {
           let map_data = JSON.parse(document.getElementById('map-data').textContent);
           let map_data_indexes = ['id','name', 'map_type', 'district'];
-          let map_row_actions = ['/map/index' , '/map/update' , '#'];
+          let map_row_actions = [{ type: "view", uri: '#', popup_element_id: "#viewModalMap" },
+                                    { type: "update", uri: '#', popup_element_id: "#updateModalMap" },
+                                    { type: "delete", uri: '#', popup_element_id: "#deleteModalMap" }];
           renderTable('map',map_data, map_data_indexes, map_row_actions);
         }
 
-        function loadUserData() {
+        function loadUserDataTable() {
           let user_data = JSON.parse(document.getElementById('user-data').textContent);
           let user_data_indexes = ['user_id','username','user_email', 'role_name'];
-          let user_row_actions = ['/map/index' , '/map/update' , '#'];
+          let user_row_actions = [{ type: "view", uri: '#', popup_element_id: "#viewModalMap" },
+                                    { type: "update", uri: '#', popup_element_id: "#updateModalMap" },
+                                    { type: "delete", uri: '#', popup_element_id: "#deleteModalMap" }];
           renderTable('user',user_data, user_data_indexes, user_row_actions);
         }
 
         $(document).ready(function() {
-          loadMapData();
-          loadUserData();
+          loadMapDataTable();
+          loadUserDataTable();
 
             $(document).on('click', '#pagination .page-link', function(e) {
                 e.preventDefault();
@@ -305,6 +341,8 @@
                   var modal = $(this);
                   modal.find('#map_id_delete').val(recordId);
                 });
+
+          
         });
     </script>
 

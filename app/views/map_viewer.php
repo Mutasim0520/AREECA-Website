@@ -173,10 +173,8 @@
 
         function updateContent(element_id,content) {
           // Get the div element by its ID
-          
-  
           contentDiv.appendChild(newParagraph);
-    }
+        }
 
         $(document).ready(function() {
             loadData(); // Load data when the document is ready
