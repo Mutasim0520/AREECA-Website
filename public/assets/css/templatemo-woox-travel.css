@@ -1284,7 +1284,7 @@ About Page Style
 
 .weekly-offers {
   padding-bottom: 120px;
-  margin-top: 120px;
+  margin-top: 70px;
   border-bottom: 1px solid #eee;
 }
 
@@ -2123,7 +2123,7 @@ Reservation Page Style
 }
 
 #map{
-  height: 65vh; 
+  height: 60.5vh; 
   overflow: hidden;
   position: relative;
   z-index: 10;

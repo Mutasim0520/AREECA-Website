@@ -6,7 +6,8 @@ class Map extends Model {
     public function __construct() {
         parent::__construct();  // Call the parent constructor to initialize $db
         try {
-            $this->createMapTable();
+            $this->createMapTable(); 
+            $this->createMapGeoDataTable();
         } catch (Exception $e) {
             echo 'Table Creation Error: ' . $e->getMessage();
         }
@@ -18,9 +19,6 @@ class Map extends Model {
                     id INT AUTO_INCREMENT PRIMARY KEY,
                     name VARCHAR(100) NOT NULL,
                     path VARCHAR(100) NOT NULL,
-                    map_type VARCHAR(100),
-                    district VARCHAR(100),
-                    description VARCHAR(500),
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
@@ -31,38 +29,117 @@ class Map extends Model {
             echo "Error: " . $e->getMessage();
         }     
     }
+
+    private function createMapGeoDataTable(){
+        try{
+            $sql = "CREATE TABLE IF NOT EXISTS map_geo_data (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    map_id INT NOT NULL,
+                    properties JSON,
+                    geo_data GEOMETRY NOT NULL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (map_id) REFERENCES maps(id) ON DELETE CASCADE
+                )
+            ";
+            $this->db->exec($sql);
+            echo "MapGeoData table created successfully.<br>";
+        }catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }     
+    }
     //fetch data from map model
     public function getMaps($id=NULL) {
-        if($id){
-            $query = $this->db->prepare("SELECT * FROM maps WHERE id = :id");
-            $query->bindParam(':id', $id);
+        try{
+            $sql = "SELECT 
+                        maps.id AS id,
+                        maps.name AS file_name,
+                        maps.path AS file_path,
+                    CONCAT('[', GROUP_CONCAT(
+                        CONCAT(
+                        '{\"properties\": ', map_geo_data.properties,  
+                            '}'
+                        ) 
+                        SEPARATOR ','
+                    ), ']') AS properties,
+                    CONCAT('[', GROUP_CONCAT(
+                        CONCAT(
+                            '{\"geometry\": ', ST_AsGeoJSON(map_geo_data.geo_data), 
+                            '}'
+                        ) 
+                        SEPARATOR ','
+                    ), ']') AS geometry
+                FROM
+                    maps
+                LEFT JOIN 
+                    map_geo_data ON maps.id = map_geo_data.map_id
+                GROUP BY 
+                    maps.id";
+
+                        
+    
+            $query = $this->db->prepare($sql);
+            $query->execute();
+
+            $results = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $results;
+        }catch (PDOException $e) {
+            echo 'Read error: ' . $e->getMessage();
+            return false;
         }
-        else{
-            $query = $this->db->prepare("SELECT * FROM maps");
-        }
-        $query->execute();
-        return $query->fetchAll(PDO::FETCH_ASSOC);
     }
     
     //insert into map model
-    public function insert($name, $path, $map_type, $district, $description) {
+    public function insert($name, $path, $geoData) {
         try {
             // Prepare an SQL statement
-            $query = "INSERT INTO " . $this->table . "(name,path,map_type,district,description) VALUES (:name, :path, :map_type, :district, :description)";
-            $stmt = $this->db->prepare($query);
+            $sql = "INSERT INTO maps (name,path) VALUES (:name, :path)";
+            $query = $this->db->prepare($sql);
             
             // Bind parameters
-            $stmt->bindParam(':name', $name);
-            $stmt->bindParam(':path', $path);
-            $stmt->bindParam(':map_type', $map_type);
-            $stmt->bindParam(':district', $district);
-            $stmt->bindParam(':description', $description);
+            $query->bindParam(':name', $name);
+            $query->bindParam(':path', $path);
             
             // Execute the query
-            if ($stmt->execute()) {
-                return true;
+            if ($query->execute()) {
+                try{
+                    $sql = $this->db->prepare("SELECT id FROM maps ORDER BY id DESC LIMIT 1");
+                    $sql->execute();
+                    $map = $sql->fetchAll(PDO::FETCH_ASSOC);
+                    $geoDataInsertion = $this->insertGeoData($map[0]['id'],$geoData);
+                    return true;
+                }catch (PDOException $e) {
+                    return false;
+                }
+                
             }
             return false;
+        } catch (PDOException $e) {
+            echo 'Insert error: ' . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function insertGeoData($map_id, $geoData) {
+        try {
+            $geoData = json_decode($geoData);
+            foreach ($geoData as $data) {
+                $properties = json_encode($data->properties);
+                
+                // Convert GeoJSON geometry to WKT
+                $geometryType = strtoupper($data->geometry->type);
+                $coordinates = $data->geometry->coordinates;
+                $wkt = $this->convertGeoJSONToWKT($geometryType, $coordinates);
+                
+                $sql = "INSERT INTO map_geo_data (map_id, properties, geo_data) VALUES (:map_id, :properties, ST_GeomFromText(:geo_data))";
+                $query = $this->db->prepare($sql);
+                
+                // Bind parameters
+                $query->bindParam(':map_id', $map_id);
+                $query->bindParam(':properties', $properties);
+                $query->bindParam(':geo_data', $wkt);
+                $query->execute();
+            }
         } catch (PDOException $e) {
             echo 'Insert error: ' . $e->getMessage();
             return false;
@@ -79,6 +156,27 @@ class Map extends Model {
         }
         else{
             return FALSE;
+        }
+    }
+
+    private function convertGeoJSONToWKT($geometryType, $coordinates) {
+        switch ($geometryType) {
+            case 'POINT':
+                return sprintf('POINT(%s %s)', $coordinates[0], $coordinates[1]);
+            case 'LINESTRING':
+                return sprintf('LINESTRING(%s)', implode(', ', array_map(function($coord) {
+                    return sprintf('%s %s', $coord[0], $coord[1]);
+                }, $coordinates)));
+            case 'POLYGON':
+                $rings = array_map(function($ring) {
+                    return implode(', ', array_map(function($coord) {
+                        return sprintf('%s %s', $coord[0], $coord[1]);
+                    }, $ring));
+                }, $coordinates);
+                return sprintf('POLYGON((%s))', implode('),(', $rings));
+            // Add more cases as needed for MULTIPOINT, MULTILINESTRING, MULTIPOLYGON, etc.
+            default:
+                throw new Exception('Unsupported geometry type: ' . $geometryType);
         }
     }
 }

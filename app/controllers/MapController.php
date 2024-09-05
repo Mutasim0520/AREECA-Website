@@ -1,10 +1,5 @@
 <?php
-
 class MapController extends Controller {
-    public function __construct() {
-        $redirect_path = BASE_URL. '/map/index';
-    }
-
     public function index() {
         $mapModel = $this->model('Map');
         $maps = $mapModel->getMaps();
@@ -12,7 +7,7 @@ class MapController extends Controller {
     }
 
     public function delete() {
-        $this->redirect_path = BASE_URL. '/dashboard/index';
+        $this->redirect_url = BASE_URL. '/dashboard/index';
         if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             $id = $_REQUEST['id'];
             $_SESSION['message_type'] = 'error';
@@ -24,37 +19,32 @@ class MapController extends Controller {
                 $maps = $mapModel->getMaps();
                 $_SESSION['message_type'] = 'success'; 
                 $_SESSION['message'] = "File Deleted successfully";
-                $this->redirect($this->redirect_path);
+                $this->redirect($this->redirect_url);
             }
             else{
                 $_SESSION['message'] = "File Could Not Be Deleted";
-                $this->redirect($this->redirect_path);
+                $this->redirect($this->redirect_url);
             }
         }
         else{
             $_SESSION['message'] = "Request error";
-            $this->redirect($this->redirect_path);
+            $this->redirect($this->redirect_url);
         }
     }
 
     public function upload() {
         $_SESSION['message_type'] = 'error';
-        $valid_input = $this->validateInput();
         $mapModel = $this->model('Map');
-        $this->redirect_path = BASE_URL. 'dashboard/index';
+        $redirect_url = BASE_URL. 'dashboard/index';
         
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if (isset($_FILES['file']) && $_FILES['file']['error'] == 0 && $valid_input) {
+            if (isset($_FILES['file']) && $_FILES['file']['error'] == 0) {
                 $allowedExtensions = ['geojson', 'json'];
                 $fileName = $_FILES['file']['name'];
                 $fileTmpName = $_FILES['file']['tmp_name'];
                 $fileSize = $_FILES['file']['size'];
                 $fileError = $_FILES['file']['error'];
-                $fileType = $_FILES['file']['type'];
-                $district = $_REQUEST['district'];
-                $map_type = $_REQUEST['map_type'];
-                $description = $_REQUEST['description'];
-        
+                $fileType = $_FILES['file']['type']; 
                 $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
         
                 if (in_array($fileExt, $allowedExtensions)) {
@@ -64,35 +54,37 @@ class MapController extends Controller {
                         $fileContent = file_get_contents($fileTmpName);
                         if ($this->validateGeoJSON($fileContent)) {
                             $uploadDir = Storage_Path.'map_data_files/';
-                            $fileNewName = uniqid('') . "." . $fileExt;
+                            $fileNewName =$fileName;
                             $fileDestination = $uploadDir . $fileNewName;
         
                             if (move_uploaded_file($fileTmpName, $fileDestination)) {
-                                $maps = $mapModel->insert($fileNewName, $uploadDir, $map_type, $district, $description);
+                                $geo_data_tmp = json_decode($fileContent, true);
+                                $geo_data = json_encode($geo_data_tmp['features']);
+                                $maps = $mapModel->insert($fileNewName, $uploadDir, $geo_data);
                                 if($maps){
                                     $_SESSION['message_type'] = 'success'; 
                                     $_SESSION['message'] = "File uploaded successfully";
-                                    $this->redirect($this->redirect_path);
+                                    $this->redirect($redirect_url);
                                 }
                             } else {
                                 $_SESSION['message'] = "Error uploading file.\n";
-                                $this->redirect($this->redirect_path);
+                                $this->redirect($redirect_url);
                             }
                         } else {
                             $_SESSION['message'] = "Uploaded file is not a valid GeoJSON.\n";
-                            $this->redirect($this->redirect_path);
+                            $this->redirect($redirect_url);
                         }
                     } else {
                         $_SESSION['message'] = "File size is too large.\n";
-                        $this->redirect($this->redirect_path);
+                        $this->redirect($redirect_url);
                     }
                 } else {
                     $_SESSION['message'] = "Invalid file type. Only .geojson and .json files are allowed.\n";
-                    $this->redirect($this->redirect_path);
+                    $this->redirect($redirect_url);
                 }
             } else {
                 $_SESSION['message'] = "No file was uploaded or there was an error.\n";
-                $this->redirect($this->redirect_path);
+                $this->redirect($redirect_url);
             }
         }
     }

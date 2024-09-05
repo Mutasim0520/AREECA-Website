@@ -11,22 +11,21 @@
   <div class="weekly-offers">
     <div class="container-fluid">
       <div class="row">
-        <div class="section-heading">
-          <h1>E X P L O R E &nbsp;&nbsp;  M A P S</h1>
-          <p id="map_data_detail">To see the map data click on the <i class="fas fa-eye" title="View DataFile"></i> icon on the records of the Data Files table.</p>
+        <div class="col-lg-12">
+          <div class="section-heading">
+            <h1>E X P L O R E &nbsp;&nbsp;  M A P S</h1>
+            <p id="map_data_detail">To see the map data click on the <i class="fas fa-eye" title="View DataFile"></i> icon on the records of the Data Files table.</p>
+          </div>
         </div>
       </div>
       <div class="row">
-        <div class="col-lg-8">
-          <div id="map"></div>
-        </div>
-        <div class="col-lg-4">
-          <table class="table table-responsive" id="data-table">
+        <div class="col-lg-7">
+          <table class="table table-responsive" id="data-table" style="font-size:smaller;">
             <thead class="thead-light">
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
-                <th scope="col">Map Type</th>
+                <th scope="col">Type</th>
                 <th scope="col">District</th>
                 <th scope="col">Actions</th>
               </tr>
@@ -36,9 +35,12 @@
           </table>
           <nav>
             <ul class="pagination" id="pagination">
-              <!-- Pagination links will be inserted here -->
+                <!-- Pagination links will be inserted here -->
             </ul>
           </nav>
+        </div>
+        <div class="col-lg-5">
+          <div id="map"></div>
         </div>
       </div>
     </div>
