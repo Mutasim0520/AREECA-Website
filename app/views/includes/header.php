@@ -16,10 +16,10 @@
 
     <!-- Additional CSS Files -->
     <link rel="stylesheet" href="/AREECA/public/assets/css/fontawesome.css">
-    <link rel="stylesheet" href="/AREECA/public/assets/css/templatemo-woox-travel.css">
     <link rel="stylesheet" href="/AREECA/public/assets/css/owl.css">
     <link rel="stylesheet" href="/AREECA/public/assets/css/animate.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/AREECA/public/assets/css/templatemo-woox-travel.css">
 
   </head>
     <!-- ***** Preloader Start ***** -->

@@ -3,7 +3,8 @@ class MapController extends Controller {
     public function index() {
         $mapModel = $this->model('Map');
         $maps = $mapModel->getMaps();
-        $this->view('map_viewer', ['maps' => $maps]);
+        $reformattedMapData = $this->prepareMapDataForView($maps);
+        $this->view('map_viewer', ['maps' => $reformattedMapData]);
     }
 
     public function delete() {

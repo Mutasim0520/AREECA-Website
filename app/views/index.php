@@ -21,7 +21,7 @@
             <div class="main-caption">
               <h2>Take a Glimpse Into The Beautiful Country Of:</h2>
               <h1>Caribbean</h1>
-              <div class="border-button"><a href="about.html">Go There</a></div>
+              
             </div>
           </div>
         </div>
@@ -30,7 +30,7 @@
             <div class="main-caption">
               <h2>Take a Glimpse Into The Beautiful Country Of:</h2>
               <h1>Switzerland</h1>
-              <div class="border-button"><a href="about.html">Go There</a></div>
+              
             </div>
           </div>
         </div>
@@ -39,7 +39,7 @@
             <div class="main-caption">
               <h2>Take a Glimpse Into The Beautiful Country Of:</h2>
               <h1>France</h1>
-              <div class="border-button"><a href="about.html">Go There</a></div>
+              
             </div>
           </div>
         </div>
@@ -48,7 +48,7 @@
             <div class="main-caption">
               <h2>Take a Glimpse Into The Beautiful Country Of:</h2>
               <h1>Thailand</h1>
-              <div class="border-button"><a href="about.html">Go There</a></div>
+              
             </div>
           </div>
         </div>

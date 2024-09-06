@@ -39,9 +39,6 @@
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Name</th>
-                  <th scope="col">Type</th>
-                  <th scope="col">GeoType</th>
-                  <th scope="col">District</th>
                   <th scope="col">Area</th>
                   <th scope="col">HAUnderRes</th>
                   <th scope="col">Actions</th>
@@ -242,6 +239,9 @@
   <script src="/AREECA/public/assets/js/tabs.js"></script>
   <script src="/AREECA/public/assets/js/popup.js"></script>
   <script src="/AREECA/public/assets/js/custom.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="/AREECA/public/assets/js/functions.js"></script>
 
   <script>
@@ -250,10 +250,6 @@
       $(this).addClass("active"); 
     });
   </script>
-
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
   <!-- table pagination -->
   <script id="map-data" type="application/json">
@@ -277,7 +273,8 @@
 
         function loadMapDataTable() {
           let map_data = JSON.parse(document.getElementById('map-data').textContent);
-          let map_data_indexes = ['id','name', 'map_type', 'district'];
+          let aggregated_data_indicies = {aggregated_data:['Area','HaUnderRes']};
+          let map_data_indexes = ['id','file_name', aggregated_data_indicies];
           let map_row_actions = [{ type: "view", uri: '#', popup_element_id: "#viewModalMap" },
                                     { type: "update", uri: '#', popup_element_id: "#updateModalMap" },
                                     { type: "delete", uri: '#', popup_element_id: "#deleteModalMap" }];

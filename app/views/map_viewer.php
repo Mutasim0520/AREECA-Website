@@ -21,23 +21,22 @@
       <div class="row">
         <div class="col-lg-7">
           <table class="table table-responsive" id="data-table" style="font-size:smaller;">
-            <thead class="thead-light">
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Type</th>
-                <th scope="col">District</th>
-                <th scope="col">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
-          <nav>
-            <ul class="pagination" id="pagination">
-                <!-- Pagination links will be inserted here -->
-            </ul>
-          </nav>
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Area</th>
+                    <th scope="col">HAUnderRes</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+              <nav>
+                <ul class="pagination" id="pagination">
+                      <!-- Pagination links will be inserted here -->
+                </ul>
+              </nav>
         </div>
         <div class="col-lg-5">
           <div id="map"></div>
@@ -84,15 +83,20 @@
 
             $('#data-table tbody').empty();
             paginatedData.forEach(row => {
+              console.log(row['id']);
+              console.log(row['file_name']);
+              console.log(row['aggregated_data']['Area']);
+              console.log(row['id']);
+
                 $('#data-table tbody').append(`
                     <tr>
-                        <td>${row.id}</td>
-                        <td>${row.name}</td>
-                        <td>${row.map_type}</td>
-                        <td>${row.district}</td>
+                        <td>${row['id']}</td>
+                        <td>${row['file_name']}</td>
+                        <td>${row['aggregated_data']['Area']}</td>
+                        <td>${row['aggregated_data']['HaUnderRes']}</td>
                         <td>
                           <div class="main-button">
-                            <a style="padding:5px 12px" href="#" onclick="renderMap('${row.name}')"><i class="fas fa-eye" title="View DataFile"></i></a>
+                            <a style="padding:5px 12px" href="#" onclick="renderMap('${row['file_name']}')"><i class="fas fa-eye" title="View DataFile"></i></a>
                           </div>
                         </td>
                     </tr>
@@ -190,15 +194,14 @@
         }
 
         $(document).ready(function() {
-            loadData(); // Load data when the document is ready
-
-            $(document).on('click', '#pagination .page-link', function(e) {
-                e.preventDefault();
-                currentPage = $(this).data('page');
-                renderTable();
-                renderPagination();
-            });
-        });
+          loadData(); // Load data when the document is ready
+          $(document).on('click', '#pagination .page-link', function(e) {
+              e.preventDefault();
+              currentPage = $(this).data('page');
+              renderTable();
+              renderPagination();
+          });
+      });
     </script>
 
   <script>
