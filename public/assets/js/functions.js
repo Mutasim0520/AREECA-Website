@@ -153,3 +153,4 @@ function renderMap(file_name) {
         .catch(error => console.error('Error loading GeoJSON:', error));
 }
 
+

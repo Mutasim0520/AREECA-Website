@@ -53,7 +53,9 @@ class Controller {
                 "aggregated_data" =>array(
                     "Area" => NULL,
                     "HaUnderRes" =>NULL
-                )
+                ),
+                "type_tags" => array(),
+                "district" => NULL
             );
 
             //prepare values for each row
@@ -65,14 +67,28 @@ class Controller {
             
             $area = 0;
             $area_res = 0;
+            $tmp_district = NULL;
+            $tmp_type_tags = array();
+
+            // Read the file content for the indexes of properties which are used as table filters
+            $filePath = BASE_PATH .'\public\assets\districts.txt';                   
+            $filters = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
 
             //prepare some aggregated data to use in frontend
             foreach($properties as $item){
-                if (array_key_exists('Area', $item['properties'])) {
+                if(array_key_exists('Area', $item['properties'])) {
                     $area = $item['properties']['Area'] + $area;
                 }
-                if (array_key_exists('HaUnderRes', $item['properties'])) {
+                if(array_key_exists('HaUnderRes', $item['properties'])) {
                     $area_res = $item['properties']['HaUnderRes'] + $area_res;
+                }
+
+                if(!$tmp_district){
+                    $tmp_district = $item['properties']['District'];
+                }
+                if(!in_array($item['properties']['Type'], $tmp_type_tags)){
+                    array_push($tmp_type_tags, $item['properties']['Type']);
                 }
             }
             
@@ -84,6 +100,8 @@ class Controller {
             $formatted_data['features']['geometry'] = $geometry;
             $formatted_data['aggregated_data']['Area'] = $area;
             $formatted_data['aggregated_data']['HaUnderRes'] = $area_res;
+            $formatted_data['type_tags'] = $tmp_type_tags;
+            $formatted_data['district'] = $tmp_district;
 
             array_push($finalData, $formatted_data);
         }

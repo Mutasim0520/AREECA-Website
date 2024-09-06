@@ -19,9 +19,40 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-lg-7">
+        <div class="col-lg-6">
           <table class="table table-responsive" id="data-table" style="font-size:smaller;">
                 <thead class="thead-light">
+                  <tr>
+                    <th colspan="6">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <select name="district" class="form-select" style ="font-size:smaller" aria-label="Default select example" id="map-table-district-filter" onChange="filterTable()">
+                            <option value="" selected>Filter District ....</option>
+                            <?php
+                              $filePath = 'C:\xampp\htdocs\AREECA\public\assets\districts.txt';
+                                // Read the file content into an array
+                              $districts = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+                              foreach($districts as $item): ?>
+                                <option value="<?php echo $item; ?>"><?php echo $item; ?></option> 
+                            <?php endforeach ?>
+                          </select>
+                        </div>
+                        
+                        <div class="col-md-6">
+                          <select name="type" class="form-select" style ="font-size:smaller" aria-label="Default select example" id="map-table-type-filter" onChange="filterTable()">
+                            <option selected value="">filter Type ....</option>
+                            <?php
+                              $filePath = 'C:\xampp\htdocs\AREECA\public\assets\types.txt';
+                                // Read the file content into an array
+                              $districts = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+                              foreach($districts as $item): ?>
+                                <option value="<?php echo $item; ?>"><?php echo $item; ?></option> 
+                            <?php endforeach ?>
+                          </select>
+                        </div>
+                      </div>
+                    </th>
+                  </tr>
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
@@ -38,7 +69,7 @@
                 </ul>
               </nav>
         </div>
-        <div class="col-lg-5">
+        <div class="col-lg-6">
           <div id="map"></div>
         </div>
       </div>
@@ -68,26 +99,21 @@
   <script>
         const rowsPerPage = 10;
         let currentPage = 1;
-        let data = JSON.parse(document.getElementById('data-script').textContent);
+        let original_data = JSON.parse(document.getElementById('data-script').textContent);
         var BASE_URL = '<?php echo BASE_URL; ?>';
 
-        function loadData() {
-          renderTable();
-          renderPagination();
+        function loadData(data) {
+          renderTable(data);
+          renderPagination(data);
         }
 
-        function renderTable() {
+        function renderTable(data) {
             const startIndex = (currentPage - 1) * rowsPerPage;
             const endIndex = startIndex + rowsPerPage;
             const paginatedData = data.slice(startIndex, endIndex);
 
             $('#data-table tbody').empty();
             paginatedData.forEach(row => {
-              console.log(row['id']);
-              console.log(row['file_name']);
-              console.log(row['aggregated_data']['Area']);
-              console.log(row['id']);
-
                 $('#data-table tbody').append(`
                     <tr>
                         <td>${row['id']}</td>
@@ -100,11 +126,11 @@
                           </div>
                         </td>
                     </tr>
-                `);
-            });
+                  `);
+                });
         }
 
-        function renderPagination() {
+        function renderPagination(data) {
             const pageCount = Math.ceil(data.length / rowsPerPage);
             $('#pagination').empty();
 
@@ -193,8 +219,27 @@
           contentDiv.appendChild(newParagraph);
         }
 
+        function filterTable(){
+          var selectedDistrict = document.getElementById("map-table-district-filter").value;
+          var selectedType = document.getElementById("map-table-type-filter").value;
+
+          // Use filter to create a new filtered array without modifying the original array
+          let filtered_data = original_data.filter(row => {
+              if (selectedDistrict && selectedType) {
+                  return row['district'] == selectedDistrict && row['type_tags'].includes(selectedType);
+              } else if (selectedDistrict) {
+                  return row['district'] == selectedDistrict;
+              } else if (selectedType) {
+                  return row['type_tags'].includes(selectedType);
+              }
+              return true;  // If no filters are applied, return all rows
+          });
+          
+          loadData(filtered_data);
+      }
+
         $(document).ready(function() {
-          loadData(); // Load data when the document is ready
+          loadData(original_data); // Load data when the document is ready
           $(document).on('click', '#pagination .page-link', function(e) {
               e.preventDefault();
               currentPage = $(this).data('page');
