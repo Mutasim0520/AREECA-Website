@@ -370,13 +370,13 @@ Header Style
 }
 
 .header-area .main-nav .logo img {
-  width: 159px;
+  /* width: 159px; */
   margin-top: 15px;
 }
 
-.background-header .main-nav .logo img {
+/* .background-header .main-nav .logo img {
   width: 159px;
-}
+} */
 
 .header-area .main-nav .nav {
   flex-basis: 70%;

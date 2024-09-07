@@ -19,11 +19,11 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-3">
           <table class="table table-responsive" id="data-table" style="font-size:smaller;">
                 <thead class="thead-light">
                   <tr>
-                    <th colspan="6">
+                    <th colspan="3">
                       <div class="row">
                         <div class="col-md-6">
                           <select name="district" class="form-select" style ="font-size:smaller" aria-label="Default select example" id="map-table-district-filter" onChange="filterTable()">
@@ -56,8 +56,6 @@
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Area</th>
-                    <th scope="col">HAUnderRes</th>
                     <th scope="col">Actions</th>
                   </tr>
                 </thead>
@@ -69,7 +67,10 @@
                 </ul>
               </nav>
         </div>
-        <div class="col-lg-6">
+        <!-- <div class="col-lg-4">
+          <canvas id="myChart" width="400" height="200"></canvas>
+        </div> -->
+        <div class="col-lg-9">
           <div id="map"></div>
         </div>
       </div>
@@ -113,20 +114,23 @@
             const paginatedData = data.slice(startIndex, endIndex);
 
             $('#data-table tbody').empty();
+            var index_counter = 1;
             paginatedData.forEach(row => {
                 $('#data-table tbody').append(`
                     <tr>
-                        <td>${row['id']}</td>
+                        <td>${index_counter}</td>
                         <td>${row['file_name']}</td>
-                        <td>${row['aggregated_data']['Area']}</td>
-                        <td>${row['aggregated_data']['HaUnderRes']}</td>
                         <td>
                           <div class="main-button">
                             <a style="padding:5px 12px" href="#" onclick="renderMap('${row['file_name']}')"><i class="fas fa-eye" title="View DataFile"></i></a>
                           </div>
                         </td>
                     </tr>
+                    <tr>
+                        <td colspan=3><canvas id="myChart" max-width="90%" max-height="75%"></canvas></td>
+                    </tr>
                   `);
+                  index_counter = index_counter+1;
                 });
         }
 
@@ -234,12 +238,80 @@
               }
               return true;  // If no filters are applied, return all rows
           });
-          
+
           loadData(filtered_data);
+          loadGraph(filtered_data);
+      }
+
+      function loadGraph(data){
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var column_names = ["River and Stream bank Restoration", "Soil and Water Conservation", "Community Forest and Woodlots", "Forest Management", "Improved Agricultural Technologie"];
+        var counter_1 = 0;
+        var counter_2 = 0;
+        var counter_3 = 0;
+        var counter_4 = 0;
+        var counter_5 = 0;
+
+        data.forEach(row =>{
+          row['features']['properties'].forEach(item =>{
+            // console.log(item);
+            // console.log(item['properties']['HaUnderRes']);
+            if(item['properties']['Type'] == 'River and Stream bank Restoration'){
+              counter_1 = counter_1 + parseFloat(item['properties']['HaUnderRes']);
+            }else if(item['properties']['Type'] == 'Soil and Water Conservation'){
+              counter_2 = counter_2 + item['properties']['HaUnderRes'];
+            }else if(item['properties']['Type'] == 'Community Forest and Woodlots'){
+              counter_3 = counter_3 + item['properties']['HaUnderRes'];
+            }else if(item['properties']['Type'] == 'Forest Management'){
+              counter_4 = counter_4 + item['properties']['HaUnderRes'];
+            }else if(item['properties']['Type'] == 'Improved Agricultural Technologie'){
+              counter_5 = counter_5 + item['HaUnderRes'];
+            }
+          });
+        });
+
+      var statistics = [counter_1, counter_2, counter_3, counter_4, counter_5];
+      console.log(statistics);
+
+        var myChart = new Chart(ctx, {
+            type: 'pie',  // Column chart type
+            data: {
+                labels: column_names,  // Labels for each column
+                datasets: [{
+                    label: 'Areas',
+                    data: statistics,  // Data for each column
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',  // Color for Jan
+                        'rgba(54, 162, 235, 0.2)',  // Color for Feb
+                        'rgba(255, 206, 86, 0.2)',  // Color for Mar
+                        'rgba(75, 192, 192, 0.2)',  // Color for Apr
+                        'rgba(153, 102, 255, 0.2)'// Color for May
+                    // Color for Jun
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
       }
 
         $(document).ready(function() {
-          loadData(original_data); // Load data when the document is ready
+          // loadData(original_data); // Load data when the document is ready
+          // loadGraph();
           $(document).on('click', '#pagination .page-link', function(e) {
               e.preventDefault();
               currentPage = $(this).data('page');

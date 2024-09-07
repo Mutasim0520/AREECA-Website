@@ -98,6 +98,7 @@ class Controller {
             $formatted_data['file_name'] = $file_name;
             $formatted_data['file_path'] = $file_path;
             $formatted_data['features']['geometry'] = $geometry;
+            $formatted_data['features']['properties'] = $properties;
             $formatted_data['aggregated_data']['Area'] = $area;
             $formatted_data['aggregated_data']['HaUnderRes'] = $area_res;
             $formatted_data['type_tags'] = $tmp_type_tags;
