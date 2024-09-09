@@ -9,166 +9,71 @@
   <?php require 'includes/menu.php'; ?>
 
   <!-- ***** Main Banner Area Start ***** -->
-  <section id="section-1" class="container">
-    <div class="content-slider">
-      <input type="radio" id="banner1" class="sec-1-input" name="banner" checked>
-      <input type="radio" id="banner2" class="sec-1-input" name="banner">
-      <input type="radio" id="banner3" class="sec-1-input" name="banner">
-      <input type="radio" id="banner4" class="sec-1-input" name="banner">
-      <div class="slider">
-        <div id="top-banner-1" class="banner">
-          <div class="banner-inner-wrapper header-text">
-            <div class="main-caption">
-              <h2>Take a Glimpse Into The Beautiful Country Of:</h2>
-              <h1>Caribbean</h1>
-              
-            </div>
-          </div>
-        </div>
-        <div id="top-banner-2" class="banner">
-          <div class="banner-inner-wrapper header-text">
-            <div class="main-caption">
-              <h2>Take a Glimpse Into The Beautiful Country Of:</h2>
-              <h1>Switzerland</h1>
-              
-            </div>
-          </div>
-        </div>
-        <div id="top-banner-3" class="banner">
-          <div class="banner-inner-wrapper header-text">
-            <div class="main-caption">
-              <h2>Take a Glimpse Into The Beautiful Country Of:</h2>
-              <h1>France</h1>
-              
-            </div>
-          </div>
-        </div>
-        <div id="top-banner-4" class="banner">
-          <div class="banner-inner-wrapper header-text">
-            <div class="main-caption">
-              <h2>Take a Glimpse Into The Beautiful Country Of:</h2>
-              <h1>Thailand</h1>
-              
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  
   <!-- ***** Main Banner Area End ***** -->
   
   <div class="visit-country">
-    <div class="container">
+    <div class="container-fluid">
       <div class="row">
-        <div class="col-lg-12">
-          <div class="section-heading">
-            <h2>Visit One Of Our Countries Now</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
+        <div class="col-lg-4">
+          <div class="col-lg-12">
+            <h2>HEADING TO PUT</h2>
+          </div>
+          <div class="col-lg-12">
+            <p style="text-align:justify">The World Bank as one of the partners of the IKI programme has supported the updation of national FLR strategy in Malawi through a comprehensive analytical approach--multicriteria based degradation mapping, drone mapping of degradation hotspots, National FLR opportunity assessment and stocktaking, knowledge sharing--to scale up FLR by unlocking technical, economic, financial, social and environmental challenges to alleviate affects of climate change and biodiversity loss. The activities facilitated by the Bank under AREECA intended to highlight landscape investment of ongoing landscape projects and to enable new operations/initiatives to make better informed decisions and planning of future projects. Additionally, it is also supporting to country’s (Malawi) COP 28 commitment of restoring 4.5 million ha area with GIS based evidence.
+This website is designed to disseminate project outcomes, reports, GIS data from stocktaking and opportunity database as well as some highlights of events hosted during the programme.
+            </p>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="items">
-            <div class="row">
-              <div class="col-lg-12">
-                <div class="item">
-                  <div class="row">
-                    <div class="col-lg-4 col-sm-5">
-                      <div class="image">
-                        <img src="/AREECA/public/assets/images/country-01.jpg" alt="">
-                      </div>
-                    </div>
-                    <div class="col-lg-8 col-sm-7">
-                      <div class="right-content">
-                        <h4>SWITZERLAND</h4>
-                        <span>Europe</span>
-                        <div class="main-button">
-                          <a href="about.html">Explore More</a>
-                        </div>
-                        <p>Woox Travel is a professional Bootstrap 5 theme HTML CSS layout for your website. You can use this layout for your commercial work.</p>
-                        <ul class="info">
-                          <li><i class="fa fa-user"></i> 8.66 Mil People</li>
-                          <li><i class="fa fa-globe"></i> 41.290 km2</li>
-                          <li><i class="fa fa-home"></i> $1.100.200</li>
-                        </ul>
-                        <div class="text-button">
-                          <a href="about.html">Need Directions ? <i class="fa fa-arrow-right"></i></a>
-                        </div>
-                      </div>
+        <div class="col-lg-8">
+        
+          <section id="section-1">
+            <div class="content-slider">
+              <input type="radio" id="banner1" class="sec-1-input" name="banner" checked>
+              <input type="radio" id="banner2" class="sec-1-input" name="banner">
+              <input type="radio" id="banner3" class="sec-1-input" name="banner">
+              <input type="radio" id="banner4" class="sec-1-input" name="banner">
+              <div class="slider">
+                <div id="top-banner-1" class="banner">
+                  <div class="banner-inner-wrapper header-text">
+                    <div class="main-caption">
+                      <h2>Take a Glimpse Into The Beautiful Country Of:</h2>
+                      <h1>Caribbean</h1>
+                      
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-lg-12">
-                <div class="item">
-                  <div class="row">
-                    <div class="col-lg-4 col-sm-5">
-                      <div class="image">
-                        <img src="/AREECA/public/assets/images/country-02.jpg" alt="">
-                      </div>
-                    </div>
-                    <div class="col-lg-8 col-sm-7">
-                      <div class="right-content">
-                        <h4>CARIBBEAN</h4>
-                        <span>North America</span>
-                        <div class="main-button">
-                          <a href="about.html">Explore More</a>
-                        </div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
-                        <ul class="info">
-                          <li><i class="fa fa-user"></i> 44.48 Mil People</li>
-                          <li><i class="fa fa-globe"></i> 275.400 km2</li>
-                          <li><i class="fa fa-home"></i> $946.000</li>
-                        </ul>
-                        <div class="text-button">
-                          <a href="about.html">Need Directions ? <i class="fa fa-arrow-right"></i></a>
-                        </div>
-                      </div>
+                <div id="top-banner-2" class="banner">
+                  <div class="banner-inner-wrapper header-text">
+                    <div class="main-caption">
+                      <h2>Take a Glimpse Into The Beautiful Country Of:</h2>
+                      <h1>Switzerland</h1>
+                      
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-lg-12">
-                <div class="item last-item">
-                  <div class="row">
-                    <div class="col-lg-4 col-sm-5">
-                      <div class="image">
-                        <img src="/AREECA/public/assets/images/country-03.jpg" alt="">
-                      </div>
-                    </div>
-                    <div class="col-lg-8 col-sm-7">
-                      <div class="right-content">
-                        <h4>FRANCE</h4>
-                        <span>Europe</span>
-                        <div class="main-button">
-                          <a href="about.html">Explore More</a>
-                        </div>
-                        <p>We hope this WoOx template is useful for you, please support us a <a href="https://paypal.me/templatemo" target="_blank">small amount of PayPal</a> to info [at] templatemo.com for our survival. We really appreciate your contribution.</p>
-                        <ul class="info">
-                          <li><i class="fa fa-user"></i> 67.41 Mil People</li>
-                          <li><i class="fa fa-globe"></i> 551.500 km2</li>
-                          <li><i class="fa fa-home"></i> $425.600</li>
-                        </ul>
-                        <div class="text-button">
-                          <a href="about.html">Need Directions ? <i class="fa fa-arrow-right"></i></a>
-                        </div>
-                      </div>
+                <div id="top-banner-3" class="banner">
+                  <div class="banner-inner-wrapper header-text">
+                    <div class="main-caption">
+                      <h2>Take a Glimpse Into The Beautiful Country Of:</h2>
+                      <h1>France</h1>
+                      
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-lg-12">
-                <ul class="page-numbers">
-                  <li><a href="#"><i class="fa fa-arrow-left"></i></a></li>
-                  <li><a href="#">1</a></li>
-                  <li class="active"><a href="#">2</a></li>
-                  <li><a href="#">3</a></li>
-                  <li><a href="#"><i class="fa fa-arrow-right"></i></a></li>
-                </ul>
+                <div id="top-banner-4" class="banner">
+                  <div class="banner-inner-wrapper header-text">
+                    <div class="main-caption">
+                      <h2>Take a Glimpse Into The Beautiful Country Of:</h2>
+                      <h1>Thailand</h1>
+                      
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+          </section>
+      
         </div>
       </div>
     </div>
@@ -177,15 +82,11 @@
   <div class="call-to-action">
     <div class="container">
       <div class="row">
-        <div class="col-lg-8">
+        <div class="col-lg-12">
           <h2>Are You Looking To Travel ?</h2>
           <h4>Make A Reservation By Clicking The Button</h4>
         </div>
-        <div class="col-lg-4">
-          <div class="border-button">
-            <a href="reservation.html">Book Yours Now</a>
-          </div>
-        </div>
+        
       </div>
     </div>
   </div>

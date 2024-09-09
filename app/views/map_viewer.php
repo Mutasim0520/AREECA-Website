@@ -56,7 +56,7 @@
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Actions</th>
+                    <th scope="col"></th>
                   </tr>
                 </thead>
                 <tbody></tbody>
@@ -103,12 +103,12 @@
         let original_data = JSON.parse(document.getElementById('data-script').textContent);
         var BASE_URL = '<?php echo BASE_URL; ?>';
 
-        function loadData(data) {
-          renderTable(data);
+        function loadData(data,bool=false) {
+          renderTable(data,bool);
           renderPagination(data);
         }
 
-        function renderTable(data) {
+        function renderTable(data,show_button = false) {
             const startIndex = (currentPage - 1) * rowsPerPage;
             const endIndex = startIndex + rowsPerPage;
             const paginatedData = data.slice(startIndex, endIndex);
@@ -116,7 +116,8 @@
             $('#data-table tbody').empty();
             var index_counter = 1;
             paginatedData.forEach(row => {
-                $('#data-table tbody').append(`
+                  if(show_button){
+                    $('#data-table tbody').append(`
                     <tr>
                         <td>${index_counter}</td>
                         <td>${row['file_name']}</td>
@@ -126,10 +127,16 @@
                           </div>
                         </td>
                     </tr>
+                  `);
+                  }
+                  else{
+                    $('#data-table tbody').append(`
                     <tr>
-                        <td colspan=3><canvas id="myChart" max-width="90%" max-height="75%"></canvas></td>
+                        <td>${index_counter}</td>
+                        <td>${row['file_name']}</td>
                     </tr>
                   `);
+                  }
                   index_counter = index_counter+1;
                 });
         }
@@ -236,14 +243,19 @@
               } else if (selectedType) {
                   return row['type_tags'].includes(selectedType);
               }
-              return true;  // If no filters are applied, return all rows
           });
 
-          loadData(filtered_data);
+          loadData(filtered_data,true);
           loadGraph(filtered_data);
       }
 
       function loadGraph(data){
+        var element = '#data-table tbody';
+        $(element).append(`
+            <tr>
+              <td colspan=3><canvas id="myChart" max-width="90%" max-height="75%"></canvas></td>
+            </tr>
+        `);
         var ctx = document.getElementById('myChart').getContext('2d');
         var column_names = ["River and Stream bank Restoration", "Soil and Water Conservation", "Community Forest and Woodlots", "Forest Management", "Improved Agricultural Technologie"];
         var counter_1 = 0;
@@ -254,8 +266,6 @@
 
         data.forEach(row =>{
           row['features']['properties'].forEach(item =>{
-            // console.log(item);
-            // console.log(item['properties']['HaUnderRes']);
             if(item['properties']['Type'] == 'River and Stream bank Restoration'){
               counter_1 = counter_1 + parseFloat(item['properties']['HaUnderRes']);
             }else if(item['properties']['Type'] == 'Soil and Water Conservation'){
@@ -270,48 +280,56 @@
           });
         });
 
-      var statistics = [counter_1, counter_2, counter_3, counter_4, counter_5];
-      console.log(statistics);
+        var statistics = [counter_1, counter_2, counter_3, counter_4, counter_5];
 
-        var myChart = new Chart(ctx, {
-            type: 'pie',  // Column chart type
-            data: {
-                labels: column_names,  // Labels for each column
-                datasets: [{
-                    label: 'Areas',
-                    data: statistics,  // Data for each column
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',  // Color for Jan
-                        'rgba(54, 162, 235, 0.2)',  // Color for Feb
-                        'rgba(255, 206, 86, 0.2)',  // Color for Mar
-                        'rgba(75, 192, 192, 0.2)',  // Color for Apr
-                        'rgba(153, 102, 255, 0.2)'// Color for May
-                    // Color for Jun
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
+          var myChart = new Chart(ctx, {
+              type: 'doughnut',  // Column chart type
+              data: {
+                  labels: column_names,  // Labels for each column
+                  datasets: [{
+                      label: 'Areas',
+                      data: statistics,  // Data for each column
+                      backgroundColor: [
+                          'rgba(255, 99, 132, 0.2)',  // Color for Jan
+                          'rgba(54, 162, 235, 0.2)',  // Color for Feb
+                          'rgba(255, 206, 86, 0.2)',  // Color for Mar
+                          'rgba(75, 192, 192, 0.2)',  // Color for Apr
+                          'rgba(153, 102, 255, 0.2)'// Color for May
+                      // Color for Jun
+                      ],
+                      borderColor: [
+                          'rgba(255, 99, 132, 1)',
+                          'rgba(54, 162, 235, 1)',
+                          'rgba(255, 206, 86, 1)',
+                          'rgba(75, 192, 192, 1)',
+                          'rgba(153, 102, 255, 1)',
+                          'rgba(255, 159, 64, 1)'
+                      ],
+                      borderWidth: 1
+                  }]
+              },
+              options: {
+                  scales: {
+                      y: {
+                          beginAtZero: true
+                      }
+                  },
+                  plugins: {
+                      legend: {
+                          position: 'top',  // Align the legend to the right
+                          labels: {
+                              padding: 20,
+                              textAlign: 'left',
+                              usePointStyle: true
+                          }
+                      }
+                  }
+              }
+          });
       }
 
         $(document).ready(function() {
-          // loadData(original_data); // Load data when the document is ready
-          // loadGraph();
+          loadData(original_data); // Load data when the document is ready
           $(document).on('click', '#pagination .page-link', function(e) {
               e.preventDefault();
               currentPage = $(this).data('page');

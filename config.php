@@ -18,5 +18,6 @@ define('Copyright', 'AREECA');
 
 //Directorie Path Configuration
 define('BASE_URL', 'http://localhost/AREECA/');
+define('BASE_IMAGE_URL', BASE_URL.'public/assets/images/');
 define('BASE_PATH', __DIR__);
 define('Storage_Path',  __DIR__ .'/app/storage/');
