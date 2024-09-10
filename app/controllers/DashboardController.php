@@ -128,4 +128,55 @@ class DashboardController extends Controller {
         return ($validLength && $validType);
     }
 
+    public function uploadDocument(){
+        $_SESSION['message_type'] = 'error';
+        $redirect_url = BASE_URL. 'dashboard/index';
+        if($this->is_authorized()){
+            if (isset($_FILES['file']) && $_FILES['file']['error'] == 0) {
+                $allowedExtensions = ['pdf', 'txt', 'docx', 'ppt', 'pptx', 'doc', 'xlsx'];
+                $fileName = $_FILES['file']['name'];
+                $fileTmpName = $_FILES['file']['tmp_name'];
+                $fileSize = $_FILES['file']['size'];
+                $fileError = $_FILES['file']['error'];
+                $fileType = $_FILES['file']['type']; 
+                $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+
+                if (in_array($fileExt, $allowedExtensions)) {
+                    
+                    // Check file size (optional)
+                    if ($fileSize < 5000000) { // 5MB max size
+                        $uploadDir = Storage_Path.'docs/';
+                        $fileNewName =uniqid() . '_' . time() . '.' . $fileExt;
+                        $fileDestination = $uploadDir . $fileNewName;
+
+                        if (move_uploaded_file($fileTmpName, $fileDestination)){
+                            $doc_upload = $this->model('Document')->insert($fileNewName);
+                            if($doc_upload){
+
+                                $_SESSION['message_type'] = 'success'; 
+                                $_SESSION['message'] = "fileName has been uploaded successfully";
+                                $this->redirect($redirect_url);
+                            }
+                            else{
+                                $_SESSION['message'] = "ERROR: There was a problem moving the file please try again \n";
+                                $this->redirectBack();}
+                        }else{
+                            $_SESSION['message'] = "ERROR: There was a problem moving the file please try again \n";
+                            $this->redirectBack();
+                        }
+                    }
+                    $_SESSION['message'] = "ERROR: The uploaded file is too big. Maximum allowed File size 5MB \n";
+                    $this->redirectBack();
+                    
+                }else{
+                    $_SESSION['message'] = "ERROR: The uploaded file Type is not allowed. Only the following types oof file can be uploaded 'pdf', 'txt', 'docx', 'ppt', 'pptx', 'doc', 'xlsx'\n";
+                    $this->redirectBack();
+                }
+            }
+        }
+        else{
+            $this->redirectBack();
+        }
+    }
+
 }

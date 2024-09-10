@@ -31,7 +31,7 @@
               <h3>Map Data Files Management</h3>
               <p>You can see the available data files in the following table.</p>
               <div class="border-button">
-                <a href="#" data-toggle="modal" data-target="#uploadModal">Upload New Data File</a>
+                <a href="#" data-toggle="modal" data-target="#uploadModalMap">Upload New Data File</a>
               </div>
             </div>
             <table class="table" id="map-data-table">
@@ -152,15 +152,84 @@
               </nav>
             </div>
 
+            <div class="section-heading">
+                <h4>Documents Management</h4>
+                <p>Upload And Delete Important URL or Documents HERE</p>
+                <div class="border-button">
+                  <a href="#" data-toggle="modal" data-target="#uploadModalDocument">Add New Document</a>
+                </div>
+              </div>
+              <table class="table" id="documents_table">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+              <nav>
+                <ul class="pagination" id="pagination">
+                      <!-- Pagination links will be inserted here -->
+                </ul>
+              </nav>
+            </div>
+
         </div>
       </div>
     </div>
   </div>
 
   <!-- ***** Popup form of map file upload ***** -->
-  <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
+  <div class="modal fade" id="uploadModalMap" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="uploadModalLabel">Upload File</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="uploadFormMap" action="<?php echo BASE_URL?>/map/upload" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+              <label for="fileInput">Choose file</label>
+              <input type="file" class="form-control" id="fileInput" name="file" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="uploadButtonMap">Upload</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+   <!-- ***** Popup form of Document file upload ***** -->
+   <div class="modal fade" id="uploadModalDocument" tabindex="-1" role="dialog" aria-labelledby="uploadModalDocumentLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="uploadModalDocumentLabel">Upload New Document</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="uploadFormDocument" action="<?php echo BASE_URL?>/dashboard/uploadDocument" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+              <label for="fileInput">Choose file</label>
+              <input type="file" class="form-control" id="fileInput" name="file" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="uploadButtonDocument">Upload</button>
+        </div>
       </div>
     </div>
   </div>
@@ -174,9 +243,9 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
-          </div>
+        </div>
         <div class="modal-body">
-          <form id="uploadForm" action="<?php echo BASE_URL?>dashboard/addEvent" method="POST" enctype="multipart/form-data">
+          <form id="uploadFormEvent" action="<?php echo BASE_URL?>dashboard/addEvent" method="POST" enctype="multipart/form-data">
             <div class="row">
               <div class="col-md-12">
                 <div class="form-group">
@@ -219,7 +288,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="uploadButton">Upload</button>
+          <button type="button" class="btn btn-primary" id="uploadButtonEvent">Upload</button>
         </div>
         </div>
       </div>
@@ -236,7 +305,7 @@
           </div>
           <div class="modal-body">
             <p>Are you sure about Deleting this file?</p>
-            <form id="deleteMapForm" action="<?php echo BASE_URL?>/map/delete" method="POST">
+            <form id="deleteFormMap" action="<?php echo BASE_URL?>/map/delete" method="POST">
                 <input type="hidden" name="id" id="map_id_delete"> <!-- Item ID to delete -->
             </form>
           </div>  
@@ -336,9 +405,17 @@
           renderTable('user',user_data, user_data_indexes, user_row_actions);
         }
 
+        function handleModalActivation(activeSubmitId) {
+          $('button[type="submit"]').prop('disabled', true); // Disable all submit buttons
+          if (activeSubmitId) {
+            $('#' + activeSubmitId).prop('disabled', false); // Enable the submit button of the active modal
+          }
+        }
+
         $(document).ready(function() {
           loadMapDataTable();
           loadUserDataTable();
+          
 
             $(document).on('click', '#pagination .page-link', function(e) {
                 e.preventDefault();
@@ -361,16 +438,24 @@
                   modal.find('#map_id_delete').val(recordId);
                 });
 
+            
+
           
         });
     </script>
 
   <script>
-    document.getElementById('uploadButton').addEventListener('click', function() {
-        document.getElementById('uploadForm').submit();
+    document.getElementById('uploadButtonDocument').addEventListener('click', function() {
+        document.getElementById('uploadFormDocument').submit();
+    });
+    document.getElementById('uploadButtonMap').addEventListener('click', function() {
+        document.getElementById('uploadFormMap').submit();
+    });
+    document.getElementById('uploadModalEvent').addEventListener('click', function() {
+        document.getElementById('uploadFormEvent').submit();
     });
     document.getElementById('deleteMapButton').addEventListener('click', function() {
-        document.getElementById('deleteMapForm').submit();
+        document.getElementById('deleteFormMap').submit();
     });
     
   </script>

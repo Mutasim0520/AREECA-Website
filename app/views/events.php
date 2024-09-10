@@ -13,7 +13,7 @@
       <div class="row">
         <div class="col-lg-6 offset-lg-3">
           <div class="section-heading text-center">
-            <h1>L A E S T &nbsp; E V E N T S</h1>
+            <h1>L A T E S T &nbsp; E V E N T S</h1>
             <hr>
           </div>
           
