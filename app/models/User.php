@@ -24,7 +24,6 @@ class User extends Model {
                 )
             ";
             $this->db->exec($sql);
-            echo "Users table created successfully.<br>";
         }catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }

@@ -75,6 +75,11 @@ header, nav, section, article, aside, footer, hgroup {
   box-sizing: border-box;
 }
 
+hr{
+  background-color: #dbcdc2;
+  box-shadow: 0px 10px 6px 2px #f5f2ec;
+}
+
 html, body {
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
@@ -204,8 +209,8 @@ section {
 .section-heading {
   position: relative;
   z-index: 2;
-  margin-top: 0px;
-  margin-bottom: 15px;
+  margin-top: 30px;
+  margin-bottom: 45px;
   text-align: left;
 }
 
@@ -218,6 +223,11 @@ section {
   text-transform: capitalize;
   color: #543131;
 }
+.event-image-container{
+  border-radius: 23px;
+  max-height: 55vh;
+}
+
 
 /* 
 ---------------------------------------------
@@ -1313,6 +1323,7 @@ About Page Style
 
 .weekly-offers .item .thumb .text {
   position: absolute;
+  width: 45%;
   background-color: #fff;
   border-radius: 23px;
   right: 0;
@@ -1354,9 +1365,14 @@ About Page Style
   margin-bottom: 10px;
 }
 
-.weekly-offers .item .thumb .text ul li:first-child {
+.weekly-offers .item .thumb .text ul li {
   color: #543131;
   font-weight: 600;
+}
+
+.weekly-offers .item .thumb .text ul li:last-child {
+  color: #afafaf;
+  font-weight: 300;
 }
 
 .weekly-offers .item .thumb .text .main-button {

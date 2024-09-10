@@ -8,46 +8,44 @@
   <!-- ***** Menu bar ***** -->
   <?php require 'includes/menu.php'; ?>
   
-  <div class="visit-country">
+  <div class="weekly-offers">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 offset-lg-3">
+          <div class="section-heading text-center">
+            <h1>Our Latest events</h1>
+            <hr>
+          </div>
+          
+        </div>
+      </div>
+    </div>
     <div class="container-fluid">
       <div class="row">
-        <div class="col-lg-7">
-            <div class="row">
-            <div class="col-md-12">
-              <div class="section-heading"><h3>FLR Forum Oct 2023</h3></div>
-              <p>The Government of Malawi, through the Ministry of Natural Resources and Climate Change and its Department of Forestry, in collaboration with the AREECA Program and the World Bank, co-hosted the Forum titled "Landscape Restoration Forum: Opportunities and Challenges - Scaling up Financing for Forest Landscape Restoration in Malawi" on October 5th, 2023, at the Bingu International Convention Centre in Lilongwe.
-The Forum brought together representatives from the Government of Malawi, local leaders, AREECA consortium partners, civil society, the private sector, development partners, and national and international experts. The discussions focused on strategies for restoring degraded lands, promoting sustainable land management practices, scaling up financing to landscape restoration and enhancing the resilience of Malawi’s ecosystems. 
-The Forum served as a vital platform for stakeholders to explore innovative restoration and financial solutions, while the sessions were designed to raise awareness of FLR successes and improve coordination among actors involved in forest landscape restoration.
-              </p>
-            </div>
-            <div class="col-md-12">
-              <img style="max-height:45vh;" src="<?php echo BASE_IMAGE_URL.'event-01.png';?>" >
-            </div>
-            </div>
-        </div>
-        <div class="col-lg-5">
-          <div class="row">
-            <div class="item">
-              <div class="col-md-12">
-              <div class="section-heading"><h3>National stocktaking exercise at district offices</h3></div>
-              <p>First phase of Stocktaking exercise was carried out to collect, store and integrate district wise database with metadata of FLR intervention across the country and other data related to private sector participation in Landscape restoration, community engagement and other parameters of interest to AREECA. At the end of exercise, approximately 12000 interventions were mapped along with attribute information
-              </p>
+        <div class="col-lg-12">
+          <div class="owl-weekly-offers owl-carousel">
+            <?php foreach($events as $event): 
+              $file_path = 'events/'.$event['images'][0];
+              ?>
+              <div class="item">
+                <div class="thumb">
+                  <div class="event-image-container"><img src="<?php echo(BASE_IMAGE_URL).$file_path ?>" alt=""></div>
+                  <div class="text">
+                    <h4><?php echo($event['name']); ?></h4>
+                    
+                    <div class="line-dec"></div>
+                    <ul>
+                      <li><i class="fa solid fa-clock"></i>&nbsp;<?php echo($event['date']); ?></li>
+                      <li><i class="fa solid fa-location-dot">&nbsp;</i><?php echo($event['venue']); ?></li>
+                      <li><?php echo($event['intro']); ?></li>
+                    </ul>
+                    <div class="main-button">
+                      <a href="reservation.html">Read More</a>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="col-md-12">
-                <img style="max-height:35vh;" src="<?php echo BASE_IMAGE_URL.'event-02.png';?>" >
-              </div>
-            </div>
-            <div class="item">
-              <div class="col-md-12">
-                <div class="section-heading"><h3>Validation workshop</h3></div>
-                <p>Validation workshop was hosted as phase two of stocktaking activity, to validate the mapping and quantification of FLR interventions at district level and to finalize a harmonized GIS database of ongoing/completed projects. Event aimed at finalizing the database that was created during phase one, fill data gaps and capture additional project data in the events of new projects. 
-Additionally Future opportunity mapping of FLR interventions was also carried out during workshop. Participants were given hard copy maps of their district to identify future intervention under five categories, best on model suitability results.
-</p>
-              </div>
-              <div class="col-md-12">
-                <img style="max-height:35vh;" src="<?php echo BASE_IMAGE_URL.'event-03.png';?>" >
-              </div>
-            </div>
+            <?php endforeach ?>
           </div>
         </div>
       </div>

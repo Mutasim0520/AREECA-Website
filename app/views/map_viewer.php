@@ -283,7 +283,7 @@
         var statistics = [counter_1, counter_2, counter_3, counter_4, counter_5];
 
           var myChart = new Chart(ctx, {
-              type: 'doughnut',  // Column chart type
+              type: 'bar',  // Column chart type
               data: {
                   labels: column_names,  // Labels for each column
                   datasets: [{

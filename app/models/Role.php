@@ -21,7 +21,6 @@ class Role extends Model {
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )";
             $this->db->exec($sql);
-            echo "Roles table created successfully.<br>";
         }catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
@@ -38,7 +37,6 @@ class Role extends Model {
                 )
             ";
             $this->db->exec($sql);
-            echo "User Roles table created successfully.<br>";
         }catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }

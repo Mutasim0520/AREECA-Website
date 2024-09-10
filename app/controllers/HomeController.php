@@ -7,6 +7,9 @@ class HomeController extends Controller {
     }
 
     public function events() {
-        $this->view('events', []);
+        $events = $this->model('Event')->getAllEvents();
+        // print_r($events);
+        $this->view('events', ['events' => $events]);
     }
+
 }

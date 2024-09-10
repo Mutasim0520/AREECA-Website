@@ -6,7 +6,6 @@ class Permission extends Model {
         try {
             $this->createPermissionTable();
         } catch (Exception $e) {
-            echo 'Table Creation Error: ' . $e->getMessage();
         }
     }
 

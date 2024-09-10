@@ -34,8 +34,12 @@ class Controller {
     }
 
     protected function is_authorized(){
-        if($this->$this->userRole){
-            $role_id = $_SESSION['role_id'];
+        if(isset($_SESSION['auth_token'])){
+           return TRUE;
+        }
+        else {
+            $_SESSION['message'] = "You are not authorized to perfor this action.\n";
+            return FALSE;
         }
     }
 

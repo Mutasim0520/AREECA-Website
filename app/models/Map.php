@@ -24,7 +24,6 @@ class Map extends Model {
                 )
             ";
             $this->db->exec($sql);
-            echo "Maps table created successfully.<br>";
         }catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }     
@@ -43,7 +42,7 @@ class Map extends Model {
                 )
             ";
             $this->db->exec($sql);
-            echo "MapGeoData table created successfully.<br>";
+           
         }catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }     
