@@ -166,64 +166,77 @@
 
 
         function renderMap(file_name) {
-              var data_file_path = base_url + 'app/storage/map_data_files/' + file_name;
+          var data_file_path = base_url + 'app/storage/map_data_files/' + file_name;
 
-              fetch(data_file_path)  // Fetch the GeoJSON file
-                  .then(response => response.json())
-                  .then(geojsonData => {
+          fetch(data_file_path)  // Fetch the GeoJSON file
+              .then(response => response.json())
+              .then(geojsonData => {
 
-                      // Remove the current layer if it exists
-                      if (currentLayer) {
-                          map.removeLayer(currentLayer);
-                      }
+            // Remove the current layer if it exists
+            if (currentLayer) {
+                map.removeLayer(currentLayer);
+            }
 
-                      // Add the new GeoJSON layer to the map and store it in currentLayer
-                      currentLayer = L.geoJSON(geojsonData, {
-                          onEachFeature: function (feature, layer) {
-                            var coordinates = feature.geometry.coordinates;
-                              // Define a function to create the popup content
-                              function createPopupContent() {
-                                  var properties = feature.properties;
-                                  var tableContent = `<div>
-                                                        <div>
-                                                          <p style="border-bottom: 1px solid #dfe2e6;">${file_name}</p>
-                                                        </div>
-                                                        <div>
-                                                          <p><span style="font-size:smaller">Lattitude: </span><span style="font-size:smaller"> ${coordinates[0]}</span></p>
-                                                          <p><span style="font-size:smaller">Longitude: </span><span style="font-size:smaller"> ${coordinates[1]}</span></p>
-                                                        </div>
-                                                        <div style="max-height: 40vh; overflow-y: auto;"><table class="table" style="font-size:smaller">
-                                                          <tbody>`;
-                                  for (var key in properties) {
-                                      if (properties.hasOwnProperty(key)) {
-                                          tableContent += `<tr><th>${key}</th><td>${properties[key]}</td></tr>`;
-                                      }
-                                  }
+            // Add the new GeoJSON layer to the map and store it in currentLayer
+            currentLayer = L.geoJSON(geojsonData, {
+                pointToLayer: function (feature, latlng) {
+                    // Use L.circleMarker to create colorful dots
+                    return L.circleMarker(latlng, {
+                        radius: 8,         // Size of the dot
+                        fillColor: "#FF5733",  // Fill color (choose any color you want)
+                        color: "#FF5733",      // Border color
+                        weight: 1,            // Border width
+                        opacity: 1,           // Border opacity
+                        fillOpacity: 0.8      // Fill opacity
+                    });
+                },
+                onEachFeature: function (feature, layer) {
+                    var coordinates = feature.geometry.coordinates;
+                    // Define a function to create the popup content
+                    function createPopupContent() {
+                        var properties = feature.properties;
+                        var tableContent = `<div>
+                                              <div>
+                                                <p style="border-bottom: 1px solid #dfe2e6;">${file_name}</p>
+                                              </div>
+                                              <div>
+                                                <p><span style="font-size:smaller">Latitude: </span><span style="font-size:smaller"> ${coordinates[1]}</span></p>
+                                                <p><span style="font-size:smaller">Longitude: </span><span style="font-size:smaller"> ${coordinates[0]}</span></p>
+                                              </div>
+                                              <div style="max-height: 40vh; overflow-y: auto;">
+                                                <table class="table" style="font-size:smaller">
+                                                  <tbody>`;
+                        for (var key in properties) {
+                            if (properties.hasOwnProperty(key)) {
+                                tableContent += `<tr><th>${key}</th><td>${properties[key]}</td></tr>`;
+                            }
+                        }
 
-                                  tableContent += '</tbody></table></div></div></div>'
-                                  return tableContent;
-                              }
+                        tableContent += '</tbody></table></div></div></div>';
+                        return tableContent;
+                    }
 
-                              // Bind a popup to the marker, set it to open when the marker is clicked
-                              layer.bindPopup(createPopupContent());
+                    // Bind a popup to the marker, set it to open when the marker is clicked
+                    layer.bindPopup(createPopupContent());
 
-                              // Ensure the popup opens on click every time
-                              layer.on('click', function() {
-                                  layer.openPopup();
-                              });
-                          }
-                      }).addTo(map);
-                      
-                      //Dynamically focus map based on data
-                      var bounds = currentLayer.getBounds();
-                      map.fitBounds(bounds);
+                    // Ensure the popup opens on click every time
+                    layer.on('click', function() {
+                        layer.openPopup();
+                    });
+                }
+            }).addTo(map);
 
-                      var contentDiv = document.getElementById("loaded_file_name");
-                      contentDiv.innerHTML = `<span style="font-weight:bold;">  Current File: ${file_name}</span>`
+            // Dynamically focus map based on data
+            var bounds = currentLayer.getBounds();
+            map.fitBounds(bounds);
 
-                  })
-                  .catch(error => console.error('Error loading GeoJSON:', error));
-          }
+            var contentDiv = document.getElementById("loaded_file_name");
+            contentDiv.innerHTML = `<span style="font-weight:bold;">  Current File: ${file_name}</span>`;
+
+        })
+        .catch(error => console.error('Error loading GeoJSON:', error));
+        }
+
 
         function updateContent(element_id,content) {
           // Get the div element by its ID
@@ -333,7 +346,8 @@
           $(document).on('click', '#pagination .page-link', function(e) {
               e.preventDefault();
               currentPage = $(this).data('page');
-              loadData(original_data);
+              renderTable();
+              renderPagination();
           });
       });
     </script>
