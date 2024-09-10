@@ -110,6 +110,26 @@
 		}
 	})
 
+	$('.owl-weekly-urls').owlCarousel({
+		items:1,
+		loop:true,
+		dots: false,
+		nav: true,
+		autoplay: true,
+		margin:15,
+		responsive:{
+			  0:{
+				  items:1
+			  },
+			  800:{
+				  items:3
+			  },
+			  1000:{
+				  items:3
+			}
+		}
+	})
+
 	$('.owl-banner').owlCarousel({
 		items:1,
 		loop:true,

@@ -17,7 +17,8 @@ class HomeController extends Controller {
     }
     public function documents(){
         $documents = $this->model('Document')->getAllDocuments();
-        return $this->view('documents', ['documents' => $documents]);
+        $urls = $this->model('Uri')->getAllUris();
+        return $this->view('documents', ['documents' => $documents, 'urls' => $urls]);
     }
 
 }

@@ -18,7 +18,7 @@
           <div class="row">
             <div class="col-lg-6 offset-lg-3">
               <div class="section-heading text-center">
-                <h1>L A T E S T &nbsp; E V E N T S</h1>
+                <h1>D O C U M E N T S</h1>
                 <hr>
               </div>
             </div>
@@ -42,6 +42,33 @@
               </nav>
             </div>
             <div class="itme"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-5 offset-lg-3">
+              <div class="section-heading text-center">
+                <h1>L I N K S</h1>
+                <hr>
+              </div>
+            </div>
+            <div class="col-lg-5 offset-lg-3">
+              <div class="owl-weekly-urls owl-carousel">
+                <?php foreach($urls as $url): 
+                 
+                  ?>
+                  <div class="item">
+                    <div class="thumb">
+                      <div class="event-image-container" style="text-align:center; font-size: larger; font-weight: 500;">
+                        <a href="<?php echo($url['perma_link']); ?>" target="_blank" rel="noopener noreferrer">
+                          <img src="<?php echo(BASE_IMAGE_URL).'link.png' ?>" alt=""> <?php echo($url['name']); ?> 
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                <?php endforeach ?>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -73,7 +100,6 @@
         let currentPage = 1;
         let original_data = JSON.parse(document.getElementById('data-script').textContent);
         let storage_path = (document.getElementById('data-script-storage-path').textContent) + "docs/";
-        console.log(storage_path);
 
         function loadData(data) {
           renderTable(data);

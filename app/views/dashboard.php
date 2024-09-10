@@ -155,8 +155,17 @@
             <div class="section-heading">
                 <h4>Documents Management</h4>
                 <p>Upload And Delete Important URL or Documents HERE</p>
-                <div class="border-button">
-                  <a href="#" data-toggle="modal" data-target="#uploadModalDocument">Add New Document</a>
+                <div class="row">
+                  <div class="col-md-2">
+                    <div class="border-button">
+                      <a href="#" data-toggle="modal" data-target="#uploadModalDocument">Add New Document</a>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="border-button">
+                      <a href="#" data-toggle="modal" data-target="#uploadModalURL">Add New URL</a>
+                    </div>
+                  </div>
                 </div>
               </div>
               <table class="table" id="documents_table">
@@ -176,146 +185,18 @@
                 </ul>
               </nav>
             </div>
-
         </div>
       </div>
     </div>
   </div>
+  <?php require 'includes/modals/uploadModalMap.php';?>
+  <?php require 'includes/modals/uploadModalDocument.php';?>
+  <?php require 'includes/modals/uploadModalEvent.php';?>
+  <?php require 'includes/modals/uploadModalURL.php';?>
+  <?php require 'includes/modals/deleteModalMap.php';?>
 
-  <!-- ***** Popup form of map file upload ***** -->
-  <div class="modal fade" id="uploadModalMap" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="uploadModalLabel">Upload File</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form id="uploadFormMap" action="<?php echo BASE_URL?>/map/upload" method="POST" enctype="multipart/form-data">
-            <div class="form-group">
-              <label for="fileInput">Choose file</label>
-              <input type="file" class="form-control" id="fileInput" name="file" required>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="uploadButtonMap">Upload</button>
-        </div>
-      </div>
-    </div>
-  </div>
+  
 
-   <!-- ***** Popup form of Document file upload ***** -->
-   <div class="modal fade" id="uploadModalDocument" tabindex="-1" role="dialog" aria-labelledby="uploadModalDocumentLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="uploadModalDocumentLabel">Upload New Document</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form id="uploadFormDocument" action="<?php echo BASE_URL?>/dashboard/uploadDocument" method="POST" enctype="multipart/form-data">
-            <div class="form-group">
-              <label for="fileInput">Choose file</label>
-              <input type="file" class="form-control" id="fileInput" name="file" required>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="uploadButtonDocument">Upload</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-   <!-- ***** Popup form for adding new event ***** -->
-  <div class="modal fade bd-example-modal-xl" id="uploadModalEvent" tabindex="-1" role="dialog" aria-labelledby="uploadModalEventLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2>Add a New Event</h2>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-          <form id="uploadFormEvent" action="<?php echo BASE_URL?>dashboard/addEvent" method="POST" enctype="multipart/form-data">
-            <div class="row">
-              <div class="col-md-12">
-                <div class="form-group">
-                  <label for="event_name">Event Name</label>
-                  <input type="text" class="form-control" id="event_name" name="event_name" required>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label for="venue">Venue</label>
-                  <input type="text" class="form-control" id="venue" name="venue" required>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label for="date">Date</label>
-                  <input type="date" class="form-control" id="date" name="date" required>
-                </div>
-              </div>
-              <div class="col-md-4">
-                  <div class="form-group">
-                    <label for="images">Choose file</label>
-                    <input type="file" class="form-control" id="images" name="images[]" multiple required>
-                  </div>
-              </div>
-              <div class="col-md-12">
-                  <div class="form-group">
-                    <label for="intro">Intro</label>
-                    <textarea class="form-control" id="intro" name="intro" rows="2"></textarea>
-                  </div>
-              </div>
-              <div class="col-md-12">
-                <div class="form-group">
-                    <label for="description">Description</label>
-                    <textarea class="form-control" id="description" name="description" rows="10"></textarea>
-                  </div>
-              </div>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="uploadButtonEvent">Upload</button>
-        </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ***** Confirmation Box for delete record ***** -->
-
-    <div class="modal fade" id="deleteModalMap" tabindex="-1" role="dialog" aria-labelledby="deleteModalMapLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header alert alert-danger">
-            <h5 class="modal-title" id="deleteModalMapLabel"><i class="fas fa-exclamation-triangle"></i><span> </span>Confimation: Delete Map </h5>
-          </div>
-          <div class="modal-body">
-            <p>Are you sure about Deleting this file?</p>
-            <form id="deleteFormMap" action="<?php echo BASE_URL?>/map/delete" method="POST">
-                <input type="hidden" name="id" id="map_id_delete"> <!-- Item ID to delete -->
-            </form>
-          </div>  
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="deleteMapButton">Confirm</button>
-          </div>
-        </div>
-      </div>
-    </div>
 
   <!-- ***** Popup for MAP View ***** -->
   <div class="modal fade bd-example-modal-lg" id="viewModalMap" tabindex="-1" role="dialog" aria-labelledby="viewModalMapLabel" aria-hidden="true">
@@ -451,12 +332,44 @@
     document.getElementById('uploadButtonMap').addEventListener('click', function() {
         document.getElementById('uploadFormMap').submit();
     });
-    document.getElementById('uploadModalEvent').addEventListener('click', function() {
+    document.getElementById('uploadButtonEvent').addEventListener('click', function() {
         document.getElementById('uploadFormEvent').submit();
+    });
+    document.getElementById('uploadButtonURL').addEventListener('click', function() {
+        document.getElementById('uploadFormURL').submit();
     });
     document.getElementById('deleteMapButton').addEventListener('click', function() {
         document.getElementById('deleteFormMap').submit();
     });
+
+    function handleModalActivation(activeSubmitId) {
+        $('button[type="submit"]').prop('disabled', true); // Disable all submit buttons
+        if (activeSubmitId) {
+            $('#' + activeSubmitId).prop('disabled', false); // Enable the submit button of the active modal
+        }
+      }
+
+      // Event listener for showing modals
+      $('#uploadModalDocument').on('show.bs.modal', function () {
+          handleModalActivation('uploadButtonDocument');
+      });
+
+      $('#uploadModalMap').on('show.bs.modal', function () {
+          handleModalActivation('uploadButtonMap');
+      });
+
+      $('#uploadModalEvent').on('show.bs.modal', function () {
+          handleModalActivation('uploadButtonEvent');
+      });
+
+      $('#uploadModalURL').on('show.bs.modal', function () {
+          handleModalActivation('uploadButtonURL');
+      });
+
+      // Event listener for closing modals
+      $('.modal').on('hide.bs.modal', function () {
+          handleModalActivation(null); // Disable all submit buttons when no modal is open
+      });
     
   </script>
 

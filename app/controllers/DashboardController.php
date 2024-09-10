@@ -7,6 +7,7 @@ class DashboardController extends Controller {
             $maps = $this->model('Map')->getMaps();
             $users = $this->model('User')->getAllUsersWithRoles();
             $reformattedMapData = $this->prepareMapDataForView($maps);
+            $documents = $this->model('Event')->getAllEvents();
             $this->view('dashboard', ['maps' => $reformattedMapData, 'users' => $users]);
         }
         else{
@@ -177,6 +178,32 @@ class DashboardController extends Controller {
         else{
             $this->redirectBack();
         }
+    }
+
+    public function uploadURL(){
+        $_SESSION['message_type'] = 'error';
+        $redirect_url = BASE_URL. 'dashboard/index';
+        if($this->is_authorized()){
+            if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+                $url = $_POST['perma_link'];
+                $name = $_POST['name'];
+                if (filter_var($url, FILTER_VALIDATE_URL) && strlen($name) <=100 && (preg_match("/^[a-zA-Z-0-9.:' ]+$/", $name))) {
+                    $add_url = $this->model('Uri')->insert($name,$url);
+                    if($add_url){
+                        $_SESSION['message_type'] = 'success'; 
+                        $_SESSION['message'] = "URL Successfully Added";
+                        return $this->redirect($redirect_url);
+                    }else{
+                        $_SESSION['message'] = "Something Went Wrong. Please Try AGAIN \n";
+                        return $this->redirectBack();
+                    }
+                } else {
+                    $_SESSION['message'] = "Not A valid URL or Name \n";
+                    return $this->redirectBack();
+                }
+            }
+        }
+        
     }
 
 }
