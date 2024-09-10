@@ -13,7 +13,7 @@
       <div class="row">
         <div class="col-lg-6 offset-lg-3">
           <div class="section-heading text-center">
-            <h1>Our Latest events</h1>
+            <h1>L A E S T &nbsp; E V E N T S</h1>
             <hr>
           </div>
           
@@ -40,7 +40,7 @@
                       <li><?php echo($event['intro']); ?></li>
                     </ul>
                     <div class="main-button">
-                      <a href="reservation.html">Read More</a>
+                      <a href="<?php echo(BASE_URL).'home/event/'.$event['id']?>">Read More</a>
                     </div>
                   </div>
                 </div>
