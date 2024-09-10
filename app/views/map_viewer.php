@@ -333,8 +333,7 @@
           $(document).on('click', '#pagination .page-link', function(e) {
               e.preventDefault();
               currentPage = $(this).data('page');
-              renderTable();
-              renderPagination();
+              loadData(original_data);
           });
       });
     </script>

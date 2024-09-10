@@ -40,7 +40,7 @@
                       <li><?php echo($event['intro']); ?></li>
                     </ul>
                     <div class="main-button">
-                      <a href="<?php echo(BASE_URL).'home/event/'.$event['id']?>">Read More</a>
+                      <a href="<?php echo(BASE_URL).'home/viewEvent/'.$event['id']?>">Read More</a>
                     </div>
                   </div>
                 </div>

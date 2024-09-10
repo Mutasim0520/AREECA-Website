@@ -150,7 +150,7 @@ class DashboardController extends Controller {
                         $fileDestination = $uploadDir . $fileNewName;
 
                         if (move_uploaded_file($fileTmpName, $fileDestination)){
-                            $doc_upload = $this->model('Document')->insert($fileNewName);
+                            $doc_upload = $this->model('Document')->insert($fileNewName, $fileName);
                             if($doc_upload){
 
                                 $_SESSION['message_type'] = 'success'; 

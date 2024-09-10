@@ -15,6 +15,7 @@ class Document extends Model {
             $sql = "CREATE TABLE IF NOT EXISTS documents (
                     id INT AUTO_INCREMENT PRIMARY KEY,
                     name VARCHAR(100) NOT NULL,
+                    real_name VARCHAR(100) NOT NULL,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )";
@@ -24,14 +25,15 @@ class Document extends Model {
         }  
     }
 
-    public function insert($name) {
+    public function insert($name,$real_name) {
         try {
             // Prepare an SQL statement
-            $sql = "INSERT INTO documents (name) VALUES (:name)";
+            $sql = "INSERT INTO documents (name,real_name) VALUES (:name, :real_name)";
             $query = $this->db->prepare($sql);
             
             // Bind parameters
             $query->bindParam(':name', $name);
+            $query->bindParam(':real_name', $real_name);
 
             // Execute the query
             if ($query->execute()) {
@@ -42,6 +44,20 @@ class Document extends Model {
             echo 'Insert error: ' . $e->getMessage();
             return false;
         }
+    }
+
+    public function getAllDocuments() {
+        $sql = "SELECT 
+                    *
+                FROM
+                    documents
+                ORDER BY
+                    name ASC";
+                    
+        $query = $this->db->prepare($sql);
+        $query->execute();
+        $results = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $results;
     }
 
     
