@@ -25,9 +25,9 @@
                   <tr>
                     <th colspan="3">
                       <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                           <select name="district" class="form-select" style ="font-size:smaller" aria-label="Default select example" id="map-table-district-filter" onChange="filterTable()">
-                            <option value="" selected>Filter District ....</option>
+                            <option value="null" selected>Filter District ....</option>
                             <?php
                               $filePath = 'C:\xampp\htdocs\AREECA\public\assets\districts.txt';
                                 // Read the file content into an array
@@ -38,7 +38,7 @@
                           </select>
                         </div>
                         
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                           <select name="type" class="form-select" style ="font-size:smaller" aria-label="Default select example" id="map-table-type-filter" onChange="filterTable()">
                             <option selected value="">filter Type ....</option>
                             <?php
@@ -49,7 +49,7 @@
                                 <option value="<?php echo $item; ?>"><?php echo $item; ?></option> 
                             <?php endforeach ?>
                           </select>
-                        </div>
+                        </div> -->
                       </div>
                     </th>
                   </tr>
@@ -103,12 +103,12 @@
         let original_data = JSON.parse(document.getElementById('data-script').textContent);
         var BASE_URL = '<?php echo BASE_URL; ?>';
 
-        function loadData(data,bool=false) {
-          renderTable(data,bool);
+        function loadData(data) {
+          renderTable(data);
           renderPagination(data);
         }
 
-        function renderTable(data,show_button = false) {
+        function renderTable(data) {
             const startIndex = (currentPage - 1) * rowsPerPage;
             const endIndex = startIndex + rowsPerPage;
             const paginatedData = data.slice(startIndex, endIndex);
@@ -116,29 +116,21 @@
             $('#data-table tbody').empty();
             var index_counter = 1;
             paginatedData.forEach(row => {
-                  if(show_button){
-                    $('#data-table tbody').append(`
-                    <tr>
-                        <td>${index_counter}</td>
-                        <td>${row['file_name']}</td>
-                        <td>
-                          <div class="main-button">
-                            <a style="padding:5px 12px" href="#" onclick="renderMap('${row['file_name']}')"><i class="fas fa-eye" title="View DataFile"></i></a>
-                          </div>
-                        </td>
-                    </tr>
-                  `);
-                  }
-                  else{
-                    $('#data-table tbody').append(`
-                    <tr>
-                        <td>${index_counter}</td>
-                        <td>${row['file_name']}</td>
-                    </tr>
-                  `);
-                  }
-                  index_counter = index_counter+1;
-                });
+              var check_box_id = 'check-box-' + index_counter;
+              $('#data-table tbody').append(`
+                <tr>
+                    <td>${index_counter}</td>
+                    <td>${row['file_name']}</td>
+                    <td>
+                      <div class="main-button">
+                        <input type="checkbox" id="${check_box_id}" onchange="handelCheckboxAction('${row['file_name']}','${check_box_id}')"></a>
+                      </div>
+                    </td>
+                </tr>
+              `);
+                 
+              index_counter = index_counter+1;
+            });
         }
 
         function renderPagination(data) {
@@ -164,78 +156,98 @@
             attribution: '&copy;<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a><span id="loaded_file_name" style="font-size:bold"></span>'
         }).addTo(map);
 
+        function handelCheckboxAction(file_name,id){
+          var checkbox = document.getElementById(id);
+          renderMap(file_name, checkbox.checked);
+        }
+        
+        
+        // Store each layer by file_name in this object
+        var layers = {};
 
-        function renderMap(file_name) {
-          var data_file_path = base_url + 'app/storage/map_data_files/' + file_name;
+        function renderMap(file_name, addLayer) {
+            var data_file_path = base_url + 'app/storage/map_data_files/' + file_name;
 
-          fetch(data_file_path)  // Fetch the GeoJSON file
-              .then(response => response.json())
-              .then(geojsonData => {
-
-            // Remove the current layer if it exists
-            if (currentLayer) {
-                map.removeLayer(currentLayer);
+            // If addLayer is false, remove the layer
+            if (!addLayer) {
+                if (layers[file_name]) {
+                    map.removeLayer(layers[file_name]);  // Remove the layer from the map
+                    delete layers[file_name];            // Remove from layers object
+                }
+                return;
             }
 
-            // Add the new GeoJSON layer to the map and store it in currentLayer
-            currentLayer = L.geoJSON(geojsonData, {
-                pointToLayer: function (feature, latlng) {
-                    // Use L.circleMarker to create colorful dots
-                    return L.circleMarker(latlng, {
-                        radius: 8,         // Size of the dot
-                        fillColor: "#FF5733",  // Fill color (choose any color you want)
-                        color: "#FF5733",      // Border color
-                        weight: 1,            // Border width
-                        opacity: 1,           // Border opacity
-                        fillOpacity: 0.8      // Fill opacity
-                    });
-                },
-                onEachFeature: function (feature, layer) {
-                    var coordinates = feature.geometry.coordinates;
-                    // Define a function to create the popup content
-                    function createPopupContent() {
-                        var properties = feature.properties;
-                        var tableContent = `<div>
-                                              <div>
-                                                <p style="border-bottom: 1px solid #dfe2e6;">${file_name}</p>
-                                              </div>
-                                              <div>
-                                                <p><span style="font-size:smaller">Latitude: </span><span style="font-size:smaller"> ${coordinates[1]}</span></p>
-                                                <p><span style="font-size:smaller">Longitude: </span><span style="font-size:smaller"> ${coordinates[0]}</span></p>
-                                              </div>
-                                              <div style="max-height: 40vh; overflow-y: auto;">
-                                                <table class="table" style="font-size:smaller">
-                                                  <tbody>`;
-                        for (var key in properties) {
-                            if (properties.hasOwnProperty(key)) {
-                                tableContent += `<tr><th>${key}</th><td>${properties[key]}</td></tr>`;
-                            }
-                        }
+            // Fetch and add the new layer if addLayer is true
+            fetch(data_file_path)
+                .then(response => response.json())
+                .then(geojsonData => {
 
-                        tableContent += '</tbody></table></div></div></div>';
-                        return tableContent;
+                    // If the layer already exists, do nothing
+                    if (layers[file_name]) {
+                        return;
                     }
 
-                    // Bind a popup to the marker, set it to open when the marker is clicked
-                    layer.bindPopup(createPopupContent());
+                    // Add the new GeoJSON layer to the map
+                    var newLayer = L.geoJSON(geojsonData, {
+                        pointToLayer: function (feature, latlng) {
+                            return L.circleMarker(latlng, {
+                                radius: 8,
+                                fillColor: "#FF5733",
+                                color: "#FF5733",
+                                weight: 1,
+                                opacity: 1,
+                                fillOpacity: 0.8
+                            });
+                        },
+                        onEachFeature: function (feature, layer) {
+                            var coordinates = feature.geometry.coordinates;
 
-                    // Ensure the popup opens on click every time
-                    layer.on('click', function() {
-                        layer.openPopup();
-                    });
-                }
-            }).addTo(map);
+                            function createPopupContent() {
+                                var properties = feature.properties;
+                                var tableContent = `<div>
+                                                      <div>
+                                                        <p style="border-bottom: 1px solid #dfe2e6;">${file_name}</p>
+                                                      </div>
+                                                      <div>
+                                                        <p><span style="font-size:smaller">Latitude: </span><span style="font-size:smaller"> ${coordinates[1]}</span></p>
+                                                        <p><span style="font-size:smaller">Longitude: </span><span style="font-size:smaller"> ${coordinates[0]}</span></p>
+                                                      </div>
+                                                      <div style="max-height: 40vh; overflow-y: auto;">
+                                                        <table class="table" style="font-size:smaller">
+                                                          <tbody>`;
+                                for (var key in properties) {
+                                    if (properties.hasOwnProperty(key)) {
+                                        tableContent += `<tr><th>${key}</th><td>${properties[key]}</td></tr>`;
+                                    }
+                                }
 
-            // Dynamically focus map based on data
-            var bounds = currentLayer.getBounds();
-            map.fitBounds(bounds);
+                                tableContent += '</tbody></table></div></div></div>';
+                                return tableContent;
+                            }
 
-            var contentDiv = document.getElementById("loaded_file_name");
-            contentDiv.innerHTML = `<span style="font-weight:bold;">  Current File: ${file_name}</span>`;
+                            layer.bindPopup(createPopupContent());
+                            layer.on('click', function() {
+                                layer.openPopup();
+                            });
+                        }
+                    }).addTo(map);
 
-        })
-        .catch(error => console.error('Error loading GeoJSON:', error));
+                    // Store the new layer in the layers object
+                    layers[file_name] = newLayer;
+                    console.log(layers);
+
+                    // Adjust map bounds to fit new data
+                    var bounds = newLayer.getBounds();
+                    map.fitBounds(bounds);
+
+                    // Update content to show the loaded file name
+                    var contentDiv = document.getElementById("loaded_file_name");
+                    contentDiv.innerHTML = `<span style="font-weight:bold;">Current File: ${file_name}</span>`;
+
+                })
+                .catch(error => console.error('Error loading GeoJSON:', error));
         }
+
 
 
         function updateContent(element_id,content) {
@@ -245,20 +257,22 @@
 
         function filterTable(){
           var selectedDistrict = document.getElementById("map-table-district-filter").value;
-          var selectedType = document.getElementById("map-table-type-filter").value;
+          // var selectedType = document.getElementById("map-table-type-filter").value;
 
           // Use filter to create a new filtered array without modifying the original array
           let filtered_data = original_data.filter(row => {
-              if (selectedDistrict && selectedType) {
-                  return row['district'] == selectedDistrict && row['type_tags'].includes(selectedType);
-              } else if (selectedDistrict) {
+              // if (selectedDistrict && selectedType) {
+              //     return row['district'] == selectedDistrict && row['type_tags'].includes(selectedType);
+              // } 
+              if (selectedDistrict) {
                   return row['district'] == selectedDistrict;
-              } else if (selectedType) {
-                  return row['type_tags'].includes(selectedType);
-              }
+              } 
+              // else if (selectedType) {
+              //     return row['type_tags'].includes(selectedType);
+              // }
           });
 
-          loadData(filtered_data,true);
+          loadData(filtered_data);
           loadGraph(filtered_data);
       }
 
@@ -346,7 +360,7 @@
           $(document).on('click', '#pagination .page-link', function(e) {
               e.preventDefault();
               currentPage = $(this).data('page');
-              renderTable();
+              renderTable(original_data);
               renderPagination();
           });
       });

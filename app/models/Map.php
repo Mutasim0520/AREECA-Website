@@ -73,7 +73,10 @@ class Map extends Model {
                 LEFT JOIN 
                     map_geo_data ON maps.id = map_geo_data.map_id
                 GROUP BY 
-                    maps.id";
+                    maps.id
+                ORDER BY
+                    maps.name ASC";
+                
 
                         
     
