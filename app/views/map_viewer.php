@@ -16,6 +16,12 @@
             <h1>E X P L O R E &nbsp;&nbsp;  M A P S</h1>
             <p id="map_data_detail">To see the map data click on the <i class="fas fa-eye" title="View DataFile"></i> icon on the records of the Data Files table.</p>
           </div>
+          <div class="row">
+          <div class="col-sm-12">
+            <div id="graph-container" style="background-color: #fdf9f6; padding: 20px; margin-bottom: 30px;">
+            </div>
+          </div>
+        </div>
         </div>
       </div>
       <div class="row">
@@ -70,13 +76,7 @@
               </nav>
           </div>
         </div>
-        <div class="row">
-          <div class="col-sm-12">
-            <div id="graph-container">
-
-            </div>
-          </div>
-        </div>
+        
           
           
         </div>
@@ -179,88 +179,103 @@
         
 
         function renderMap(file_name, addLayer) {
-            var data_file_path = BASE_URL + 'app/storage/map_data_files/' + file_name;
+          var data_file_path = BASE_URL + 'app/storage/map_data_files/' + file_name;
 
-            // If addLayer is false, remove the layer
-            if (!addLayer) {
-                if (layers[file_name]) {
-                    map.removeLayer(layers[file_name]);  // Remove the layer from the map
-                    delete layers[file_name];            // Remove from layers object
-                }
-                loadGraph();
-                return;
+          // If addLayer is false, remove the layer
+          if (!addLayer) {
+              if (layers[file_name]) {
+                  map.removeLayer(layers[file_name]);  // Remove the layer from the map
+                  delete layers[file_name];            // Remove from layers object
+              }
+              loadGraph();
+              return;
+          }
+
+          // Fetch and add the new layer if addLayer is true
+          fetch(data_file_path)
+              .then(response => response.json())
+              .then(geojsonData => {
+
+                  // If the layer already exists, do nothing
+                  if (layers[file_name]) {
+                      return;
+                  }
+
+                  // Define a color map based on a property
+                  const colorMap = {
+                      'River and Stream bank Restoration': 'rgba(255, 99, 132)', 
+                      'Soil and Water Conservation': 'rgba(54, 162, 235)', 
+                      'Community Forest and Woodlots': 'rgba(255, 206, 86)',
+                      'Forest Management': 'rgba(75, 192, 192)',
+                      'Improved Agricultural Technologie': 'rgba(153, 102, 255)', 
+                     
+                  };
+
+                  // Add the new GeoJSON layer to the map
+                  var newLayer = L.geoJSON(geojsonData, {
+                      pointToLayer: function (feature, latlng) {
+                          // Determine the color based on the feature's properties
+                          var type = feature.properties.Type; // Adjust this to match your GeoJSON property
+                          var color = colorMap[type] || '#000000'; // Default to black if type is not found
+
+                          return L.circleMarker(latlng, {
+                              radius: 8,
+                              fillColor: color,
+                              color: color,
+                              weight: 1,
+                              opacity: 1,
+                              fillOpacity: 0.8
+                          });
+                      },
+                      onEachFeature: function (feature, layer) {
+                          var coordinates = feature.geometry.coordinates;
+
+                          function createPopupContent() {
+                              var properties = feature.properties;
+                              var tableContent = `<div>
+                                                    <div>
+                                                      <p style="border-bottom: 1px solid #dfe2e6;">${file_name}</p>
+                                                    </div>
+                                                    <div>
+                                                      <p><span style="font-size:smaller">Latitude: </span><span style="font-size:smaller"> ${coordinates[1]}</span></p>
+                                                      <p><span style="font-size:smaller">Longitude: </span><span style="font-size:smaller"> ${coordinates[0]}</span></p>
+                                                    </div>
+                                                    <div style="max-height: 40vh; overflow-y: auto;">
+                                                      <table class="table" style="font-size:smaller">
+                                                        <tbody>`;
+                              for (var key in properties) {
+                                  if (properties.hasOwnProperty(key)) {
+                                      tableContent += `<tr><th>${key}</th><td>${properties[key]}</td></tr>`;
+                                  }
+                              }
+
+                              tableContent += '</tbody></table></div></div></div>';
+                              return tableContent;
+                          }
+
+                          layer.bindPopup(createPopupContent());
+                          layer.on('click', function() {
+                              layer.openPopup();
+                          });
+                      }
+                  }).addTo(map);
+
+                  // Store the new layer in the layers object
+                  layers[file_name] = newLayer;
+
+                  // Adjust map bounds to fit new data
+                  var bounds = newLayer.getBounds();
+                  map.fitBounds(bounds);
+
+                  // Update content to show the loaded file name
+                  var contentDiv = document.getElementById("loaded_file_name");
+                  contentDiv.innerHTML = `<span style="font-weight:bold;">Current File: ${file_name}</span>`;
+                  loadGraph();
+
+              })
+              .catch(error => console.error('Error loading GeoJSON:', error));
             }
 
-            // Fetch and add the new layer if addLayer is true
-            fetch(data_file_path)
-                .then(response => response.json())
-                .then(geojsonData => {
-
-                    // If the layer already exists, do nothing
-                    if (layers[file_name]) {
-                        return;
-                    }
-
-                    // Add the new GeoJSON layer to the map
-                    var newLayer = L.geoJSON(geojsonData, {
-                        pointToLayer: function (feature, latlng) {
-                            return L.circleMarker(latlng, {
-                                radius: 8,
-                                fillColor: "#FF5733",
-                                color: "#FF5733",
-                                weight: 1,
-                                opacity: 1,
-                                fillOpacity: 0.8
-                            });
-                        },
-                        onEachFeature: function (feature, layer) {
-                            var coordinates = feature.geometry.coordinates;
-
-                            function createPopupContent() {
-                                var properties = feature.properties;
-                                var tableContent = `<div>
-                                                      <div>
-                                                        <p style="border-bottom: 1px solid #dfe2e6;">${file_name}</p>
-                                                      </div>
-                                                      <div>
-                                                        <p><span style="font-size:smaller">Latitude: </span><span style="font-size:smaller"> ${coordinates[1]}</span></p>
-                                                        <p><span style="font-size:smaller">Longitude: </span><span style="font-size:smaller"> ${coordinates[0]}</span></p>
-                                                      </div>
-                                                      <div style="max-height: 40vh; overflow-y: auto;">
-                                                        <table class="table" style="font-size:smaller">
-                                                          <tbody>`;
-                                for (var key in properties) {
-                                    if (properties.hasOwnProperty(key)) {
-                                        tableContent += `<tr><th>${key}</th><td>${properties[key]}</td></tr>`;
-                                    }
-                                }
-
-                                tableContent += '</tbody></table></div></div></div>';
-                                return tableContent;
-                            }
-
-                            layer.bindPopup(createPopupContent());
-                            layer.on('click', function() {
-                                layer.openPopup();
-                            });
-                        }
-                    }).addTo(map);
-
-                    // Store the new layer in the layers object
-                    layers[file_name] = newLayer;
-
-                    // Adjust map bounds to fit new data
-                    var bounds = newLayer.getBounds();
-                    map.fitBounds(bounds);
-
-                    // Update content to show the loaded file name
-                    var contentDiv = document.getElementById("loaded_file_name");
-                    contentDiv.innerHTML = `<span style="font-weight:bold;">Current File: ${file_name}</span>`;
-                    loadGraph();
-
-                })
-                .catch(error => console.error('Error loading GeoJSON:', error));
-        }
 
 
 
@@ -301,9 +316,13 @@
                       });
         
         var element = '#graph-container';
+        var caption = "Accumulated HAUnderRes of " + selectedDistricts.join(', ');
         $(element).empty();
         $(element).append(`
-           <canvas id="myChart" max-width="90%" max-height="90%"></canvas>
+           <figure>
+            <figcaption style="text-align: center; text-align: center; color: #4b3232; font-weight: 500;">${caption}</figcaption>
+              <canvas id="myChart" style="max-height:400px;"></canvas>
+          </figure>
         `);
         var ctx = document.getElementById('myChart').getContext('2d');
         var column_names = ["River and Stream bank Restoration", "Soil and Water Conservation", "Community Forest and Woodlots", "Forest Management", "Improved Agricultural Technologie"];
@@ -336,7 +355,7 @@
               data: {
                   labels: column_names,  // Labels for each column
                   datasets: [{
-                      label: 'HAUnderRes',
+                      label: '',
                       data: statistics,  // Data for each column
                       backgroundColor: [
                           'rgba(255, 99, 132, 0.2)',  // Color for Jan

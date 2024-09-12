@@ -254,6 +254,10 @@ section {
   border-radius: inherit; /* Match the container's border radius */
 }
 
+.graph-container {
+  background-color: #f7f7f7; padding: 20px; margin-bottom: 30px;
+}
+
 
 /* 
 ---------------------------------------------
