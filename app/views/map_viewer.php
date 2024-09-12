@@ -207,7 +207,7 @@
                       'Soil and Water Conservation': 'rgba(54, 162, 235)', 
                       'Community Forest and Woodlots': 'rgba(255, 206, 86)',
                       'Forest Management': 'rgba(75, 192, 192)',
-                      'Improved Agricultural Technologie': 'rgba(153, 102, 255)', 
+                      'Improved Agricultural Technologies': 'rgba(153, 102, 255)', 
                      
                   };
 
@@ -325,7 +325,7 @@
           </figure>
         `);
         var ctx = document.getElementById('myChart').getContext('2d');
-        var column_names = ["River and Stream bank Restoration", "Soil and Water Conservation", "Community Forest and Woodlots", "Forest Management", "Improved Agricultural Technologie"];
+        var column_names = ["River and Stream bank Restoration", "Soil and Water Conservation", "Community Forest and Woodlots", "Forest Management", "Improved Agricultural Technologies"];
         var counter_1 = 0;
         var counter_2 = 0;
         var counter_3 = 0;
@@ -342,8 +342,8 @@
               counter_3 = counter_3 + item['properties']['HaUnderRes'];
             }else if(item['properties']['Type'] == 'Forest Management'){
               counter_4 = counter_4 + item['properties']['HaUnderRes'];
-            }else if(item['properties']['Type'] == 'Improved Agricultural Technologie'){
-              counter_5 = counter_5 + item['HaUnderRes'];
+            }else if(item['properties']['Type'] == 'Improved Agricultural Technologies'){
+              counter_5 = counter_5 + item['properties']['HaUnderRes'];
             }
           });
         });
