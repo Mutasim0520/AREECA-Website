@@ -14,9 +14,9 @@
   
     <div class="wrapper">
       <div class="visit-country">
-        <div class="container-fluid">
+        <div class="container">
           <div class="row">
-            <div class="col-lg-4">
+            <div class="col-lg-6">
               <div class="col-lg-12">
                 <h2><?php echo($event[0]['name']);?></h2>
               </div>
@@ -24,7 +24,7 @@
                 <p style="text-align:justify"><?php echo($event[0]['description']);?></p>
               </div>
             </div>
-            <div class="col-lg-8">
+            <div class="col-lg-6">
             
               <section id="section-1">
                 <div class="content-slider">

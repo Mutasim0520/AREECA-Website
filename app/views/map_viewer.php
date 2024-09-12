@@ -63,7 +63,7 @@
                   </tr>
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Name</th>
+                    <th scope="col">Table of Content</th>
                     <th scope="col"></th>
                   </tr>
                 </thead>
@@ -83,8 +83,13 @@
         <!-- <div class="col-lg-4">
           <canvas id="myChart" width="400" height="200"></canvas>
         </div> -->
-        <div class="col-lg-9">
+        <div class="col-lg-7">
           <div id="map"></div>
+        </div>
+        <div class="col-lg-2">
+          <div id="map-info">
+            <h5>I N F O </h5>
+          </div>
         </div>
       </div>
     </div>
@@ -224,7 +229,7 @@
                               color: color,
                               weight: 1,
                               opacity: 1,
-                              fillOpacity: 0.8
+                              fillOpacity: 0.7
                           });
                       },
                       onEachFeature: function (feature, layer) {
@@ -316,11 +321,10 @@
                       });
         
         var element = '#graph-container';
-        var caption = "Accumulated HAUnderRes of " + selectedDistricts.join(', ');
+        var caption = "Accumulated HAUnderRes of the following Districts: " + selectedDistricts.join(', ');
         $(element).empty();
         $(element).append(`
            <figure>
-            <figcaption style="text-align: center; text-align: center; color: #4b3232; font-weight: 500;">${caption}</figcaption>
               <canvas id="myChart" style="max-height:400px;"></canvas>
           </figure>
         `);
@@ -355,7 +359,7 @@
               data: {
                   labels: column_names,  // Labels for each column
                   datasets: [{
-                      label: '',
+                      label: caption,
                       data: statistics,  // Data for each column
                       backgroundColor: [
                           'rgba(255, 99, 132, 0.2)',  // Color for Jan
