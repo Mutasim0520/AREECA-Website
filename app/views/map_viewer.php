@@ -20,6 +20,8 @@
       </div>
       <div class="row">
         <div class="col-lg-3">
+        <div class="row">
+          <div class="col-sm-12">
           <table class="table table-responsive" id="data-table" style="font-size:smaller;">
                 <thead class="thead-light">
                   <tr>
@@ -27,10 +29,10 @@
                       <div class="row">
                         <div class="col-md-12">
                           <select name="district" class="form-select" style ="font-size:smaller" aria-label="Default select example" id="map-table-district-filter" onChange="filterTable()">
-                            <option value="null" selected>Filter District ....</option>
+                            <option value="" selected>Filter District ....</option>
                             <?php
                               $filePath = 'C:\xampp\htdocs\AREECA\public\assets\districts.txt';
-                                // Read the file content into an array
+              
                               $districts = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
                               foreach($districts as $item): ?>
                                 <option value="<?php echo $item; ?>"><?php echo $item; ?></option> 
@@ -66,6 +68,17 @@
                       <!-- Pagination links will be inserted here -->
                 </ul>
               </nav>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <div id="graph-container">
+
+            </div>
+          </div>
+        </div>
+          
+          
         </div>
         <!-- <div class="col-lg-4">
           <canvas id="myChart" width="400" height="200"></canvas>
@@ -149,7 +162,8 @@
         //Initial map
         var map = L.map('map').setView([-14.996665839805985, 35.04404396532377], 7.5);
         var currentLayer = null;
-        var base_url = '<?php echo BASE_URL; ?>';
+        // Store each layer by file_name in this object
+        var layers = {};
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
@@ -162,11 +176,10 @@
         }
         
         
-        // Store each layer by file_name in this object
-        var layers = {};
+        
 
         function renderMap(file_name, addLayer) {
-            var data_file_path = base_url + 'app/storage/map_data_files/' + file_name;
+            var data_file_path = BASE_URL + 'app/storage/map_data_files/' + file_name;
 
             // If addLayer is false, remove the layer
             if (!addLayer) {
@@ -174,6 +187,7 @@
                     map.removeLayer(layers[file_name]);  // Remove the layer from the map
                     delete layers[file_name];            // Remove from layers object
                 }
+                loadGraph();
                 return;
             }
 
@@ -234,7 +248,6 @@
 
                     // Store the new layer in the layers object
                     layers[file_name] = newLayer;
-                    console.log(layers);
 
                     // Adjust map bounds to fit new data
                     var bounds = newLayer.getBounds();
@@ -243,6 +256,7 @@
                     // Update content to show the loaded file name
                     var contentDiv = document.getElementById("loaded_file_name");
                     contentDiv.innerHTML = `<span style="font-weight:bold;">Current File: ${file_name}</span>`;
+                    loadGraph();
 
                 })
                 .catch(error => console.error('Error loading GeoJSON:', error));
@@ -257,31 +271,39 @@
 
         function filterTable(){
           var selectedDistrict = document.getElementById("map-table-district-filter").value;
-          // var selectedType = document.getElementById("map-table-type-filter").value;
-
-          // Use filter to create a new filtered array without modifying the original array
-          let filtered_data = original_data.filter(row => {
-              // if (selectedDistrict && selectedType) {
-              //     return row['district'] == selectedDistrict && row['type_tags'].includes(selectedType);
-              // } 
+          if (selectedDistrict === ""){
+            loadData(original_data);
+          }
+          
+          else{
+            let filtered_data = original_data.filter(row => { 
               if (selectedDistrict) {
                   return row['district'] == selectedDistrict;
-              } 
-              // else if (selectedType) {
-              //     return row['type_tags'].includes(selectedType);
-              // }
+              }
           });
 
-          loadData(filtered_data);
-          loadGraph(filtered_data);
+            loadData(filtered_data);
+          }
       }
 
-      function loadGraph(data){
-        var element = '#data-table tbody';
+      function loadGraph(){
+        let valuesArray = Object.keys(layers);
+        let selectedDistricts = valuesArray.map(item => item.replace(".geojson", ""));
+
+
+        let graph_data = original_data.filter(row => { 
+                        if (selectedDistricts && selectedDistricts.length > 0) {
+                            return selectedDistricts.includes(row['district']); // Check if the row's district is in the selectedDistricts array
+
+                        } else {
+                            return true; // Return all data if no districts are selected
+                        }
+                      });
+        
+        var element = '#graph-container';
+        $(element).empty();
         $(element).append(`
-            <tr>
-              <td colspan=3><canvas id="myChart" max-width="90%" max-height="75%"></canvas></td>
-            </tr>
+           <canvas id="myChart" max-width="90%" max-height="90%"></canvas>
         `);
         var ctx = document.getElementById('myChart').getContext('2d');
         var column_names = ["River and Stream bank Restoration", "Soil and Water Conservation", "Community Forest and Woodlots", "Forest Management", "Improved Agricultural Technologie"];
@@ -291,7 +313,7 @@
         var counter_4 = 0;
         var counter_5 = 0;
 
-        data.forEach(row =>{
+        graph_data.forEach(row =>{
           row['features']['properties'].forEach(item =>{
             if(item['properties']['Type'] == 'River and Stream bank Restoration'){
               counter_1 = counter_1 + parseFloat(item['properties']['HaUnderRes']);
@@ -314,7 +336,7 @@
               data: {
                   labels: column_names,  // Labels for each column
                   datasets: [{
-                      label: 'Areas',
+                      label: 'HAUnderRes',
                       data: statistics,  // Data for each column
                       backgroundColor: [
                           'rgba(255, 99, 132, 0.2)',  // Color for Jan
