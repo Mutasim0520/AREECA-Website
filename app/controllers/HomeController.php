@@ -13,7 +13,8 @@ class HomeController extends Controller {
 
     public function viewEvent($id){
         $event = $this->model('Event')->getEventByID($id);
-        return $this->view('event-detail', ['event' => $event]);
+        $events = $this->model('Event')->getAllEvents();
+        return $this->view('event-detail', ['event' => $event, 'events' => $events]);
     }
     public function documents(){
         $documents = $this->model('Document')->getAllDocuments();

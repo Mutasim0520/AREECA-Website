@@ -934,6 +934,11 @@ Banner Style
 #section-1 .content-slider nav .controls label:hover {
   color: #673617;
 }
+
+#data-table tr  td{
+  padding: .60em;
+}
+
 #section-1 .content-slider #banner1:checked ~ .slider #top-banner-1,
 #section-1 .content-slider #banner2:checked ~ .slider #top-banner-2,
 #section-1 .content-slider #banner3:checked ~ .slider #top-banner-3,

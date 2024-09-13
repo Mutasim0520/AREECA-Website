@@ -62,16 +62,13 @@
       <div class="container">
         <div class="row">
           <div class="section-heading">
-            
-              <h2>HEADING TO PUT</h2>
-            </div>
-            <div class="col-lg-12">
-              <p style="text-align:justify">The World Bank as one of the partners of the IKI programme has supported the updation of national FLR strategy in Malawi through a comprehensive analytical approach--multicriteria based degradation mapping, drone mapping of degradation hotspots, National FLR opportunity assessment and stocktaking, knowledge sharing--to scale up FLR by unlocking technical, economic, financial, social and environmental challenges to alleviate affects of climate change and biodiversity loss. The activities facilitated by the Bank under AREECA intended to highlight landscape investment of ongoing landscape projects and to enable new operations/initiatives to make better informed decisions and planning of future projects. Additionally, it is also supporting to country’s (Malawi) COP 28 commitment of restoring 4.5 million ha area with GIS based evidence.
+            <h2>HEADING TO PUT</h2>
+          </div>
+          <div class="col-lg-12">
+            <p style="text-align:justify">The World Bank as one of the partners of the IKI programme has supported the updation of national FLR strategy in Malawi through a comprehensive analytical approach--multicriteria based degradation mapping, drone mapping of degradation hotspots, National FLR opportunity assessment and stocktaking, knowledge sharing--to scale up FLR by unlocking technical, economic, financial, social and environmental challenges to alleviate affects of climate change and biodiversity loss. The activities facilitated by the Bank under AREECA intended to highlight landscape investment of ongoing landscape projects and to enable new operations/initiatives to make better informed decisions and planning of future projects. Additionally, it is also supporting to country’s (Malawi) COP 28 commitment of restoring 4.5 million ha area with GIS based evidence.
   This website is designed to disseminate project outcomes, reports, GIS data from stocktaking and opportunity database as well as some highlights of events hosted during the programme.
-              </p>
-            </div>
-          
-          
+            </p>
+          </div>
         </div>
       </div>
     </div>

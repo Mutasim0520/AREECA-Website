@@ -4,6 +4,13 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <?php require 'includes/header.php'; ?>
+<style>
+  .graph-container{
+    background-color: #f7f7f7;
+    padding: 20px;
+    margin-bottom: 30px;
+  }
+</style>
 <body>
   <!-- ***** Menu bar ***** -->
   <?php require 'includes/menu.php'; ?>
@@ -18,14 +25,14 @@
           </div>
           <div class="row">
           <div class="col-sm-12">
-            <div id="graph-container" style="background-color: #fdf9f6; padding: 20px; margin-bottom: 30px;">
+            <div id="graph-container">
             </div>
           </div>
         </div>
         </div>
       </div>
       <div class="row">
-        <div class="col-lg-3">
+        <div class="col-lg-2">
         <div class="row">
           <div class="col-sm-12">
           <table class="table table-responsive" id="data-table" style="font-size:smaller;">
@@ -83,13 +90,8 @@
         <!-- <div class="col-lg-4">
           <canvas id="myChart" width="400" height="200"></canvas>
         </div> -->
-        <div class="col-lg-7">
+        <div class="col-lg-10">
           <div id="map"></div>
-        </div>
-        <div class="col-lg-2">
-          <div id="map-info">
-            <h5>I N F O </h5>
-          </div>
         </div>
       </div>
     </div>
@@ -322,6 +324,10 @@
         
         var element = '#graph-container';
         var caption = "Accumulated HAUnderRes of the following Districts: " + selectedDistricts.join(', ');
+        
+        if(selectedDistricts){
+          document.getElementById('graph-container').classList.add('graph-container');
+        }
         $(element).empty();
         $(element).append(`
            <figure>
