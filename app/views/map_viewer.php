@@ -3,6 +3,7 @@
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 <?php require 'includes/header.php'; ?>
 <style>
   .graph-container{
@@ -10,6 +11,14 @@
     padding: 20px;
     margin-bottom: 30px;
   }
+  .custom-legend {
+    background-color: white;
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    line-height: 1.5;  /* Optional: adjust spacing between lines */
+}
 </style>
 <body>
   <!-- ***** Menu bar ***** -->
@@ -122,6 +131,13 @@
         let currentPage = 1;
         let original_data = JSON.parse(document.getElementById('data-script').textContent);
         var BASE_URL = '<?php echo BASE_URL; ?>';
+        const colorMap = {
+                          'River and Stream bank Restoration': 'rgba(2, 205, 255, 0.7)', 
+                          'Soil and Water Conservation': 'rgba(122, 68, 0, 0.7)', 
+                          'Community Forest and Woodlots': 'rgba(142, 255, 133, 0.7)',
+                          'Forest Management': 'rgba(2, 87, 42, 0.7)',
+                          'Improved Agricultural Technologies': 'rgba(247, 240, 15, 0.7)', 
+                      };
 
         function loadData(data) {
           renderTable(data);
@@ -140,7 +156,7 @@
               $('#data-table tbody').append(`
                 <tr>
                     <td>${index_counter}</td>
-                    <td>${row['file_name']}</td>
+                    <td>${row['district']}</td>
                     <td>
                       <div class="main-button">
                         <input type="checkbox" id="${check_box_id}" onchange="handelCheckboxAction('${row['file_name']}','${check_box_id}')"></a>
@@ -177,6 +193,8 @@
             attribution: '&copy;<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a><span id="loaded_file_name" style="font-size:bold"></span>'
         }).addTo(map);
 
+        addLegend(map, colorMap);
+
         function handelCheckboxAction(file_name,id){
           var checkbox = document.getElementById(id);
           renderMap(file_name, checkbox.checked);
@@ -186,102 +204,119 @@
         
 
         function renderMap(file_name, addLayer) {
-          var data_file_path = BASE_URL + 'app/storage/map_data_files/' + file_name;
+              var data_file_path = BASE_URL + 'app/storage/map_data_files/' + file_name;
 
-          // If addLayer is false, remove the layer
-          if (!addLayer) {
-              if (layers[file_name]) {
-                  map.removeLayer(layers[file_name]);  // Remove the layer from the map
-                  delete layers[file_name];            // Remove from layers object
-              }
-              loadGraph();
-              return;
-          }
-
-          // Fetch and add the new layer if addLayer is true
-          fetch(data_file_path)
-              .then(response => response.json())
-              .then(geojsonData => {
-
-                  // If the layer already exists, do nothing
+              // If addLayer is false, remove the layer
+              if (!addLayer) {
                   if (layers[file_name]) {
-                      return;
+                      map.removeLayer(layers[file_name]);  // Remove the layer from the map
+                      delete layers[file_name];            // Remove from layers object
                   }
+                  loadGraph();
+                  return;
+              }
 
-                  // Define a color map based on a property
-                  const colorMap = {
-                      'River and Stream bank Restoration': 'rgba(255, 99, 132)', 
-                      'Soil and Water Conservation': 'rgba(54, 162, 235)', 
-                      'Community Forest and Woodlots': 'rgba(255, 206, 86)',
-                      'Forest Management': 'rgba(75, 192, 192)',
-                      'Improved Agricultural Technologies': 'rgba(153, 102, 255)', 
-                     
-                  };
+              // Fetch and add the new layer if addLayer is true
+              fetch(data_file_path)
+                  .then(response => response.json())
+                  .then(geojsonData => {
 
-                  // Add the new GeoJSON layer to the map
-                  var newLayer = L.geoJSON(geojsonData, {
-                      pointToLayer: function (feature, latlng) {
-                          // Determine the color based on the feature's properties
-                          var type = feature.properties.Type; // Adjust this to match your GeoJSON property
-                          var color = colorMap[type] || '#000000'; // Default to black if type is not found
+                      // If the layer already exists, do nothing
+                      if (layers[file_name]) {
+                          return;
+                      }
+                      
 
-                          return L.circleMarker(latlng, {
-                              radius: 8,
-                              fillColor: color,
-                              color: color,
-                              weight: 1,
-                              opacity: 1,
-                              fillOpacity: 0.7
-                          });
-                      },
-                      onEachFeature: function (feature, layer) {
-                          var coordinates = feature.geometry.coordinates;
+                      // Add the new GeoJSON layer to the map
+                      var newLayer = L.geoJSON(geojsonData, {
+                          pointToLayer: function (feature, latlng) {
+                              // Determine the color based on the feature's properties
+                              var type = feature.properties.Type; // Adjust this to match your GeoJSON property
+                              var color = colorMap[type] || '#000000'; // Default to black if type is not found
 
-                          function createPopupContent() {
-                              var properties = feature.properties;
-                              var tableContent = `<div>
-                                                    <div>
-                                                      <p style="border-bottom: 1px solid #dfe2e6;">${file_name}</p>
-                                                    </div>
-                                                    <div>
-                                                      <p><span style="font-size:smaller">Latitude: </span><span style="font-size:smaller"> ${coordinates[1]}</span></p>
-                                                      <p><span style="font-size:smaller">Longitude: </span><span style="font-size:smaller"> ${coordinates[0]}</span></p>
-                                                    </div>
-                                                    <div style="max-height: 40vh; overflow-y: auto;">
-                                                      <table class="table" style="font-size:smaller">
-                                                        <tbody>`;
-                              for (var key in properties) {
-                                  if (properties.hasOwnProperty(key)) {
-                                      tableContent += `<tr><th>${key}</th><td>${properties[key]}</td></tr>`;
+                              return L.circleMarker(latlng, {
+                                  radius: 8,
+                                  fillColor: color,
+                                  color: color,
+                                  weight: 1,
+                                  opacity: 1,
+                                  fillOpacity: 0.7
+                              });
+                          },
+                          onEachFeature: function (feature, layer) {
+                              var coordinates = feature.geometry.coordinates;
+
+                              function createPopupContent() {
+                                  var properties = feature.properties;
+                                  var tableContent = `<div>
+                                                        <div>
+                                                          <p style="border-bottom: 1px solid #dfe2e6;">${file_name}</p>
+                                                        </div>
+                                                        <div>
+                                                          <p><span style="font-size:smaller">Latitude: </span><span style="font-size:smaller"> ${coordinates[1]}</span></p>
+                                                          <p><span style="font-size:smaller">Longitude: </span><span style="font-size:smaller"> ${coordinates[0]}</span></p>
+                                                        </div>
+                                                        <div style="max-height: 40vh; overflow-y: auto;">
+                                                          <table class="table" style="font-size:smaller">
+                                                            <tbody>`;
+                                  for (var key in properties) {
+                                      if (properties.hasOwnProperty(key)) {
+                                          tableContent += `<tr><th>${key}</th><td>${properties[key]}</td></tr>`;
+                                      }
                                   }
+
+                                  tableContent += '</tbody></table></div></div></div>';
+                                  return tableContent;
                               }
 
-                              tableContent += '</tbody></table></div></div></div>';
-                              return tableContent;
+                              layer.bindPopup(createPopupContent());
+                              layer.on('click', function() {
+                                  layer.openPopup();
+                              });
                           }
+                      }).addTo(map);
 
-                          layer.bindPopup(createPopupContent());
-                          layer.on('click', function() {
-                              layer.openPopup();
-                          });
-                      }
-                  }).addTo(map);
+                      // Store the new layer in the layers object
+                      layers[file_name] = newLayer;
 
-                  // Store the new layer in the layers object
-                  layers[file_name] = newLayer;
+                      // Adjust map bounds to fit new data
+                      var bounds = newLayer.getBounds();
+                      map.fitBounds(bounds);
 
-                  // Adjust map bounds to fit new data
-                  var bounds = newLayer.getBounds();
-                  map.fitBounds(bounds);
+                      // Update content to show the loaded file name
+                      var contentDiv = document.getElementById("loaded_file_name");
+                      contentDiv.innerHTML = `<span style="font-weight:bold;">Current File: ${file_name}</span>`;
+                      loadGraph();
 
-                  // Update content to show the loaded file name
-                  var contentDiv = document.getElementById("loaded_file_name");
-                  contentDiv.innerHTML = `<span style="font-weight:bold;">Current File: ${file_name}</span>`;
-                  loadGraph();
+                
+                    
 
-              })
-              .catch(error => console.error('Error loading GeoJSON:', error));
+                  })
+                  .catch(error => console.error('Error loading GeoJSON:', error));
+          }
+
+    // Function to add the legend
+    function addLegend(map, colorMap) {
+        var legend = L.control({ position: 'bottomright' });
+
+        legend.onAdd = function () {
+            var div = L.DomUtil.create('div', 'info legendc custom-legend');
+
+            // Create legend content
+            var legendHtml = '<h6>Forestation Types</h6>';
+            for (var key in colorMap) {
+                legendHtml +=
+                    '<div style="display:flex;"><div style="max-height:25px;width:25px;border-radius:50%;background:' + colorMap[key] + '"></div> ' +
+                    '<p style="font-size:smaller; color:black; margin-left:7px;">' + key + '</p></div>';
             }
+
+            div.innerHTML = legendHtml;
+            return div;
+        };
+
+        legend.addTo(map);
+    }
+
 
 
 
@@ -308,103 +343,122 @@
           }
       }
 
-      function loadGraph(){
+      function loadGraph() {
         let valuesArray = Object.keys(layers);
         let selectedDistricts = valuesArray.map(item => item.replace(".geojson", ""));
 
-
-        let graph_data = original_data.filter(row => { 
-                        if (selectedDistricts && selectedDistricts.length > 0) {
-                            return selectedDistricts.includes(row['district']); // Check if the row's district is in the selectedDistricts array
-
-                        } else {
-                            return true; // Return all data if no districts are selected
-                        }
-                      });
-        
-        var element = '#graph-container';
-        var caption = "Accumulated HAUnderRes of the following Districts: " + selectedDistricts.join(', ');
-        
-        if(selectedDistricts){
-          document.getElementById('graph-container').classList.add('graph-container');
-        }
-        $(element).empty();
-        $(element).append(`
-           <figure>
-              <canvas id="myChart" style="max-height:400px;"></canvas>
-          </figure>
-        `);
-        var ctx = document.getElementById('myChart').getContext('2d');
-        var column_names = ["River and Stream bank Restoration", "Soil and Water Conservation", "Community Forest and Woodlots", "Forest Management", "Improved Agricultural Technologies"];
-        var counter_1 = 0;
-        var counter_2 = 0;
-        var counter_3 = 0;
-        var counter_4 = 0;
-        var counter_5 = 0;
-
-        graph_data.forEach(row =>{
-          row['features']['properties'].forEach(item =>{
-            if(item['properties']['Type'] == 'River and Stream bank Restoration'){
-              counter_1 = counter_1 + parseFloat(item['properties']['HaUnderRes']);
-            }else if(item['properties']['Type'] == 'Soil and Water Conservation'){
-              counter_2 = counter_2 + item['properties']['HaUnderRes'];
-            }else if(item['properties']['Type'] == 'Community Forest and Woodlots'){
-              counter_3 = counter_3 + item['properties']['HaUnderRes'];
-            }else if(item['properties']['Type'] == 'Forest Management'){
-              counter_4 = counter_4 + item['properties']['HaUnderRes'];
-            }else if(item['properties']['Type'] == 'Improved Agricultural Technologies'){
-              counter_5 = counter_5 + item['properties']['HaUnderRes'];
+        let graph_data = original_data.filter(row => {
+            if (selectedDistricts && selectedDistricts.length > 0) {
+                return selectedDistricts.includes(row['district']); // Check if the row's district is in the selectedDistricts array
+            } else {
+                return true; // Return all data if no districts are selected
             }
-          });
         });
 
-        var statistics = [counter_1, counter_2, counter_3, counter_4, counter_5];
+        var element = '#graph-container';
+        var caption = "Accumulated HAUnderRes of the following Districts: " + selectedDistricts.join(', ');
 
-          var myChart = new Chart(ctx, {
-              type: 'bar',  // Column chart type
-              data: {
-                  labels: column_names,  // Labels for each column
-                  datasets: [{
-                      label: caption,
-                      data: statistics,  // Data for each column
-                      backgroundColor: [
-                          'rgba(255, 99, 132, 0.2)',  // Color for Jan
-                          'rgba(54, 162, 235, 0.2)',  // Color for Feb
-                          'rgba(255, 206, 86, 0.2)',  // Color for Mar
-                          'rgba(75, 192, 192, 0.2)',  // Color for Apr
-                          'rgba(153, 102, 255, 0.2)'// Color for May
-                      // Color for Jun
-                      ],
-                      borderColor: [
-                          'rgba(255, 99, 132, 1)',
-                          'rgba(54, 162, 235, 1)',
-                          'rgba(255, 206, 86, 1)',
-                          'rgba(75, 192, 192, 1)',
-                          'rgba(153, 102, 255, 1)',
-                          'rgba(255, 159, 64, 1)'
-                      ],
-                      borderWidth: 1
-                  }]
-              },
-              options: {
-                  scales: {
-                      y: {
-                          beginAtZero: true
-                      }
-                  },
-                  plugins: {
-                      legend: {
-                          position: 'top',  // Align the legend to the right
-                          labels: {
-                              padding: 20,
-                              textAlign: 'left',
-                              usePointStyle: true
-                          }
-                      }
-                  }
-              }
-          });
+        if (selectedDistricts) {
+            document.getElementById('graph-container').classList.add('graph-container');
+        }
+
+        $(element).empty();
+        $(element).append(`
+            <figure>
+                <canvas id="myChart" style="max-height:400px;"></canvas>
+            </figure>
+        `);
+
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var column_names = selectedDistricts; // Now, labels represent districts
+
+        // Initialize counters for each forestation type and district
+        let counters = {
+            'River and Stream bank Restoration': new Array(selectedDistricts.length).fill(0),
+            'Soil and Water Conservation': new Array(selectedDistricts.length).fill(0),
+            'Community Forest and Woodlots': new Array(selectedDistricts.length).fill(0),
+            'Forest Management': new Array(selectedDistricts.length).fill(0),
+            'Improved Agricultural Technologies': new Array(selectedDistricts.length).fill(0)
+        };
+
+        // Populate counters with data from graph_data
+        graph_data.forEach(row => {
+            const districtIndex = selectedDistricts.indexOf(row['district']); // Find index of the district in selectedDistricts
+
+            row['features']['properties'].forEach(item => {
+                let type = item['properties']['Type'];
+                if (counters[type]) {
+                    counters[type][districtIndex] += parseFloat(item['properties']['HaUnderRes']);
+                }
+            });
+        });
+
+        var myChart = new Chart(ctx, {
+            type: 'bar',  // Column chart type
+            data: {
+                labels: column_names,  // District labels
+                datasets: [
+                    {
+                        label: 'River and Stream bank Restoration',
+                        data: counters['River and Stream bank Restoration'],  // Data for each district
+                        backgroundColor: 'rgba(2, 205, 255, 0.7)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Soil and Water Conservation',
+                        data: counters['Soil and Water Conservation'],
+                        backgroundColor: 'rgba(122, 68, 0, 0.7)',
+                        borderColor: 'rgba(82, 45, 0, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Community Forest and Woodlots',
+                        data: counters['Community Forest and Woodlots'],
+                        backgroundColor: 'rgba(142, 255, 133, 0.7)',
+                        borderColor: 'rgba(21, 249, 3, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Forest Management',
+                        data: counters['Forest Management'],
+                        backgroundColor: 'rgba(2, 87, 42, 0.7)',
+                        borderColor: 'rgba(1, 158, 10, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Improved Agricultural Technologies',
+                        data: counters['Improved Agricultural Technologies'],
+                        backgroundColor: 'rgba(247, 240, 15, 0.7)',
+                        borderColor: 'rgba(247, 240, 15, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    x: {
+                        stacked: true  // Enable stacked bars on x-axis (districts)
+                    },
+                    y: {
+                        stacked: true,  // Enable stacked bars on y-axis (area values)
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',  // Align the legend to the top
+                        labels: {
+                            padding: 20,
+                            textAlign: 'left',
+                            usePointStyle: true
+                        }
+                    }
+                }
+            }
+        });
       }
+
 
         $(document).ready(function() {
           loadData(original_data); // Load data when the document is ready

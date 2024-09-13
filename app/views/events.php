@@ -11,11 +11,13 @@
   <div class="weekly-offers">
     <div class="container">
       <div class="row">
-        <div class="col-lg-6 offset-lg-3">
+        <div class="col-lg-12">
           <div class="section-heading text-center">
-            <h1>L A T E S T &nbsp; E V E N T S</h1>
+            <h1>Events & Workshops</h1>
             <hr>
-          </div>
+            <p>Join us for an unforgettable event that promises excitement, inspiration, and endless opportunities. Whether you're looking to network, learn, or simply enjoy, this event offers something for everyone. Dive into dynamic workshops led by industry experts and engage in thought-provoking panel discussions that will expand your horizons. Explore interactive exhibits showcasing cutting-edge innovations and creative solutions to today’s challenges.
+
+Connect with professionals and enthusiasts from diverse backgrounds, sharing ideas and forging new collaborations. Enjoy live entertainment and performances that will keep the energy high throughout the day. With a variety of activities, from educational sessions to hands-on experiences, there's never a dull moment.</p></div>
           
         </div>
       </div>
@@ -35,8 +37,7 @@
                     
                     <div class="line-dec"></div>
                     <ul>
-                      <li><i class="fa solid fa-clock"></i>&nbsp;<?php echo($event['date']); ?></li>
-                      <li><i class="fa solid fa-location-dot">&nbsp;</i><?php echo($event['venue']); ?></li>
+                     
                       <li><?php echo($event['intro']); ?></li>
                     </ul>
                     <div class="main-button">

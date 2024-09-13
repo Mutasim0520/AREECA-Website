@@ -15,9 +15,9 @@
     <div class="wrapper">
       <div class="visit-country">
         <div class="container">
-          <div class="row" style="box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15); padding-bottom:30px;">
-            <div class="section-heading">
-              <h2><?php echo($event[0]['name']);?></h2>
+          <div class="row" style="box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15); padding-bottom:30px; background-color:#f6fff6;">
+            <div class="section-heading text-center">
+              <h1><?php echo($event[0]['name']);?></h1>
             </div>
             <div class="col-lg-6">
               <p style="text-align:justify"><?php echo($event[0]['description']);?></p>
@@ -48,7 +48,7 @@
             </div>
           </div>
 
-          <br></br>
+          <br>
           <div class="row">
             <div class="col-lg-12">
               <div class="section-heading text-center">
@@ -64,13 +64,13 @@
                   ?>
                   <div class="item">
                     <div class="thumb">
-                      <div class="event-image-container" style="width: 100%; height: 15vh; overflow: hidden; position: relative;text-align:center; font-size: larger; font-weight: 500;">
+                      <div class="event-image-container" style="width: 100%; height: 22vh; overflow: hidden; position: relative;text-align:center; font-size: larger; font-weight: 500;">
                         <a href="<?php echo($event_url); ?>" target="_blank" rel="noopener noreferrer">
                           <img src="<?php echo($file_path)?>" alt="" style="object-fit:cover; height:100%; width:100%"> 
                         </a>
                       </div>
                     </div>
-                    <h5 style="text-align:center;"><?php echo($item['name']); ?></h5>
+                    <h5 style="text-align:center; margin-top:5px;"><?php echo($item['name']); ?></h5>
                   </div>
                 <?php endforeach ?>
               </div>

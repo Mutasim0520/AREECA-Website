@@ -10,7 +10,7 @@
 
   <!-- ***** Main Banner Area Start ***** -->
   <section id="section-1">
-              <div class="content-slider">
+    <div class="content-slider">
                 <input type="radio" id="banner1" class="sec-1-input" name="banner" checked>
                 <input type="radio" id="banner2" class="sec-1-input" name="banner">
                 <input type="radio" id="banner3" class="sec-1-input" name="banner">
@@ -58,16 +58,39 @@
   <!-- ***** Main Banner Area End ***** -->
    
   <div class="wrapper">
-    <div class="visit-country">
+    <div class="visit-country" style="margin-top:0px;">
       <div class="container">
         <div class="row">
-          <div class="section-heading">
-            <h2>HEADING TO PUT</h2>
+          <div class="section-heading text-center">
+            <h1>HEADING TO PUT</h1>
           </div>
           <div class="col-lg-12">
             <p style="text-align:justify">The World Bank as one of the partners of the IKI programme has supported the updation of national FLR strategy in Malawi through a comprehensive analytical approach--multicriteria based degradation mapping, drone mapping of degradation hotspots, National FLR opportunity assessment and stocktaking, knowledge sharing--to scale up FLR by unlocking technical, economic, financial, social and environmental challenges to alleviate affects of climate change and biodiversity loss. The activities facilitated by the Bank under AREECA intended to highlight landscape investment of ongoing landscape projects and to enable new operations/initiatives to make better informed decisions and planning of future projects. Additionally, it is also supporting to country’s (Malawi) COP 28 commitment of restoring 4.5 million ha area with GIS based evidence.
-  This website is designed to disseminate project outcomes, reports, GIS data from stocktaking and opportunity database as well as some highlights of events hosted during the programme.
+                This website is designed to disseminate project outcomes, reports, GIS data from stocktaking and opportunity database as well as some highlights of events hosted during the programme.
             </p>
+          </div>
+        </div>
+      </div>
+      <br></br><br></br>
+      <div class="container">
+        <div class="row" style="box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15); padding:20px;background-color:#f6fff6;">
+          <div class="section-heading text-center">
+            <h1>P A R T N E R S</h1>
+            <hr>
+          </div>
+          <div class="col-lg-12">
+            <div class="logo-wrapper">
+                <?php 
+                    $arr = [1, 2, 3, 4];  // Array of logos
+                    
+                    foreach($arr as $item):
+                        $image_url = BASE_IMAGE_URL . 'partners/' . $item . '.png';
+                ?>
+                <div class="logo-container">
+                    <img src="<?php echo($image_url); ?>" class="partner-logo" />
+                </div>
+                <?php endforeach; ?>
+            </div>
           </div>
         </div>
       </div>
@@ -78,7 +101,7 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
-          <h2>Are You Looking To Travel ?</h2>
+          <h2></h2>
           <h4>Make A Reservation By Clicking The Button</h4>
         </div>
         
