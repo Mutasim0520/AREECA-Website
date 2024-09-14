@@ -23,7 +23,7 @@
               <p style="text-align:justify"><?php echo($event[0]['description']);?></p>
             </div>
             <div class="col-lg-6" style="margin-top:8px;">
-              <section id="section-1" style="min-height:45vh; object-fit:cover;">
+              <section class="section-1" style="min-height:45vh; object-fit:cover;">
                 <div class="content-slider">
                   <?php 
                     $image_counter = 1 ;

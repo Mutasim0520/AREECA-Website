@@ -25,6 +25,7 @@ class Uri extends Model {
         }  
     }
 
+
     public function insert($name,$perma_link) {
         try {
             // Prepare an SQL statement

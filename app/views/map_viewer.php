@@ -24,12 +24,14 @@
   <!-- ***** Menu bar ***** -->
   <?php require 'includes/menu.php'; ?>
 
-  <div class="weekly-offers">
+  <div class="wrapper">
+    <div class="visit-country">
     <div class="container-fluid">
-      <div class="row">
+      <div class="row" id="map-viewer-page-top-text-section">
         <div class="col-lg-12">
-          <div class="section-heading">
+          <div class="section-heading text-center">
             <h1>E X P L O R E &nbsp;&nbsp;  M A P S</h1>
+            <hr>
             <p id="map_data_detail">To see the map data click on the <i class="fas fa-eye" title="View DataFile"></i> icon on the records of the Data Files table.</p>
           </div>
           <div class="row">
@@ -104,6 +106,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 
   <?php require 'includes/footer.php'; ?>

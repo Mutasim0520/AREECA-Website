@@ -101,17 +101,24 @@
 
   <script>
     function bannerSwitcher() {
-      next = $('.sec-1-input').filter(':checked').next('.sec-1-input');
-      if (next.length) next.prop('checked', true);
-      else $('.sec-1-input').first().prop('checked', true);
+      var current = $('.sec-1-input:checked');
+      var next = current.next('.sec-1-input');
+      
+      if (next.length) {
+        next.prop('checked', true);  // Move to the next banner
+      } else {
+        $('.sec-1-input').first().prop('checked', true);  // Loop back to the first banner
+      }
     }
 
-    var bannerTimer = setInterval(bannerSwitcher, 5000);
+    var bannerTimer = setInterval(bannerSwitcher, 3000);
 
     $('nav .controls label').click(function() {
       clearInterval(bannerTimer);
-      bannerTimer = setInterval(bannerSwitcher, 5000)
+      bannerTimer = setInterval(bannerSwitcher, 3000);
     });
+
+
   </script>
 
   </body>

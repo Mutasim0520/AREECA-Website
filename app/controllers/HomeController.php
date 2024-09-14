@@ -3,12 +3,15 @@
 class HomeController extends Controller {
 
     public function index() {
-        return $this->view('index', []);
+        $dom = $this->model('DomElements')->getAllDoms();
+        return $this->view('index', ['doms' => $dom]);
     }
 
     public function events() {
         $events = $this->model('Event')->getAllEvents();
-        return $this->view('events', ['events' => $events]);
+        $dom = $this->model('DomElements')->getAllDoms();
+
+        return $this->view('events', ['events' => $events, 'doms' => $dom]);
     }
 
     public function viewEvent($id){

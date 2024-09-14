@@ -9,58 +9,46 @@
   <?php require 'includes/menu.php'; ?>
 
   <!-- ***** Main Banner Area Start ***** -->
-  <section id="section-1">
+  <section class="section-1" id="index-page-main-slider">
     <div class="content-slider">
-                <input type="radio" id="banner1" class="sec-1-input" name="banner" checked>
-                <input type="radio" id="banner2" class="sec-1-input" name="banner">
-                <input type="radio" id="banner3" class="sec-1-input" name="banner">
-                <input type="radio" id="banner4" class="sec-1-input" name="banner">
-                <div class="slider">
-                  <div id="top-banner-1" class="banner">
-                    <div class="banner-inner-wrapper header-text">
-                      <div class="main-caption">
-                        <h2>Take a Glimpse Into The Beautiful Country Of:</h2>
-                        <h1>Caribbean</h1>
-                        
-                      </div>
-                    </div>
-                  </div>
-                  <div id="top-banner-2" class="banner">
-                    <div class="banner-inner-wrapper header-text">
-                      <div class="main-caption">
-                        <h2>Take a Glimpse Into The Beautiful Country Of:</h2>
-                        <h1>Switzerland</h1>
-                        
-                      </div>
-                    </div>
-                  </div>
-                  <div id="top-banner-3" class="banner">
-                    <div class="banner-inner-wrapper header-text">
-                      <div class="main-caption">
-                        <h2>Take a Glimpse Into The Beautiful Country Of:</h2>
-                        <h1>France</h1>
-                        
-                      </div>
-                    </div>
-                  </div>
-                  <div id="top-banner-4" class="banner">
-                    <div class="banner-inner-wrapper header-text">
-                      <div class="main-caption">
-                        <h2>Take a Glimpse Into The Beautiful Country Of:</h2>
-                        <h1>Thailand</h1>
-                        
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
+      <?php 
+        $image_counter = 1;
+        foreach($doms as $item):
+          if($item['dom_id'] == 'index-page-main-slider'):
+            foreach($item['images'] as $image): ?>
+              <input type="radio" id="<?php echo 'banner' . $image_counter; ?>" class="sec-1-input" name="banner" <?php echo $image_counter === 1 ? 'checked' : ''; ?>>
+              <?php 
+              $image_counter++;
+            endforeach;
+          endif;
+        endforeach; 
+      ?>
+      <div class="slider">
+        <?php 
+          $image_counter = 1; 
+          foreach($doms as $item):
+            if($item['dom_id'] == 'index-page-main-slider'):
+              foreach($item['images'] as $image): ?>
+                <div id="<?php echo 'top-banner-' . $image_counter; ?>" class="banner" 
+                    style="background-image: url('<?php echo BASE_IMAGE_URL . 'doms/' . $image; ?>'); background-size: cover; background-position: center center;"></div>
+                <?php 
+                $image_counter++;
+              endforeach;
+            endif;
+          endforeach; 
+        ?>
+      </div>
+    </div>
+  </section>
+
+
+
   <!-- ***** Main Banner Area End ***** -->
    
   <div class="wrapper">
-    <div class="visit-country" style="margin-top:0px;">
+    <div class="visit-country">
       <div class="container">
-        <div class="row">
+        <div class="row" id="index-page-content-1">
           <div class="section-heading text-center">
             <h1>HEADING TO PUT</h1>
           </div>
@@ -73,7 +61,7 @@
       </div>
       <br></br><br></br>
       <div class="container">
-        <div class="row" style="box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15); padding:20px;background-color:#f6fff6;">
+        <div class="row" id="index-page-partners" style="box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15); padding:20px;background-color:#f6fff6;">
           <div class="section-heading text-center">
             <h1>P A R T N E R S</h1>
             <hr>
@@ -126,16 +114,21 @@
 
   <script>
     function bannerSwitcher() {
-      next = $('.sec-1-input').filter(':checked').next('.sec-1-input');
-      if (next.length) next.prop('checked', true);
-      else $('.sec-1-input').first().prop('checked', true);
+      var current = $('.sec-1-input:checked');
+      var next = current.next('.sec-1-input');
+      
+      if (next.length) {
+        next.prop('checked', true);  // Move to the next banner
+      } else {
+        $('.sec-1-input').first().prop('checked', true);  // Loop back to the first banner
+      }
     }
 
     var bannerTimer = setInterval(bannerSwitcher, 5000);
 
     $('nav .controls label').click(function() {
       clearInterval(bannerTimer);
-      bannerTimer = setInterval(bannerSwitcher, 5000)
+      bannerTimer = setInterval(bannerSwitcher, 5000);
     });
   </script>
 

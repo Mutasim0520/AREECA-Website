@@ -27,7 +27,7 @@ class DashboardController extends Controller {
                     $venue = trim($_POST['venue']);
                     $date = trim($_POST['date']);
                     $description = trim($_POST['description']);
-                    $uploaded_images = $this->moveImagesToDirectorie();
+                    $uploaded_images = $this->moveImagesToDirectorie('events');
 
                     if($uploaded_images['valid_images']){
                         $event = $this->model('Event')->insert($name, $venue, $date, $description, $uploaded_images['valid_images'],$intro);
@@ -53,8 +53,8 @@ class DashboardController extends Controller {
         }
     }
 
-    private function moveImagesToDirectorie(){
-        $target_dir = BASE_IMAGE_PATH.'/events/';
+    private function moveImagesToDirectorie($directorie=NULL){
+        $target_dir = BASE_IMAGE_PATH. $directorie .'/';
         $imageFileUploadStat= array(
             "valid_images" => array(),
             "invalid_images" => array()
@@ -124,6 +124,42 @@ class DashboardController extends Controller {
             if(!(preg_match("/^[$:;*]+$/", $description)) && !(preg_match("/^[$:;}* ]+$/", $intro)) && (preg_match("/^[a-zA-Z-0-9.:' ]+$/", $name)) && (preg_match("/^[a-zA-Z-0-9.:' ]+$/", $venue))){
                 $validType = TRUE;
             }
+        }
+
+        return ($validLength && $validType);
+    }
+
+    private function validateInputsDOM(){
+        $validType = True;
+        $validLength = FALSE;
+
+        $dom_text = trim($_POST['dom_text']);
+        $dom_header = ucwords(trim($_POST['dom_header']));
+        $page_url = trim($_POST['page_url']);
+        $dom_type = trim($_POST['dom_type']);
+
+        if($dom_type){
+            //Length Check
+            if((strlen($page_url) <= 100) && (strlen($dom_text) <= 500) && (strlen($dom_header) <= 100)){
+                $validLength = TRUE;
+            }
+
+            if(strlen($dom_text)){
+                if(preg_match("/^[$:;*]+$/", $dom_text)){
+                    $validType = False;
+                }
+            }
+            if(strlen($dom_header)){
+                if(preg_match("/^[$:;}* ]+$/", $dom_header)){
+                    $validType = False;
+                }
+            }
+            if(strlen($page_url)){
+                if(filter_var($page_url, FILTER_VALIDATE_URL)){
+                    $validType = False;
+                }
+            }
+            
         }
 
         return ($validLength && $validType);
@@ -205,5 +241,43 @@ class DashboardController extends Controller {
         }
         
     }
+
+    public function addDomElement(){
+        $_SESSION['message_type'] = 'error';
+        $redirect_url = BASE_URL. 'dashboard/index';
+        if($this->is_authorized()){
+            if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+                if($this->validateInputsDOM()){
+                    $page_url = trim($_POST['page_url']);
+                    $dom_type = trim($_POST['dom_type']);
+                    $dom_id = $dom_type;
+                    $dom_text = trim($_POST['dom_text']);
+                    $dom_header = ucwords(trim($_POST['dom_header']));
+                    $uploaded_images = $this->moveImagesToDirectorie('doms');
+
+                    if(!$uploaded_images['invalid_images']){
+                        $event = $this->model('DomElements')->insert($page_url, $dom_id, $dom_type, $dom_text, $dom_text, $uploaded_images['valid_images']);
+                        if($event){
+                            $_SESSION['message_type'] = 'success'; 
+                            $_SESSION['message'] = "DOM Created Successfully";
+                            $this->redirect($redirect_url);
+                        }
+                    }
+                    else{
+                        $_SESSION['message'] = "ERROR: The image files are not valid. Please Upload in the following format .PNG, .JPEG. No Event was created.\n";
+                        $this->redirectBack();
+                    }
+
+                }else{
+                    $_SESSION['message'] = "ERROR: The inputs were not valid. No DOM was not Updated.\n";
+                    $this->redirectBack();
+                }
+            }
+        }
+        else{
+            $this->redirectBack();
+        }
+    }
+
 
 }

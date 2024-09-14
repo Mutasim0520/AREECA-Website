@@ -166,6 +166,11 @@
                       <a href="#" data-toggle="modal" data-target="#uploadModalURL">Add New URL</a>
                     </div>
                   </div>
+                  <div class="col-md-2">
+                    <div class="border-button">
+                      <a href="#" data-toggle="modal" data-target="#uploadModalDOM">Add New DOM</a>
+                    </div>
+                  </div>
                 </div>
               </div>
               <table class="table" id="documents_table">
@@ -193,6 +198,7 @@
   <?php require 'includes/modals/uploadModalDocument.php';?>
   <?php require 'includes/modals/uploadModalEvent.php';?>
   <?php require 'includes/modals/uploadModalURL.php';?>
+  <?php require 'includes/modals/uploadModalDOM.php';?>
   <?php require 'includes/modals/deleteModalMap.php';?>
 
   
@@ -338,6 +344,9 @@
     document.getElementById('uploadButtonURL').addEventListener('click', function() {
         document.getElementById('uploadFormURL').submit();
     });
+    document.getElementById('uploadButtonDOM').addEventListener('click', function() {
+        document.getElementById('uploadFormDOM').submit();
+    });
     document.getElementById('deleteMapButton').addEventListener('click', function() {
         document.getElementById('deleteFormMap').submit();
     });
@@ -364,6 +373,10 @@
 
       $('#uploadModalURL').on('show.bs.modal', function () {
           handleModalActivation('uploadButtonURL');
+      });
+
+      $('#uploadModalDOM').on('show.bs.modal', function () {
+          handleModalActivation('uploadButtonDOM');
       });
 
       // Event listener for closing modals

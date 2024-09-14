@@ -8,9 +8,10 @@
   <!-- ***** Menu bar ***** -->
   <?php require 'includes/menu.php'; ?>
   
-  <div class="weekly-offers">
+  <div class="wrapper">
+    <div class="visit-country">
     <div class="container">
-      <div class="row">
+      <div class="row" id="event-page-main-text-section">
         <div class="col-lg-12">
           <div class="section-heading text-center">
             <h1>Events & Workshops</h1>
@@ -63,6 +64,7 @@ Connect with professionals and enthusiasts from diverse backgrounds, sharing ide
         
       </div>
     </div>
+  </div>
   </div>
 
   <!-- Scripts -->
