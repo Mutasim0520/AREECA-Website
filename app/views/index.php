@@ -3,6 +3,21 @@
 
 <?php require 'includes/header.php'; ?>
 
+<style>
+  <?php 
+      foreach($doms as $item){
+        if($item['dom_id'] == 'index-page-main-slider'){
+          $i=1;
+          foreach($item['images'] as $image){ ?>
+            .section-1 .content-slider #banner<?php echo $i; ?>:checked ~ .slider #top-banner-<?php echo $i; ?>
+            {
+              opacity: 1;
+              z-index:1;
+            }
+            <?php $i++;?>
+    <?php }}}?> 
+</style>
+
 <body>
 
   <!-- ***** Menu bar ***** -->
@@ -118,7 +133,8 @@
       var next = current.next('.sec-1-input');
       
       if (next.length) {
-        next.prop('checked', true);  // Move to the next banner
+        next.prop('checked', true); 
+        console.log(current); // Move to the next banner
       } else {
         $('.sec-1-input').first().prop('checked', true);  // Loop back to the first banner
       }

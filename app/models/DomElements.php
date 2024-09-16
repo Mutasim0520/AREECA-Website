@@ -96,7 +96,7 @@ class DomElements extends Model {
         }
     }
 
-    public function getAllDoms() {
+    public function getAllDoms($domID=NULL) {
         $sql = "SELECT 
                     domElements.dom_id AS dom_id,
                     domElements.dom_text AS dom_text,
@@ -110,6 +110,9 @@ class DomElements extends Model {
                     domElements.dom_id
                 ORDER BY
                     domElements.dom_id ASC";
+        if($domID){
+            $sql = $sql . " WHERE domElements.dom_id = $domID";
+        }
                     
         $query = $this->db->prepare($sql);
         $query->execute();

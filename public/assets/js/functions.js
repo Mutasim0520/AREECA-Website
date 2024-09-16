@@ -153,4 +153,7 @@ function renderMap(file_name) {
         .catch(error => console.error('Error loading GeoJSON:', error));
 }
 
+function setDomID(){
+    var page_dom_element_ids = [{index_page : "index-page-main-slider", "index-page-content-1"}];
+}
 

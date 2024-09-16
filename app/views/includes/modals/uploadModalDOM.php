@@ -11,6 +11,20 @@
         <div class="modal-body">
           <form id="uploadFormDOM" action="<?php echo BASE_URL?>dashboard/addDomElement" method="POST" enctype="multipart/form-data">
             <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                  <label for="dom_type">Select html Page</label>
+                  <select class="form-control" id="html_page_name" name="html_page_name" onselect=setDomID required>
+                    <option value="" seleted>Select Type</option>
+                    <option value="index_page">Index Page</option>
+                    <option value="events_page">Events Page</option>
+                    <option value="events_detail_page">Event Details Page</option>
+                    <option value="map_viewer">Map Viewer Page </option>
+                    <option value="documents_page">Documents Page </option>
+                    <option value="contacts_page">Contacts Page </option>
+                  </select>
+                </div>
+              </div>
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="dom_type">Select DOM Type</label>

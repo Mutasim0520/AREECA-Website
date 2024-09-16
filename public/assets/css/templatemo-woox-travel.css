@@ -239,7 +239,7 @@ section {
   text-transform: capitalize;
   color: #543131;
 }
-.weekly-offers .item .thumb .event-image-container {
+.visit-country .item .thumb .event-image-container {
   width: 100%;
   height: 45vh;
   overflow: hidden;
@@ -247,7 +247,7 @@ section {
   position: relative;
 }
 
-.weekly-offers .item .thumb .event-image-container img {
+.visit-country .item .thumb .event-image-container img {
   width: 100%;
   height: 100%;
   object-fit: cover; /* Ensures the image covers the container, cropping as needed */
@@ -947,13 +947,19 @@ Banner Style
              
 }
 
-.section-1 .content-slider #banner1:checked ~ .slider #top-banner-1,
+/* .section-1 .content-slider #banner1:checked ~ .slider #top-banner-1,
 .section-1 .content-slider #banner2:checked ~ .slider #top-banner-2,
 .section-1 .content-slider #banner3:checked ~ .slider #top-banner-3,
-.section-1 .content-slider #banner4:checked ~ .slider #top-banner-4 {
+.section-1 .content-slider #banner4:checked ~ .slider #top-banner-4,
+.section-1 .content-slider #banner5:checked ~ .slider #top-banner-5,
+.section-1 .content-slider #banner6:checked ~ .slider #top-banner-6,
+.section-1 .content-slider #banner7:checked ~ .slider #top-banner-7,
+.section-1 .content-slider #banner8:checked ~ .slider #top-banner-8,
+.section-1 .content-slider #banner9:checked ~ .slider #top-banner-9,
+.section-1 .content-slider #banner10:checked ~ .slider #top-banner-10 {
   opacity: 1;
   z-index: 1;
-}
+} */
 .section-1 .content-slider #banner1:checked ~ nav label:nth-of-type(1),
 .section-1 .content-slider #banner2:checked ~ nav label:nth-of-type(2),
 .section-1 .content-slider #banner3:checked ~ nav label:nth-of-type(3),
@@ -1343,28 +1349,28 @@ About Page Style
   color: #226027;
 }
 
-.weekly-offers {
+.visit-country {
   padding-bottom: 120px;
   margin-top: 70px;
   border-bottom: 1px solid #eee;
 }
 
-.weekly-offers .container-fluid {
+.visit-country .container-fluid {
   padding: 0px 80px;
 }
 
-.weekly-offers .item {
+.visit-country .item {
   margin: 0px 15px;
   position: relative;
   min-height: 420px;
 }
 
-.weekly-offers .item .thumb img {
+.visit-country .item .thumb img {
   padding-right: 160px;
   border-radius: 23px;
 }
 
-.weekly-offers .item .thumb .text {
+.visit-country .item .thumb .text {
   position: absolute;
   max-width: 45%;
   background-color: #fff;
@@ -1376,12 +1382,12 @@ About Page Style
   padding: 30px;
 }
 
-.weekly-offers .item .thumb .text h4 {
+.visit-country .item .thumb .text h4 {
   font-size: 20px;
   display: inline-block;
 }
 
-.weekly-offers .item .thumb .text h6 {
+.visit-country .item .thumb .text h6 {
   display: inline-block;
   float: right;
   text-align: right;
@@ -1389,56 +1395,56 @@ About Page Style
   color: #226027;
 }
 
-.weekly-offers .item .thumb .text h4 span,
-.weekly-offers .item .thumb .text h6 span {
+.visit-country .item .thumb .text h4 span,
+.visit-country .item .thumb .text h6 span {
   font-size: 15px;
   color: #afafaf;
   font-weight: 400;
 }
 
-.weekly-offers .item .thumb .text ul {
+.visit-country .item .thumb .text ul {
   border-top: 1px solid #eee;
   margin-top: 25px;
   padding-top: 25px;
 }
 
-.weekly-offers .item .thumb .text ul li {
+.visit-country .item .thumb .text ul li {
   color: #afafaf;
   font-size: 14px;
   margin-bottom: 10px;
 }
 
-.weekly-offers .item .thumb .text ul li {
+.visit-country .item .thumb .text ul li {
   color: #543131;
   font-weight: 600;
 }
 
-.weekly-offers .item .thumb .text ul li:last-child {
+.visit-country .item .thumb .text ul li:last-child {
   color: #afafaf;
   font-weight: 300;
 }
 
-.weekly-offers .item .thumb .text .main-button {
+.visit-country .item .thumb .text .main-button {
   margin-top: 30px;
 }
 
-.weekly-offers .item .thumb .text .main-button a:hover {
+.visit-country .item .thumb .text .main-button a:hover {
   background-color: #226027;
   border-color: #226027;
   color: #fff;
   opacity: 0.85;
 }
 
-.weekly-offers .owl-nav {
+.visit-country .owl-nav {
   text-align: center;
   margin-top: 30px;
 }
 
-.weekly-offers .owl-nav .owl-next span {
+.visit-country .owl-nav .owl-next span {
   display: none;
 }
 
-.weekly-offers .owl-nav .owl-next::after {
+.visit-country .owl-nav .owl-next::after {
   font-family: "FontAwesome";
   content: '\f061'; 
   color: #226027;
@@ -1454,11 +1460,11 @@ About Page Style
   margin-left: 5px;
 }
 
-.weekly-offers .owl-nav .owl-prev span {
+.visit-country .owl-nav .owl-prev span {
   display: none;
 }
 
-.weekly-offers .owl-nav .owl-prev::after {
+.visit-country .owl-nav .owl-prev::after {
   font-family: "FontAwesome";
   content: '\f060'; 
   color: #226027;
@@ -1474,8 +1480,8 @@ About Page Style
   margin-right: 5px;
 }
 
-.weekly-offers .owl-nav .owl-prev:hover::after,
-.weekly-offers .owl-nav .owl-next:hover::after {
+.visit-country .owl-nav .owl-prev:hover::after,
+.visit-country .owl-nav .owl-next:hover::after {
   color: #fff;
   background-color: #226027;
 }
@@ -2385,7 +2391,7 @@ body {
   .about-main-content .content p {
     padding: 0px 5%;
   }
-  .weekly-offers .container-fluid {
+  .visit-country .container-fluid {
     padding: 0px;
   }
   .more-about .left-image {
@@ -2423,7 +2429,7 @@ body {
   .section-1 .more-info h4 {
     font-size: 15px;
   }
-  .weekly-offers .container-fluid {
+  .visit-country .container-fluid {
     padding: 0px;
   }
 }

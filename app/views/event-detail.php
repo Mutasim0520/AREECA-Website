@@ -2,6 +2,18 @@
 <html lang="en">
 
 <?php require 'includes/header.php'; ?>
+<style>
+  <?php 
+    $i=1;
+    foreach($event[0]['images'] as $image){ ?>
+      .section-1 .content-slider #banner<?php echo $i; ?>:checked ~ .slider #top-banner-<?php echo $i; ?>
+      {
+        opacity: 1;
+        z-index:1;
+      }
+      <?php $i++;?>    
+    <?php }?> 
+</style>
 
 <body>
 
@@ -27,21 +39,18 @@
                 <div class="content-slider">
                   <?php 
                     $image_counter = 1 ;
-                    foreach($event[0]['images'] as $image):
-                      if($image_counter == 1): ?>
-                        <input type="radio" id="<?php echo'banner'. $image_counter;?>" class="sec-1-input" name="banner" checked>
-                        <?php else: ?>
-                          <input type="radio" id="<?php echo'banner'. $image_counter;?>" class="sec-1-input" name="banner">
-                      <?php endif;
-                      $image_counter++ ; ?>
+                    foreach($event[0]['images'] as $image):?>
+                      <input type="radio" id="<?php echo 'banner' . $image_counter; ?>" class="sec-1-input" name="banner" <?php echo $image_counter === 1 ? 'checked' : ''; ?>>
+                      <?php $image_counter++ ; ?>
                     <?php endforeach; ?>
                   <div class="slider">
                   <?php 
                     $image_counter = 1 ;
                     foreach($event[0]['images'] as $image):?>
-                      <div id="<?php echo'top-banner-'. $image_counter;?>" class="banner" style="background-image: url('<?php echo BASE_IMAGE_URL.'events/' . $image; ?>');"></div>
-                      <?php $image_counter++ ; ?>
-                    <?php endforeach; ?>
+                      <div id="<?php echo 'top-banner-' . $image_counter; ?>" class="banner" 
+                          style="background-image: url('<?php echo BASE_IMAGE_URL . 'events/' . $image; ?>'); background-size: cover; background-position: center center;"></div>
+                  <?php $image_counter++ ; 
+                    endforeach; ?>
                   </div>
                 </div>
               </section>
@@ -64,9 +73,9 @@
                   ?>
                   <div class="item">
                     <div class="thumb">
-                      <div class="event-image-container" style="width: 100%; height: 22vh; overflow: hidden; position: relative;text-align:center; font-size: larger; font-weight: 500;">
+                      <div class="event-image-container" style="border-radius:0px; width: 100%; height: 22vh; overflow: hidden; position: relative;text-align:center; font-size: larger; font-weight: 500;">
                         <a href="<?php echo($event_url); ?>" target="_blank" rel="noopener noreferrer">
-                          <img src="<?php echo($file_path)?>" alt="" style="object-fit:cover; height:100%; width:100%"> 
+                          <img src="<?php echo($file_path)?>" alt="" style="padding:0px; object-fit:cover; height:100%; width:100%"> 
                         </a>
                       </div>
                     </div>
@@ -98,16 +107,22 @@
 
   <script>
     function bannerSwitcher() {
-      next = $('.sec-1-input').filter(':checked').next('.sec-1-input');
-      if (next.length) next.prop('checked', true);
-      else $('.sec-1-input').first().prop('checked', true);
+      var current = $('.sec-1-input:checked');
+      var next = current.next('.sec-1-input');
+      
+      if (next.length) {
+        next.prop('checked', true); 
+        console.log(current); // Move to the next banner
+      } else {
+        $('.sec-1-input').first().prop('checked', true);  // Loop back to the first banner
+      }
     }
 
     var bannerTimer = setInterval(bannerSwitcher, 5000);
 
     $('nav .controls label').click(function() {
       clearInterval(bannerTimer);
-      bannerTimer = setInterval(bannerSwitcher, 5000)
+      bannerTimer = setInterval(bannerSwitcher, 5000);
     });
   </script>
 
