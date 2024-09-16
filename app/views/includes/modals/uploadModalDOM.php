@@ -11,52 +11,29 @@
         <div class="modal-body">
           <form id="uploadFormDOM" action="<?php echo BASE_URL?>dashboard/addDomElement" method="POST" enctype="multipart/form-data">
             <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="form-group">
                   <label for="dom_type">Select html Page</label>
-                  <select class="form-control" id="html_page_name" name="html_page_name" onselect=setDomID required>
+                  <select class="form-control" id="pageSelect" name="html_page_name" required>
                     <option value="" seleted>Select Type</option>
-                    <option value="index_page">Index Page</option>
-                    <option value="events_page">Events Page</option>
-                    <option value="events_detail_page">Event Details Page</option>
-                    <option value="map_viewer">Map Viewer Page </option>
-                    <option value="documents_page">Documents Page </option>
-                    <option value="contacts_page">Contacts Page </option>
                   </select>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-6">
                 <div class="form-group">
                   <label for="dom_type">Select DOM Type</label>
-                  <select class="form-control" id="dom_type" name="dom_type" onselect=setDomID required>
+                  <select class="form-control" id="dom_id_select" name="dom_id" required>
                     <option value="" seleted>Select Type</option>
-                    <option value="index-page-main-slider">Index Page Top Slider Section</option>
-                    <option value="index-page-content-1">Index Page Text Section 1</option>
-                    <option value="index-page-partners">Index Page Partners Section</option>
-                    <option value="event-page-main-text-section">Event Page Top Text Section</option>
-                    <option value="map-viewer-page-top-text-section">Map Viewer Page Top Text Section</option>
                   </select>
                 </div>
               </div>
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label for="page_url">Page URL</label>
-                  <input type="url" class="form-control" id="page_url" name="page_url" required>
-                </div>
-              </div>
-              <div class="col-md-4">
+              <div class="col-md-6">
                 <div class="form-group">
                   <label for="dom_header">DOM Header</label>
                   <input type="text" class="form-control" id="dom_header" name="dom_header" required>
                 </div>
               </div>
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label for="dom_id">DOM ID</label>
-                  <input type="text" class="form-control" id="dom_id" name="dom_id" required disabled>
-                </div>
-              </div>
-              <div class="col-md-4">
+              <div class="col-md-6">
                   <div class="form-group">
                     <label for="images">Choose file</label>
                     <input type="file" class="form-control" id="images" name="images[]" multiple>

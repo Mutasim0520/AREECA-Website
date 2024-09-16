@@ -15,9 +15,8 @@ class DomElements extends Model {
             // SQL to create Permissons table for Users
             $sql = "CREATE TABLE IF NOT EXISTS domElements (
                     id INT AUTO_INCREMENT PRIMARY KEY,
-                    page_url VARCHAR(100) NOT NULL,
+                    html_page_name VARCHAR(100) NOT NULL,
                     dom_id VARCHAR(100) NOT NULL,
-                    dom_type VARCHAR(20) NULL,
                     dom_text  VARCHAR(500) NULL,
                     dom_header VARCHAR(100) NULL,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -44,16 +43,15 @@ class DomElements extends Model {
         }
     }
 
-    public function insert($page_url, $dom_id, $dom_type, $dom_text, $dom_header, $images) {
+    public function insert($html_page_name, $dom_id, $dom_text, $dom_header, $images) {
         try {
             // Prepare an SQL statement
-            $sql = "INSERT INTO domElements(page_url,dom_id,dom_type,dom_text,dom_header) VALUES (:page_url, :dom_id, :dom_type, :dom_text, :dom_header)";
+            $sql = "INSERT INTO domElements(html_page_name,dom_id,dom_text,dom_header) VALUES (:html_page_name, :dom_id, :dom_text, :dom_header)";
             $query = $this->db->prepare($sql);
             
             // Bind parameters
-            $query->bindParam(':page_url', $page_url);
+            $query->bindParam(':html_page_name', $html_page_name);
             $query->bindParam(':dom_id', $dom_id);
-            $query->bindParam(':dom_type', $dom_type);
             $query->bindParam(':dom_text', $dom_text);
             $query->bindParam(':dom_header', $dom_header);
 

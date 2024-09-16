@@ -324,10 +324,13 @@
                   var modal = $(this);
                   modal.find('#map_id_delete').val(recordId);
                 });
+            document.getElementById('pageSelect').addEventListener('change', function() {
+              const selectedPage = this.value;
+              updateDomSelect(selectedPage);
+            });
 
-            
-
-          
+            // Initial population of the page select field
+            populatePageSelect();
         });
     </script>
 

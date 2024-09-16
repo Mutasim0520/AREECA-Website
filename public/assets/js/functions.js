@@ -153,7 +153,66 @@ function renderMap(file_name) {
         .catch(error => console.error('Error loading GeoJSON:', error));
 }
 
-function setDomID(){
-    var page_dom_element_ids = [{index_page : "index-page-main-slider", "index-page-content-1"}];
-}
+var page_dom_element_ids = [
+    {
+      page: "index_page",
+      dom_ids: ["index-page-main-slider", "index-page-content-1"]
+    },
+    {
+      page: "event_page",
+      dom_ids: ["event-page-main-text-section"]
+    },
+    {
+      page: "map_viewer_page",
+      dom_ids: ["map-viewer-page-top-text-section"]
+    },
+    {
+        page: "documents_page",
+        dom_ids: ["documents-page-main-text-section"]
+    },
+    {
+        page: "contacts_page",
+        dom_ids: ["contacts-page-main-text-section"]
+    }
+  ];
+
+    
+
+  function populatePageSelect() {
+    const pageSelect = document.getElementById('pageSelect');
+    page_dom_element_ids.forEach(item => {
+      let option = document.createElement('option');
+      option.value = item.page;
+      option.textContent = item.page.replace(/_/g, ' ');
+      pageSelect.appendChild(option);
+    });
+  }     
+      
+// Function to populate the DOM ID select field based on the selected page
+function updateDomSelect(selectedPage) {
+    const domSelect = document.getElementById('dom_id_select');
+    domSelect.innerHTML = '<option value="">-- Select a DOM ID --</option>'; // Reset DOM IDs select field
+  
+    if (selectedPage) {
+      // Find the selected page object from the array
+      let pageObj = page_dom_element_ids.find(page => page.page === selectedPage);
+  
+      // Populate the DOM IDs select field with the corresponding DOM IDs
+      if (pageObj) {
+        pageObj.dom_ids.forEach(dom_id => {
+          let option = document.createElement('option');
+          option.value = dom_id;
+          option.textContent = dom_id;
+          domSelect.appendChild(option);
+        });
+      }
+    }
+  }      
+      
+      // Event listener for the page select field
+    //   document.getElementById('pageSelect').addEventListener('change', function() {
+    //     const selectedPage = this.value;
+    //     updateDomSelect(selectedPage);
+    //   });
+    
 

@@ -135,12 +135,12 @@ class DashboardController extends Controller {
 
         $dom_text = trim($_POST['dom_text']);
         $dom_header = ucwords(trim($_POST['dom_header']));
-        $page_url = trim($_POST['page_url']);
-        $dom_type = trim($_POST['dom_type']);
+        $html_page_name = trim($_POST['html_page_name']);
+        $dom_id = trim($_POST['dom_id']);
 
-        if($dom_type){
+        if($dom_id){
             //Length Check
-            if((strlen($page_url) <= 100) && (strlen($dom_text) <= 500) && (strlen($dom_header) <= 100)){
+            if((strlen($html_page_name) <= 100) && (strlen($dom_text) <= 500) && (strlen($dom_header) <= 100)){
                 $validLength = TRUE;
             }
 
@@ -151,11 +151,6 @@ class DashboardController extends Controller {
             }
             if(strlen($dom_header)){
                 if(preg_match("/^[$:;}* ]+$/", $dom_header)){
-                    $validType = False;
-                }
-            }
-            if(strlen($page_url)){
-                if(filter_var($page_url, FILTER_VALIDATE_URL)){
                     $validType = False;
                 }
             }
@@ -248,15 +243,14 @@ class DashboardController extends Controller {
         if($this->is_authorized()){
             if ($_SERVER['REQUEST_METHOD'] == 'POST'){
                 if($this->validateInputsDOM()){
-                    $page_url = trim($_POST['page_url']);
-                    $dom_type = trim($_POST['dom_type']);
-                    $dom_id = $dom_type;
+                    $html_page_name = trim($_POST['html_page_name']);
+                    $dom_id = trim($_POST['dom_id']);
                     $dom_text = trim($_POST['dom_text']);
                     $dom_header = ucwords(trim($_POST['dom_header']));
                     $uploaded_images = $this->moveImagesToDirectorie('doms');
 
                     if(!$uploaded_images['invalid_images']){
-                        $event = $this->model('DomElements')->insert($page_url, $dom_id, $dom_type, $dom_text, $dom_text, $uploaded_images['valid_images']);
+                        $event = $this->model('DomElements')->insert($html_page_name, $dom_id, $dom_text, $dom_text, $uploaded_images['valid_images']);
                         if($event){
                             $_SESSION['message_type'] = 'success'; 
                             $_SESSION['message'] = "DOM Created Successfully";
