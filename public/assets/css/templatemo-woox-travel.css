@@ -114,7 +114,7 @@ a {
 h1, h2, h3, h4, h5, h6 {
   margin-top: 0px;
   margin-bottom: 0px;
-  color: #543131;
+  color: #18331a;;
   font-weight: 500;
 }
 
@@ -1362,7 +1362,7 @@ About Page Style
 .visit-country .item {
   margin: 0px 15px;
   position: relative;
-  min-height: 420px;
+  
 }
 
 .visit-country .item .thumb img {

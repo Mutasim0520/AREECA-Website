@@ -17,8 +17,8 @@ class DomElements extends Model {
                     id INT AUTO_INCREMENT PRIMARY KEY,
                     html_page_name VARCHAR(100) NOT NULL,
                     dom_id VARCHAR(100) NOT NULL,
-                    dom_text  VARCHAR(500) NULL,
-                    dom_header VARCHAR(100) NULL,
+                    dom_text  VARCHAR(1000) NULL,
+                    dom_header VARCHAR(200) NULL,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )";
@@ -94,9 +94,10 @@ class DomElements extends Model {
         }
     }
 
-    public function getAllDoms($domID=NULL) {
+    public function getAllDomByPageName($html_page_name) {
         $sql = "SELECT 
                     domElements.dom_id AS dom_id,
+                    domElements.html_page_name AS html_page_name,
                     domElements.dom_text AS dom_text,
                     domElements.dom_header AS dom_header,
                     GROUP_CONCAT(domElement_pictures.file_name) AS images
@@ -104,15 +105,18 @@ class DomElements extends Model {
                     domElements
                 LEFT JOIN
                     domElement_pictures ON domElements.id = domElement_pictures.domElement_id
+                WHERE 
+                    domElements.html_page_name = :html_page_name
                 GROUP BY
-                    domElements.dom_id
+                    domElements.dom_id,
+                    domElements.html_page_name,
+                    domElements.dom_text,
+                    domElements.dom_header
                 ORDER BY
-                    domElements.dom_id ASC";
-        if($domID){
-            $sql = $sql . " WHERE domElements.dom_id = $domID";
-        }
+                    domElements.id DESC";
                     
         $query = $this->db->prepare($sql);
+        $query->bindParam(':html_page_name', $html_page_name);
         $query->execute();
         $results = $query->fetchAll(PDO::FETCH_ASSOC);
     

@@ -16,13 +16,14 @@
       <div class="visit-country">
         <div class="container">
           <div class="row">
-            <div class="col-lg-6 offset-lg-3">
+            <div class="col-lg-12">
               <div class="section-heading text-center">
-                <h1>D O C U M E N T S</h1>
-                <hr>
+                  <h1><?php echo $text_dom_sections_doc[0]['dom_header']; ?></h1>
+                  <hr>
+                  <p id="map_data_detail"><?php echo $text_dom_sections_doc[0]['dom_text']; ?></p>
               </div>
             </div>
-          </div>
+          </div>     
           <div class="row">
             <div class="itme">
               <table class="table" id="documents_table">
@@ -44,12 +45,14 @@
             <div class="itme"></div>
           </div>
         </div>
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-5 offset-lg-3">
-              <div class="section-heading text-center">
-                <h1>L I N K S</h1>
-                <hr>
+        <div class="row">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-heading text-center">
+                    <h1><?php echo $text_dom_sections_link[0]['dom_header']; ?></h1>
+                    <hr>
+                    <p id="map_data_detail"><?php echo $text_dom_sections_link[0]['dom_text']; ?></p>
+                </div>
               </div>
             </div>
             <div class="col-lg-5 offset-lg-3">

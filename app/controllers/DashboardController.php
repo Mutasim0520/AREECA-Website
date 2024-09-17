@@ -54,55 +54,58 @@ class DashboardController extends Controller {
     }
 
     private function moveImagesToDirectorie($directorie=NULL){
-        $target_dir = BASE_IMAGE_PATH. $directorie .'/';
         $imageFileUploadStat= array(
             "valid_images" => array(),
             "invalid_images" => array()
         );
+        if (isset($_FILES['images']) && !empty($_FILES['images']['name'][0])){
+            $target_dir = BASE_IMAGE_PATH. $directorie .'/';
+            
+            $valid_images = array();
+            $invalid_images = array();
         
-        $valid_images = array();
-        $invalid_images = array();
-    
-        foreach ($_FILES['images']['name'] as $key => $name) {
-            $imageFileType = strtolower(pathinfo($name, PATHINFO_EXTENSION)); 
-            $newFileName = uniqid() . '_' . time() . '.' . $imageFileType;
-            
-            // Define the full path for the new file
-            $target_file = $target_dir . $newFileName;     
-            $uploadOk = 1;
-            
-            // Check if the file is an actual image
-            $check = getimagesize($_FILES['images']['tmp_name'][$key]);
-            if ($check !== false) {
+            foreach ($_FILES['images']['name'] as $key => $name) {
+                $imageFileType = strtolower(pathinfo($name, PATHINFO_EXTENSION)); 
+                $newFileName = uniqid() . '_' . time() . '.' . $imageFileType;
+                
+                // Define the full path for the new file
+                $target_file = $target_dir . $newFileName;     
                 $uploadOk = 1;
-            } else {
-                $uploadOk = 0;
-            }
-            
-            // Check file size (e.g., 5MB maximum)
-            if ($_FILES['images']['size'][$key] > 6000000) {
-                $uploadOk = 0;
-            }
-            
-            // Allow certain file formats
-            if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
-                $uploadOk = 0;
-            }
-            
-            // If all checks pass, move the file
-            if ($uploadOk == 1) {
-                if (move_uploaded_file($_FILES['images']['tmp_name'][$key], $target_file)) {
-                    array_push($valid_images, $newFileName); // Store the new file name
+                
+                // Check if the file is an actual image
+                $check = getimagesize($_FILES['images']['tmp_name'][$key]);
+                if ($check !== false) {
+                    $uploadOk = 1;
+                } else {
+                    $uploadOk = 0;
                 }
-            } else {
-                array_push($invalid_images, $newFileName); // Store the original file name if the file is invalid
+                
+                // Check file size (e.g., 5MB maximum)
+                if ($_FILES['images']['size'][$key] > 6000000) {
+                    $uploadOk = 0;
+                }
+                
+                // Allow certain file formats
+                if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
+                    $uploadOk = 0;
+                }
+                
+                // If all checks pass, move the file
+                if ($uploadOk == 1) {
+                    if (move_uploaded_file($_FILES['images']['tmp_name'][$key], $target_file)) {
+                        array_push($valid_images, $newFileName); // Store the new file name
+                    }
+                } else {
+                    array_push($invalid_images, $newFileName); // Store the original file name if the file is invalid
+                }
             }
+        
+            $imageFileUploadStat['valid_images'] = $valid_images;
+            $imageFileUploadStat['invalid_images'] = $invalid_images;
         }
-    
-        $imageFileUploadStat['valid_images'] = $valid_images;
-        $imageFileUploadStat['invalid_images'] = $invalid_images;
-    
+
         return $imageFileUploadStat;
+        
     }
     
 
@@ -131,7 +134,7 @@ class DashboardController extends Controller {
 
     private function validateInputsDOM(){
         $validType = True;
-        $validLength = FALSE;
+        $validLength = True;
 
         $dom_text = trim($_POST['dom_text']);
         $dom_header = ucwords(trim($_POST['dom_header']));
@@ -140,20 +143,20 @@ class DashboardController extends Controller {
 
         if($dom_id){
             //Length Check
-            if((strlen($html_page_name) <= 100) && (strlen($dom_text) <= 500) && (strlen($dom_header) <= 100)){
+            if((strlen($html_page_name) <= 100) && (strlen($dom_text) <= 2000) && (strlen($dom_header) <= 200)){
                 $validLength = TRUE;
             }
 
-            if(strlen($dom_text)){
-                if(preg_match("/^[$:;*]+$/", $dom_text)){
-                    $validType = False;
-                }
-            }
-            if(strlen($dom_header)){
-                if(preg_match("/^[$:;}* ]+$/", $dom_header)){
-                    $validType = False;
-                }
-            }
+            // if(strlen($dom_text)){
+            //     if(preg_match("/^[$;*]+$/", $dom_text)){
+            //         $validType = False;
+            //     }
+            // }
+            // if(strlen($dom_header)){
+            //     if(preg_match("/^[$;}* ]+$/", $dom_header)){
+            //         $validType = False;
+            //     }
+            // }
             
         }
 
@@ -250,7 +253,7 @@ class DashboardController extends Controller {
                     $uploaded_images = $this->moveImagesToDirectorie('doms');
 
                     if(!$uploaded_images['invalid_images']){
-                        $event = $this->model('DomElements')->insert($html_page_name, $dom_id, $dom_text, $dom_text, $uploaded_images['valid_images']);
+                        $event = $this->model('DomElements')->insert($html_page_name, $dom_id, $dom_text, $dom_header, $uploaded_images['valid_images']);
                         if($event){
                             $_SESSION['message_type'] = 'success'; 
                             $_SESSION['message'] = "DOM Created Successfully";

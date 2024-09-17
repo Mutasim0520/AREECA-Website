@@ -11,17 +11,19 @@
   <div class="wrapper">
     <div class="visit-country">
     <div class="container">
-      <div class="row" id="event-page-main-text-section">
+    <?php foreach($text_dom_sections as $section): ?>
+      <div class="row" id="event-page-main-text-section" style="margin-bottom:50px;">
         <div class="col-lg-12">
           <div class="section-heading text-center">
-            <h1>Events & Workshops</h1>
+            <h1><?php echo $section['dom_header']; ?></h1>
             <hr>
-            <p>Join us for an unforgettable event that promises excitement, inspiration, and endless opportunities. Whether you're looking to network, learn, or simply enjoy, this event offers something for everyone. Dive into dynamic workshops led by industry experts and engage in thought-provoking panel discussions that will expand your horizons. Explore interactive exhibits showcasing cutting-edge innovations and creative solutions to today’s challenges.
-
-Connect with professionals and enthusiasts from diverse backgrounds, sharing ideas and forging new collaborations. Enjoy live entertainment and performances that will keep the energy high throughout the day. With a variety of activities, from educational sessions to hands-on experiences, there's never a dull moment.</p></div>
-          
+            <p><?php echo $section['dom_text']; ?></p>
+          </div>
         </div>
       </div>
+
+<?php endforeach;?>
+      
     </div>
     <div class="container-fluid">
       <div class="row">

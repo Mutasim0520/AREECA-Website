@@ -27,19 +27,16 @@
   <div class="wrapper">
     <div class="visit-country">
     <div class="container-fluid">
-      <div class="row" id="map-viewer-page-top-text-section">
+      <div class="row" id="map-viewer-page-top-text-section" style="margin-bottom:20px;">
         <div class="col-lg-12">
           <div class="section-heading text-center">
-            <h1>E X P L O R E &nbsp;&nbsp;  M A P S</h1>
+            <h1><?php echo $text_dom_sections[0]['dom_header']; ?></h1>
             <hr>
-            <p id="map_data_detail">To see the map data click on the <i class="fas fa-eye" title="View DataFile"></i> icon on the records of the Data Files table.</p>
-          </div>
-          <div class="row">
-          <div class="col-sm-12">
-            <div id="graph-container">
-            </div>
+            <p id="map_data_detail"><?php echo $text_dom_sections[0]['dom_text']; ?></p>
           </div>
         </div>
+        <div class="col-sm-12">
+          <div id="graph-container"></div>
         </div>
       </div>
       <div class="row">
@@ -347,120 +344,120 @@
       }
 
       function loadGraph() {
-        let valuesArray = Object.keys(layers);
-        let selectedDistricts = valuesArray.map(item => item.replace(".geojson", ""));
+          let valuesArray = Object.keys(layers);
+          let selectedDistricts = valuesArray.map(item => item.replace(".geojson", ""));
 
-        let graph_data = original_data.filter(row => {
-            if (selectedDistricts && selectedDistricts.length > 0) {
-                return selectedDistricts.includes(row['district']); // Check if the row's district is in the selectedDistricts array
-            } else {
-                return true; // Return all data if no districts are selected
-            }
-        });
+          let graph_data = original_data.filter(row => {
+              if (selectedDistricts && selectedDistricts.length > 0) {
+                  return selectedDistricts.includes(row['district']); // Check if the row's district is in the selectedDistricts array
+              } else {
+                  return true; 
+              }
+          });
 
-        var element = '#graph-container';
-        var caption = "Accumulated HAUnderRes of the following Districts: " + selectedDistricts.join(', ');
+          var element = '#graph-container';
+          var caption = "Accumulated HAUnderRes of the following Districts: " + selectedDistricts.join(', ');
 
-        if (selectedDistricts) {
-            document.getElementById('graph-container').classList.add('graph-container');
-        }
+          if (selectedDistricts) {
+              document.getElementById('graph-container').classList.add('graph-container');
+          }
 
-        $(element).empty();
-        $(element).append(`
-            <figure>
-                <canvas id="myChart" style="max-height:400px;"></canvas>
-            </figure>
-        `);
+          $(element).empty();
+          $(element).append(`
+              <figure>
+                  <canvas id="myChart" style="max-height:400px;"></canvas>
+              </figure>
+          `);
 
-        var ctx = document.getElementById('myChart').getContext('2d');
-        var column_names = selectedDistricts; // Now, labels represent districts
+          var ctx = document.getElementById('myChart').getContext('2d');
+          var column_names = selectedDistricts; // Now, labels represent districts
 
-        // Initialize counters for each forestation type and district
-        let counters = {
-            'River and Stream bank Restoration': new Array(selectedDistricts.length).fill(0),
-            'Soil and Water Conservation': new Array(selectedDistricts.length).fill(0),
-            'Community Forest and Woodlots': new Array(selectedDistricts.length).fill(0),
-            'Forest Management': new Array(selectedDistricts.length).fill(0),
-            'Improved Agricultural Technologies': new Array(selectedDistricts.length).fill(0)
-        };
+          // Initialize counters for each forestation type and district
+          let counters = {
+              'River and Stream bank Restoration': new Array(selectedDistricts.length).fill(0),
+              'Soil and Water Conservation': new Array(selectedDistricts.length).fill(0),
+              'Community Forest and Woodlots': new Array(selectedDistricts.length).fill(0),
+              'Forest Management': new Array(selectedDistricts.length).fill(0),
+              'Improved Agricultural Technologies': new Array(selectedDistricts.length).fill(0)
+          };
 
-        // Populate counters with data from graph_data
-        graph_data.forEach(row => {
-            const districtIndex = selectedDistricts.indexOf(row['district']); // Find index of the district in selectedDistricts
+          // Populate counters with data from graph_data
+          graph_data.forEach(row => {
+              const districtIndex = selectedDistricts.indexOf(row['district']); // Find index of the district in selectedDistricts
 
-            row['features']['properties'].forEach(item => {
-                let type = item['properties']['Type'];
-                if (counters[type]) {
-                    counters[type][districtIndex] += parseFloat(item['properties']['HaUnderRes']);
-                }
-            });
-        });
+              row['features']['properties'].forEach(item => {
+                  let type = item['properties']['Type'];
+                  if (counters[type]) {
+                      counters[type][districtIndex] += parseFloat(item['properties']['HaUnderRes']);
+                  }
+              });
+          });
 
-        var myChart = new Chart(ctx, {
-            type: 'bar',  // Column chart type
-            data: {
-                labels: column_names,  // District labels
-                datasets: [
-                    {
-                        label: 'River and Stream bank Restoration',
-                        data: counters['River and Stream bank Restoration'],  // Data for each district
-                        backgroundColor: 'rgba(2, 205, 255, 0.7)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'Soil and Water Conservation',
-                        data: counters['Soil and Water Conservation'],
-                        backgroundColor: 'rgba(122, 68, 0, 0.7)',
-                        borderColor: 'rgba(82, 45, 0, 1)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'Community Forest and Woodlots',
-                        data: counters['Community Forest and Woodlots'],
-                        backgroundColor: 'rgba(142, 255, 133, 0.7)',
-                        borderColor: 'rgba(21, 249, 3, 1)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'Forest Management',
-                        data: counters['Forest Management'],
-                        backgroundColor: 'rgba(2, 87, 42, 0.7)',
-                        borderColor: 'rgba(1, 158, 10, 1)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'Improved Agricultural Technologies',
-                        data: counters['Improved Agricultural Technologies'],
-                        backgroundColor: 'rgba(247, 240, 15, 0.7)',
-                        borderColor: 'rgba(247, 240, 15, 1)',
-                        borderWidth: 1
-                    }
-                ]
-            },
-            options: {
-                scales: {
-                    x: {
-                        stacked: true  // Enable stacked bars on x-axis (districts)
-                    },
-                    y: {
-                        stacked: true,  // Enable stacked bars on y-axis (area values)
-                        beginAtZero: true
-                    }
-                },
-                plugins: {
-                    legend: {
-                        position: 'top',  // Align the legend to the top
-                        labels: {
-                            padding: 20,
-                            textAlign: 'left',
-                            usePointStyle: true
-                        }
-                    }
-                }
-            }
-        });
+          var myChart = new Chart(ctx, {
+              type: 'bar',  // Bar chart type (for grouped bars)
+              data: {
+                  labels: column_names,  // District labels
+                  datasets: [
+                      {
+                          label: 'River and Stream bank Restoration',
+                          data: counters['River and Stream bank Restoration'],  // Data for each district
+                          backgroundColor: 'rgba(2, 205, 255, 0.7)',
+                          borderColor: 'rgba(54, 162, 235, 1)',
+                          borderWidth: 1
+                      },
+                      {
+                          label: 'Soil and Water Conservation',
+                          data: counters['Soil and Water Conservation'],
+                          backgroundColor: 'rgba(122, 68, 0, 0.7)',
+                          borderColor: 'rgba(82, 45, 0, 1)',
+                          borderWidth: 1
+                      },
+                      {
+                          label: 'Community Forest and Woodlots',
+                          data: counters['Community Forest and Woodlots'],
+                          backgroundColor: 'rgba(142, 255, 133, 0.7)',
+                          borderColor: 'rgba(21, 249, 3, 1)',
+                          borderWidth: 1
+                      },
+                      {
+                          label: 'Forest Management',
+                          data: counters['Forest Management'],
+                          backgroundColor: 'rgba(2, 87, 42, 0.7)',
+                          borderColor: 'rgba(1, 158, 10, 1)',
+                          borderWidth: 1
+                      },
+                      {
+                          label: 'Improved Agricultural Technologies',
+                          data: counters['Improved Agricultural Technologies'],
+                          backgroundColor: 'rgba(247, 240, 15, 0.7)',
+                          borderColor: 'rgba(247, 240, 15, 1)',
+                          borderWidth: 1
+                      }
+                  ]
+              },
+              options: {
+                  scales: {
+                      x: {
+                          stacked: false,  // Disable stacking on x-axis to show grouped bars
+                      },
+                      y: {
+                          beginAtZero: true  // Keep y-axis starting at zero
+                      }
+                  },
+                  plugins: {
+                      legend: {
+                          position: 'top',  // Align the legend to the top
+                          labels: {
+                              padding: 20,
+                              textAlign: 'left',
+                              usePointStyle: true
+                          }
+                      }
+                  }
+              }
+          });
       }
+
 
 
         $(document).ready(function() {

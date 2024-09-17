@@ -156,11 +156,11 @@ function renderMap(file_name) {
 var page_dom_element_ids = [
     {
       page: "index_page",
-      dom_ids: ["index-page-main-slider", "index-page-content-1"]
+      dom_ids: ["index-page-main-slider", "index-page-content", "index-page-partners-section"]
     },
     {
-      page: "event_page",
-      dom_ids: ["event-page-main-text-section"]
+        page: "event_page",
+        dom_ids: ["event-page-content"]
     },
     {
       page: "map_viewer_page",
@@ -168,7 +168,7 @@ var page_dom_element_ids = [
     },
     {
         page: "documents_page",
-        dom_ids: ["documents-page-main-text-section"]
+        dom_ids: ["documents-page-document-text-section", "documents-page-document-link-text-section"]
     },
     {
         page: "contacts_page",

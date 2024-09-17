@@ -3,8 +3,10 @@ class MapController extends Controller {
     public function index() {
         $mapModel = $this->model('Map');
         $maps = $mapModel->getMaps();
+        $text_dom_sections = $this->model('DomElements')->getAllDomByPageName('map_viewer_page');
         $reformattedMapData = $this->prepareMapDataForView($maps);
-        $this->view('map_viewer', ['maps' => $reformattedMapData]);
+        
+        return $this->view('map_viewer', ['maps' => $reformattedMapData, 'text_dom_sections' => $text_dom_sections]);
     }
 
     public function delete() {
