@@ -33,7 +33,7 @@
 
   .scrollable-div {
   width: 100%;        /* Set the width of the div */
-  max-height: 150px;       /* Set the height of the div */
+  max-height: 250px;       /* Set the height of the div */
   overflow-y: scroll;  /* Enable vertical scrolling */
   overflow-x: hidden;  /* Hide horizontal scrolling */
   border: 1px solid #ccc;  /* Optional: Add a border to the div */
@@ -42,6 +42,71 @@
   padding:10px;
   margin-bottom:30px; /* Optional: Add a background color */
 }
+.content-font {
+  font-size: small;
+}
+.dom-image-container{
+  background-size: cover; 
+  background-position: center center;
+}
+.image-gallery {
+    display: flex;
+    flex-wrap: wrap;              /* Allows the images to wrap to the next line */
+    gap: 10px;                    /* Space between images */
+    justify-content: center;      /* Center the images on the page */
+}
+
+.image-item {
+    
+    margin-bottom: 10px;  
+    position: relative;
+    display: inline-block;        /* Adds some space between rows */
+}
+
+.image-item img {
+    max-width: 245px;
+    max-height: 140px;                   /* Image takes full width of the container */
+    display: block;
+}
+
+.flex-container {
+    display: flex;               /* Make the container a flexbox */
+    align-items: baseline;         /* Vertically align items */
+}
+
+.flex-container h5 P {
+    margin-left: 10px;           /* Add some spacing between the icon and the text */
+}
+
+.image-item a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.hover-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 35px;
+    color: white;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+
+.image-item:hover .hover-icon {
+    opacity: 1;
+}
+
+
+
+/* Make the images responsive using media queries */
+@media (max-width: 1024px) {
+    .image-item {
+        flex: 1 1 calc(50% - 20px); /* On smaller screens, make the images take half width */
+    }
+}
+
 
 </style>
 
@@ -254,7 +319,7 @@
               </div> 
             </div>
             <?php foreach($doms as $key => $value): ?>
-              <div class="row">
+              <div class="row" style="border: 2px solid #18331a; margin-bottom:30px;">
               <div class="col-lg-12">
                 <div class="section-heading" style="background-color:#d6dfcd; padding:20px;">
                   <h3><?php echo($key); ?></h3>
@@ -265,14 +330,57 @@
               <?php foreach($value as $dom):  ?>
                 <div class="col-md-12 page-sec-container">
                   <div class="col-lg-12">
-                    <div class="section-heading">
-                      <h5><?php echo($dom['dom_id']); ?></h>
-                    </div> 
+                    <div class="row">
+                      <div class="col-md-1">
+                        <div class="border-button" style="margin-top:20px;">
+                          <a href="#" data-toggle="modal" data-target="#deleteModalDOM" data-id=""><i class="fas fa-trash" title="Delete DataFile"></i></a>
+                        </div>
+                      </div>
+                      <div class="col-md-11">
+                        <div class="section-heading border-button">
+                          <h5><?php echo($dom['dom_id']); ?></h>
+                        </div> 
+                      </div>
+                    </div>
                   </div> 
                   <div class="col-lg-12">
                     <div class="scrollable-div">
-                      <div class="row">
-                        <div class="col-lg-10">CONTENT</div>
+                    <div class="row">
+                      <?php if($dom['dom_header']):?>
+                        <div class="col-lg-12 content">
+                            <div class="flex-container">
+                              <a href="#" data-toggle="modal" data-target="#deleteModalDOM" data-id=""><i class="fas fa-trash" title="Delete DataFile"></i></a>
+                              <h5 style="font-size:small; font-style:italic;"><span style="font-size:14px; color:#b1880d;"> HEADER: </span><?php echo($dom['dom_header']); ?></h5>
+                            </div>
+                        </div>
+                        <hr>
+                        <?php endif;?>
+                        <?php if($dom['dom_text']):?>
+                          <div class="col-lg-12 content">
+                            <div class="flex-container">
+                              <a href="#" data-toggle="modal" data-target="#deleteModalDOM" data-id=""><i class="fas fa-trash" title="Delete DataFile"></i></a>
+                              <p style="font-size:small; font-style:italic; text-align:justify;">
+                                <span style="font-size:14px; color:#b1880d; font-weight:500;"> TEXT: </span>
+                                <?php echo($dom['dom_text']); ?>
+                              </p>
+                            </div>
+                          </div>
+                          <hr>
+                        <?php endif;?>
+                        <?php if($dom['images']):?>
+                          <div class="col-lg-12 image-gallery">
+                              <?php foreach($dom['images'] as $image): ?>
+                                <div class="image-item">
+                                    <a href="your-link-url-here">
+                                        <img src="<?php echo BASE_IMAGE_URL . 'doms/' . $image; ?>" alt="Image <?php echo $image_counter; ?>">
+                                        <div class="hover-icon">
+                                            <i class="fas fa-trash"></i>
+                                        </div>
+                                    </a>
+                                </div>
+                              <?php endforeach; ?>
+                          </div>
+                        <?php endif;?>
                       </div>
                     </div>
                   </div>
@@ -290,6 +398,7 @@
   <?php require 'includes/modals/uploadModalURL.php';?>
   <?php require 'includes/modals/uploadModalDOM.php';?>
   <?php require 'includes/modals/deleteModalMap.php';?>
+  <?php require 'includes/modals/deleteModalDOM.php';?>
 
     
 
