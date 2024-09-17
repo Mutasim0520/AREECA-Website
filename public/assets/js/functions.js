@@ -11,35 +11,34 @@ function renderTable(table, data, data_indexes, row_actions) {
     const paginatedData = data.slice(startIndex, endIndex);
 
     $(element).empty();
+    var index_counter = 1;
     paginatedData.forEach(row => {
         // Create an empty string to hold all the dynamic <td> elements
         let tdElements = '';
         let tdElementsActions = '';
 
         // Loop through the list of data indexes or keys you want to add as <td> element
-        let counter = 1;
         data_indexes.forEach(index => {
             if(index != 'id'){
+                
                 if (index && typeof index === 'object') {
-                for (let key in index) {
-                    if (index.hasOwnProperty(key)) {
-                        let associated_array_indexes = index[key];
-                        
-                        associated_array_indexes.forEach(asc_index =>{
-                            tdElements += `<td>${row[key][asc_index]}</td>`;
-                        });
-                        console.log(`Key: ${key}, Value: ${index[key]}`);
+                    for (let key in index) {
+                        if (index.hasOwnProperty(key)) {
+                            let associated_array_indexes = index[key];
+                            associated_array_indexes.forEach(asc_index =>{
+                                tdElements += `<td>${row[key][asc_index]}</td>`;
+                            });
+                            console.log(`Key: ${key}, Value: ${index[key]}`);
+                        }
                     }
-                }
                 }else{
                     tdElements += `<td>${row[index]}</td>`;
                 }
             }else{
-                tdElements += `<td>${counter}</td>`;
-                counter = counter + 1;
+                tdElements += `<td>${index_counter}</td>`;
             }
-            
         });
+        index_counter += 1;
         
         //Prepare the action elements for each row of the table
         actionElements = renderActionUrlForTableRow(row_actions,row.id,row.name);

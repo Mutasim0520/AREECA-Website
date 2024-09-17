@@ -7,13 +7,26 @@ class DashboardController extends Controller {
             $maps = $this->model('Map')->getMaps();
             $users = $this->model('User')->getAllUsersWithRoles();
             $reformattedMapData = $this->prepareMapDataForView($maps);
-            $documents = $this->model('Event')->getAllEvents();
-            $this->view('dashboard', ['maps' => $reformattedMapData, 'users' => $users]);
+            $documents = $this->model('Document')->getAllDocuments();
+            $events = $this->model('Event')->getAllEvents();
+            $urls = $this->model('Uri')->getAllUris();
+            $doms = $this->getDomElements();
+            $this->view('dashboard', ['maps' => $reformattedMapData, 'users' => $users, 'events' => $events, 'documents' => $documents, 'urls' => $urls, 'doms' => $doms]);
         }
         else{
             $redirect_path = BASE_URL. 'auth/signInForm';
             $this->redirect($redirect_path);
         }
+    }
+
+    private function getDomElements() {
+        $index_doms = $this->model('DomElements')->getAllDomByPageName('index_page');
+        $events_doms = $this->model('DomElements')->getAllDomByPageName('event_page');
+        $document_doms = $this->model('DomElements')->getAllDomByPageName('documents_page');
+        $map_doms = $this->model('DomElements')->getAllDomByPageName('map_viewer_page');
+
+        $allDomElements = ['Index Page' => $index_doms, 'Event Page' => $events_doms, 'Map Viewer Page' => $map_doms, 'Documents Page' => $document_doms,];
+        return $allDomElements;
     }
 
     public function addEvent(){

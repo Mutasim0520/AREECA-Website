@@ -32,18 +32,4 @@ class HomeController extends Controller {
         return $this->view('documents', ['documents' => $documents, 'urls' => $urls, 'text_dom_sections_doc' => $text_dom_sections_doc, 'text_dom_sections_link' => $text_dom_sections_link]);
     }
 
-    private function filterDomElement($doms,$target_dom_id){
-        $matching_dom_elemnts = array();
-
-        //filter the matching dom indexs
-        foreach ($doms as $index => $element) {
-            if ($element['dom_id'] == $target_dom_id) {
-                $matching_dom_elemnts[] = $element;
-            }
-        }
-
-        return $matching_dom_elemnts;
-
-    }
-
 }

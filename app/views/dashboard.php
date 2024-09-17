@@ -2,227 +2,294 @@
 <html lang="en">
 
 <?php require 'includes/header.php'; ?>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<style>
+  .table-container {
+  max-height: 300px;  /* Set the maximum height for the table container */
+  overflow-y: auto;   /* Enable vertical scrolling */
+  }
+
+  table {
+    width: 100%;        /* Ensure the table takes the full width of the container */
+    border-collapse: collapse;
+  }
+
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+
+  tr td {
+    font-size:small;
+    text-align:justify;
+  }
+
+  thead th {
+    position: sticky;   /* Fix the header at the top */
+    top: 0;
+    background-color:green;
+  }
+
+  .scrollable-div {
+  width: 100%;        /* Set the width of the div */
+  max-height: 150px;       /* Set the height of the div */
+  overflow-y: scroll;  /* Enable vertical scrolling */
+  overflow-x: hidden;  /* Hide horizontal scrolling */
+  border: 1px solid #ccc;  /* Optional: Add a border to the div */
+  padding: 10px;       /* Optional: Add some padding */
+  background-color: #f9f9f9;
+  padding:10px;
+  margin-bottom:30px; /* Optional: Add a background color */
+}
+
+</style>
 
 <body>
 
     <!-- ***** Menu bar ***** -->
     <?php require 'includes/menu.php'; ?>
     <?php require 'includes/alert.php'; ?>
+    <div class="wrapper">
+      <div class="visit-country">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="section-heading text-center">
+                <h1>D A S H B O A R D</h1>
+                <p style="text-align:center;">Manage Your Website HERE</p>
+              </div>
+            </div>
+          </div>
+        </div>
 
-  <div class="weekly-offers">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-6 offset-lg-3">
-          <div class="section-heading text-center">
-            <h1>D A S H B O A R D</h1>
-            <p style="text-align:center;">Manage Your Website HERE</p>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="item">
+                <div class="section-heading">
+                  <h3>Map Data Files Management</h3>
+                  <p>You can see the available data files in the following table.</p>
+                  <div class="border-button">
+                    <a href="#" data-toggle="modal" data-target="#uploadModalMap">Upload New Data File</a>
+                  </div>
+                </div>
+                <div class="table-container">
+                  <table class="table" id="map-data-table">
+                    <thead class="thead-light">
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">District</th>
+                        <th scope="col">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+              </div>
+              <br>
+              <br>
+              <hr>
+              <div class="item">
+                  <div class="section-heading">
+                    <h3>User Management</h3>
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <p>Create a new user with appropriate roles and also Update and Delete the USER INFO(Ex: email,password, role).</p>
+                        <p>Users can have a role of <b>ADMIN</b> or <b>Moderator</b> or by default <b>GUEST</b> The Flowwing table shows the allowed actions of a Role.</p>
+                        <div class="border-button">
+                          <a href="#" data-toggle="modal" data-target="#uploadModal">Create New User</a>
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <table class="table table-bordered" style="font-size:x-small; color:#6db1bf; text-align:center">
+                          <thead class="thead-light">
+                            <tr>
+                              <th scope="col">Role</th>
+                              <th scope="col">See</th>
+                              <th scope="col">Create</th>
+                              <th scope="col">Update</th>
+                              <th scope="col">Delete</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td scope="col">Admin</td>
+                              <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
+                              <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
+                              <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
+                              <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
+                            </tr>
+                            <tr>
+                              <td scope="col">Moderator</td>
+                              <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
+                              <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
+                              <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
+                              <td scope="col"><i class="fas fa-ban" title="Not Allowed"></i></td>
+                            </tr>
+
+                            <tr>
+                              <td scope="col">Guest</td>
+                              <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
+                              <td scope="col"><i class="fas fa-ban" title="Not Allowed"></i></td>
+                              <td scope="col"><i class="fas fa-ban" title="Not Allowed"></i></td>
+                              <td scope="col"><i class="fas fa-ban" title="Not Allowed"></i></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                  <table class="table" id="user-data-table">
+                    <thead class="thead-light">
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Role</th>
+                        <th scope="col">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                  <nav>
+                    <ul class="pagination" id="user-table-pagination">
+                          <!-- Pagination links will be inserted here -->
+                    </ul>
+                  </nav>
+                </div>
+                <br>
+                <br>
+                <hr>
+              <div class="item">
+                  <div class="section-heading">
+                    <h3>WEBSITE Management</h3>
+                    <p>Basic Changes!!! of your website pages HERE. Changes include Description and Images of following avilable webpages.</p>
+                    <div class="border-button">
+                      <a href="#" data-toggle="modal" data-target="#uploadModalEvent">Add New Event</a>
+                    </div>
+                  </div>
+                  <div class="table-container">
+                  <table class="table" id="event-data-table">
+                    <thead class="thead-light">
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+                </div>
+
+                <div class="section-heading">
+                    <h4>Documents Management</h4>
+                    <p>Upload And Delete Important URL or Documents HERE</p>
+                    <div class="row">
+                      <div class="col-md-2">
+                        <div class="border-button">
+                          <a href="#" data-toggle="modal" data-target="#uploadModalDocument">Add New Document</a>
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="border-button">
+                          <a href="#" data-toggle="modal" data-target="#uploadModalURL">Add New URL</a>
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="border-button">
+                          <a href="#" data-toggle="modal" data-target="#uploadModalDOM">Add New DOM</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="table-container">
+                        <table class="table" id="document-data-table">
+                          <thead class="thead-light">
+                          <tr>
+                              <th colspan=3 style="text-align:center">Documents Table</th>
+                            </tr>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">File Name</th>
+                              <th scope="col">Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody></tbody>
+                        </table>
+                    </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <table class="table" id="url-data-table">
+                            <thead class="thead-light">
+                            <tr>
+                                <th colspan=4 style="text-align:center">URLs Table</th>
+                              </tr>
+                              <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">URL</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Actions</th>
+                              </tr>
+                            </thead>
+                            <tbody></tbody>
+                          </table>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="section-heading text-center">
+                <h1>DOM MANAGEMENT</h1>
+                <p style="text-align:center;">Manage Your Website HERE</p>
+              </div> 
+            </div>
+            <?php foreach($doms as $key => $value): ?>
+              <div class="row">
+              <div class="col-lg-12">
+                <div class="section-heading" style="background-color:#d6dfcd; padding:20px;">
+                  <h3><?php echo($key); ?></h3>
+                  <hr>
+                  <p style="text-align:justify;">Index page settings</p>
+                </div> 
+              </div>
+              <?php foreach($value as $dom):  ?>
+                <div class="col-md-12 page-sec-container">
+                  <div class="col-lg-12">
+                    <div class="section-heading">
+                      <h5><?php echo($dom['dom_id']); ?></h>
+                    </div> 
+                  </div> 
+                  <div class="col-lg-12">
+                    <div class="scrollable-div">
+                      <div class="row">
+                        <div class="col-lg-10">CONTENT</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <?php endforeach; ?>   
+            </div>
+            <?php endforeach; ?>    
           </div>
         </div>
       </div>
     </div>
-
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="item">
-            <div class="section-heading">
-              <h3>Map Data Files Management</h3>
-              <p>You can see the available data files in the following table.</p>
-              <div class="border-button">
-                <a href="#" data-toggle="modal" data-target="#uploadModalMap">Upload New Data File</a>
-              </div>
-            </div>
-            <table class="table" id="map-data-table">
-              <thead class="thead-light">
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Name</th>
-                  <th scope="col">Area</th>
-                  <th scope="col">HAUnderRes</th>
-                  <th scope="col">Actions</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-            <nav>
-              <ul class="pagination" id="map-table-pagination">
-                    <!-- Pagination links will be inserted here -->
-              </ul>
-            </nav>
-          </div>
-          <br>
-          <br>
-          <hr>
-          <div class="item">
-              <div class="section-heading">
-                <h3>User Management</h3>
-                <div class="row">
-                  <div class="col-sm-6">
-                    <p>Create a new user with appropriate roles and also Update and Delete the USER INFO(Ex: email,password, role).</p>
-                    <p>Users can have a role of <b>ADMIN</b> or <b>Moderator</b> or by default <b>GUEST</b> The Flowwing table shows the allowed actions of a Role.</p>
-                    <div class="border-button">
-                      <a href="#" data-toggle="modal" data-target="#uploadModal">Create New User</a>
-                    </div>
-                  </div>
-                  <div class="col-sm-4">
-                    <table class="table table-bordered" style="font-size:x-small; color:#6db1bf; text-align:center">
-                      <thead class="thead-light">
-                        <tr>
-                          <th scope="col">Role</th>
-                          <th scope="col">See</th>
-                          <th scope="col">Create</th>
-                          <th scope="col">Update</th>
-                          <th scope="col">Delete</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td scope="col">Admin</td>
-                          <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
-                          <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
-                          <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
-                          <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
-                        </tr>
-                        <tr>
-                          <td scope="col">Moderator</td>
-                          <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
-                          <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
-                          <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
-                          <td scope="col"><i class="fas fa-ban" title="Not Allowed"></i></td>
-                        </tr>
-
-                        <tr>
-                          <td scope="col">Guest</td>
-                          <td scope="col"><i class="fas fa-check" title="Allowed"></i></td>
-                          <td scope="col"><i class="fas fa-ban" title="Not Allowed"></i></td>
-                          <td scope="col"><i class="fas fa-ban" title="Not Allowed"></i></td>
-                          <td scope="col"><i class="fas fa-ban" title="Not Allowed"></i></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-              <table class="table" id="user-data-table">
-                <thead class="thead-light">
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Role</th>
-                    <th scope="col">Actions</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-              <nav>
-                <ul class="pagination" id="user-table-pagination">
-                      <!-- Pagination links will be inserted here -->
-                </ul>
-              </nav>
-            </div>
-            <br>
-            <br>
-            <hr>
-          <div class="item">
-              <div class="section-heading">
-                <h3>WEBSITE Management</h3>
-                <p>Basic Changes!!! of your website pages HERE. Changes include Description and Images of following avilable webpages.</p>
-                <div class="border-button">
-                  <a href="#" data-toggle="modal" data-target="#uploadModalEvent">Add New Event</a>
-                </div>
-              </div>
-              <table class="table">
-                <thead class="thead-light">
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Role</th>
-                    <th scope="col">Actions</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-              <nav>
-                <ul class="pagination" id="pagination">
-                      <!-- Pagination links will be inserted here -->
-                </ul>
-              </nav>
-            </div>
-
-            <div class="section-heading">
-                <h4>Documents Management</h4>
-                <p>Upload And Delete Important URL or Documents HERE</p>
-                <div class="row">
-                  <div class="col-md-2">
-                    <div class="border-button">
-                      <a href="#" data-toggle="modal" data-target="#uploadModalDocument">Add New Document</a>
-                    </div>
-                  </div>
-                  <div class="col-md-2">
-                    <div class="border-button">
-                      <a href="#" data-toggle="modal" data-target="#uploadModalURL">Add New URL</a>
-                    </div>
-                  </div>
-                  <div class="col-md-2">
-                    <div class="border-button">
-                      <a href="#" data-toggle="modal" data-target="#uploadModalDOM">Add New DOM</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <table class="table" id="documents_table">
-                <thead class="thead-light">
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Role</th>
-                    <th scope="col">Actions</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-              <nav>
-                <ul class="pagination" id="pagination">
-                      <!-- Pagination links will be inserted here -->
-                </ul>
-              </nav>
-            </div>
-        </div>
-      </div>
-    </div>
-  </div>
   <?php require 'includes/modals/uploadModalMap.php';?>
   <?php require 'includes/modals/uploadModalDocument.php';?>
   <?php require 'includes/modals/uploadModalEvent.php';?>
   <?php require 'includes/modals/uploadModalURL.php';?>
   <?php require 'includes/modals/uploadModalDOM.php';?>
   <?php require 'includes/modals/deleteModalMap.php';?>
-
-  
-
-
-  <!-- ***** Popup for MAP View ***** -->
-  <div class="modal fade bd-example-modal-lg" id="viewModalMap" tabindex="-1" role="dialog" aria-labelledby="viewModalMapLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="viewModalMapLabel">MAP</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div id="map"></div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
 
     
 
@@ -261,26 +328,50 @@
   <script id="user-data" type="application/json">
         <?php echo(json_encode($users)); ?>
   </script>
+
+  <script id="event-data" type="application/json">
+        <?php echo(json_encode($events)); ?>
+  </script>
+  <script id="document-data" type="application/json">
+        <?php echo(json_encode($documents)); ?>
+  </script>
+  <script id="url-data" type="application/json">
+        <?php echo(json_encode($urls)); ?>
+  </script>
   <script>
         // const rowsPerPage = 10;
         // let currentPage = 1;
-        var map = L.map('map').setView([-14.996665839805985, 35.04404396532377], 7.5);
-        var currentLayer = null;
-       
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy;<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a><span id="loaded_file_name" style="font-size:bold"></span>'
-        }).addTo(map);
 
         function loadMapDataTable() {
           let map_data = JSON.parse(document.getElementById('map-data').textContent);
           let aggregated_data_indicies = {aggregated_data:['Area','HaUnderRes']};
-          let map_data_indexes = ['id','file_name', aggregated_data_indicies];
-          let map_row_actions = [{ type: "view", uri: '#', popup_element_id: "#viewModalMap" },
-                                    { type: "update", uri: '#', popup_element_id: "#updateModalMap" },
-                                    { type: "delete", uri: '#', popup_element_id: "#deleteModalMap" }];
+          let map_data_indexes = ['id','file_name',  'district'];
+          let map_row_actions = [{ type: "delete", uri: '#', popup_element_id: "#deleteModalMap" }];
           renderTable('map',map_data, map_data_indexes, map_row_actions);
+        }
+
+        function loadEventDataTable() {
+          let event_data = JSON.parse(document.getElementById('event-data').textContent);
+          let aggregated_data_indicies = {aggregated_data:['Area','HaUnderRes']};
+          let data_indexes = ['id','name','description'];
+          let row_actions = [{ type: "delete", uri: '#', popup_element_id: "#deleteModalMap" }];
+          renderTable('event',event_data, data_indexes, row_actions);
+        }
+
+        function loadDocumentDataTable() {
+          let document_data = JSON.parse(document.getElementById('document-data').textContent);
+          let aggregated_data_indicies = {aggregated_data:['Area','HaUnderRes']};
+          let data_indexes = ['id','real_name'];
+          let row_actions = [{ type: "delete", uri: '#', popup_element_id: "#deleteModalMap" }];
+          renderTable('document',document_data, data_indexes, row_actions);
+        }
+
+        function loadUrlDataTable() {
+          let url_data = JSON.parse(document.getElementById('url-data').textContent);
+          let aggregated_data_indicies = {aggregated_data:['Area','HaUnderRes']};
+          let data_indexes = ['id','perma_link','name'];
+          let row_actions = [{ type: "delete", uri: '#', popup_element_id: "#deleteModalMap" }];
+          renderTable('url',url_data, data_indexes, row_actions);
         }
 
         function loadUserDataTable() {
@@ -302,6 +393,9 @@
         $(document).ready(function() {
           loadMapDataTable();
           loadUserDataTable();
+          loadEventDataTable();
+          loadDocumentDataTable();
+          loadUrlDataTable();
           
 
             $(document).on('click', '#pagination .page-link', function(e) {

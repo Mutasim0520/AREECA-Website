@@ -114,4 +114,18 @@ class Controller {
         return $finalData;
     }
 
+    protected function filterDomElement($doms,$target_dom_id){
+        $matching_dom_elemnts = array();
+
+        //filter the matching dom indexs
+        foreach ($doms as $index => $element) {
+            if ($element['dom_id'] == $target_dom_id) {
+                $matching_dom_elemnts[] = $element;
+            }
+        }
+
+        return $matching_dom_elemnts;
+
+    }
+
 }
