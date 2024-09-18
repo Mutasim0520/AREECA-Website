@@ -2,113 +2,7 @@
 <html lang="en">
 
 <?php require 'includes/header.php'; ?>
-
-<style>
-  .table-container {
-  max-height: 300px;  /* Set the maximum height for the table container */
-  overflow-y: auto;   /* Enable vertical scrolling */
-  }
-
-  table {
-    width: 100%;        /* Ensure the table takes the full width of the container */
-    border-collapse: collapse;
-  }
-
-  th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-  }
-
-  tr td {
-    font-size:small;
-    text-align:justify;
-  }
-
-  thead th {
-    position: sticky;   /* Fix the header at the top */
-    top: 0;
-    background-color:green;
-  }
-
-  .scrollable-div {
-  width: 100%;        /* Set the width of the div */
-  max-height: 250px;       /* Set the height of the div */
-  overflow-y: scroll;  /* Enable vertical scrolling */
-  overflow-x: hidden;  /* Hide horizontal scrolling */
-  border: 1px solid #ccc;  /* Optional: Add a border to the div */
-  padding: 10px;       /* Optional: Add some padding */
-  background-color: #f9f9f9;
-  padding:10px;
-  margin-bottom:30px; /* Optional: Add a background color */
-}
-.content-font {
-  font-size: small;
-}
-.dom-image-container{
-  background-size: cover; 
-  background-position: center center;
-}
-.image-gallery {
-    display: flex;
-    flex-wrap: wrap;              /* Allows the images to wrap to the next line */
-    gap: 10px;                    /* Space between images */
-    justify-content: center;      /* Center the images on the page */
-}
-
-.image-item {
-    
-    margin-bottom: 10px;  
-    position: relative;
-    display: inline-block;        /* Adds some space between rows */
-}
-
-.image-item img {
-    max-width: 245px;
-    max-height: 140px;                   /* Image takes full width of the container */
-    display: block;
-}
-
-.flex-container {
-    display: flex;               /* Make the container a flexbox */
-    align-items: baseline;         /* Vertically align items */
-}
-
-.flex-container h5 P {
-    margin-left: 10px;           /* Add some spacing between the icon and the text */
-}
-
-.image-item a {
-    text-decoration: none;
-    color: inherit;
-}
-
-.hover-icon {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 35px;
-    color: white;
-    opacity: 0.6;
-    transition: opacity 0.3s ease;
-}
-
-.image-item:hover .hover-icon {
-    opacity: 1;
-}
-
-
-
-/* Make the images responsive using media queries */
-@media (max-width: 1024px) {
-    .image-item {
-        flex: 1 1 calc(50% - 20px); /* On smaller screens, make the images take half width */
-    }
-}
-
-
-</style>
+<link rel="stylesheet" href="/AREECA/public/assets/css/dashboard.css">
 
 <body>
 
@@ -163,9 +57,9 @@
                       <div class="col-sm-6">
                         <p>Create a new user with appropriate roles and also Update and Delete the USER INFO(Ex: email,password, role).</p>
                         <p>Users can have a role of <b>ADMIN</b> or <b>Moderator</b> or by default <b>GUEST</b> The Flowwing table shows the allowed actions of a Role.</p>
-                        <div class="border-button">
+                        <!-- <div class="border-button">
                           <a href="#" data-toggle="modal" data-target="#uploadModal">Create New User</a>
-                        </div>
+                        </div> -->
                       </div>
                       <div class="col-sm-4">
                         <table class="table table-bordered" style="font-size:x-small; color:#6db1bf; text-align:center">
@@ -218,11 +112,6 @@
                     </thead>
                     <tbody></tbody>
                   </table>
-                  <nav>
-                    <ul class="pagination" id="user-table-pagination">
-                          <!-- Pagination links will be inserted here -->
-                    </ul>
-                  </nav>
                 </div>
                 <br>
                 <br>
@@ -254,19 +143,14 @@
                     <h4>Documents Management</h4>
                     <p>Upload And Delete Important URL or Documents HERE</p>
                     <div class="row">
-                      <div class="col-md-2">
+                      <div class="col-md-6">
                         <div class="border-button">
                           <a href="#" data-toggle="modal" data-target="#uploadModalDocument">Add New Document</a>
                         </div>
                       </div>
-                      <div class="col-md-2">
+                      <div class="col-md-6">
                         <div class="border-button">
                           <a href="#" data-toggle="modal" data-target="#uploadModalURL">Add New URL</a>
-                        </div>
-                      </div>
-                      <div class="col-md-2">
-                        <div class="border-button">
-                          <a href="#" data-toggle="modal" data-target="#uploadModalDOM">Add New DOM</a>
                         </div>
                       </div>
                     </div>
@@ -316,6 +200,11 @@
               <div class="section-heading text-center">
                 <h1>DOM MANAGEMENT</h1>
                 <p style="text-align:center;">Manage Your Website HERE</p>
+                <div class="offset-md-4 col-md-4">
+                  <div class="border-button">
+                    <a href="#" data-toggle="modal" data-target="#uploadModalDOM">Add New DOM</a>
+                  </div>
+                </div>
               </div> 
             </div>
             <?php foreach($doms as $key => $value): ?>
@@ -333,7 +222,7 @@
                     <div class="row">
                       <div class="col-md-1">
                         <div class="border-button" style="margin-top:20px;">
-                          <a href="#" data-toggle="modal" data-target="#deleteModalDOM" data-id=""><i class="fas fa-trash" title="Delete DataFile"></i></a>
+                          <a href="#" data-toggle="modal" data-target="#deleteModalDOM" data-id="<?php echo($dom['id']); ?>"><i class="fas fa-trash" title="Delete complete section"></i></a>
                         </div>
                       </div>
                       <div class="col-md-11">
@@ -349,7 +238,7 @@
                       <?php if($dom['dom_header']):?>
                         <div class="col-lg-12 content">
                             <div class="flex-container">
-                              <a href="#" data-toggle="modal" data-target="#deleteModalDOM" data-id=""><i class="fas fa-trash" title="Delete DataFile"></i></a>
+                              <!-- <a href="#" data-toggle="modal" data-target="#deleteModalDOM" data-id="<?php echo($dom['id']); ?>"><i class="fas fa-trash" title="Delete Header"></i></a> -->
                               <h5 style="font-size:small; font-style:italic;"><span style="font-size:14px; color:#b1880d;"> HEADER: </span><?php echo($dom['dom_header']); ?></h5>
                             </div>
                         </div>
@@ -358,7 +247,7 @@
                         <?php if($dom['dom_text']):?>
                           <div class="col-lg-12 content">
                             <div class="flex-container">
-                              <a href="#" data-toggle="modal" data-target="#deleteModalDOM" data-id=""><i class="fas fa-trash" title="Delete DataFile"></i></a>
+                              <!-- <a href="#" data-toggle="modal" data-target="#deleteModalDOM" data-id=""><i class="fas fa-trash" title="Delete Text"></i></a> -->
                               <p style="font-size:small; font-style:italic; text-align:justify;">
                                 <span style="font-size:14px; color:#b1880d; font-weight:500;"> TEXT: </span>
                                 <?php echo($dom['dom_text']); ?>
@@ -371,8 +260,8 @@
                           <div class="col-lg-12 image-gallery">
                               <?php foreach($dom['images'] as $image): ?>
                                 <div class="image-item">
-                                    <a href="your-link-url-here">
-                                        <img src="<?php echo BASE_IMAGE_URL . 'doms/' . $image; ?>" alt="Image <?php echo $image_counter; ?>">
+                                    <a href="#" data-toggle="modal" data-target="#deleteModalDOMImage" data-id="<?php echo($image['id']); ?>">
+                                        <img src="<?php echo BASE_IMAGE_URL . 'doms/' . $image['file_name']; ?>" alt="Image <?php echo $image_counter; ?>">
                                         <div class="hover-icon">
                                             <i class="fas fa-trash"></i>
                                         </div>
@@ -399,6 +288,7 @@
   <?php require 'includes/modals/uploadModalDOM.php';?>
   <?php require 'includes/modals/deleteModalMap.php';?>
   <?php require 'includes/modals/deleteModalDOM.php';?>
+  <?php require 'includes/modals/deleteModalDOMImage.php';?>
 
     
 
@@ -527,6 +417,31 @@
                   var modal = $(this);
                   modal.find('#map_id_delete').val(recordId);
                 });
+
+            
+            $('#deleteModalDOM').on('show.bs.modal', function (event) {
+              // Get the button or link that triggered the modal
+              var button = $(event.relatedTarget); 
+                  
+                  // Extract the ID from data-id attribute
+              var recordId = button.data('id'); 
+                  
+                  // Update the modal's hidden input with this ID
+              var modal = $(this);
+              modal.find('#dom_id_delete').val(recordId);
+            });
+            $('#deleteModalDOMImage').on('show.bs.modal', function (event) {
+              // Get the button or link that triggered the modal
+              var button = $(event.relatedTarget); 
+                  
+                  // Extract the ID from data-id attribute
+              var recordId = button.data('id'); 
+                  
+                  // Update the modal's hidden input with this ID
+              var modal = $(this);
+              modal.find('#dom_image_id_delete').val(recordId);
+            });
+            
             document.getElementById('pageSelect').addEventListener('change', function() {
               const selectedPage = this.value;
               updateDomSelect(selectedPage);
@@ -555,6 +470,12 @@
     });
     document.getElementById('deleteMapButton').addEventListener('click', function() {
         document.getElementById('deleteFormMap').submit();
+    });
+    document.getElementById('deleteDOMImageButton').addEventListener('click', function() {
+        document.getElementById('deleteFormDOMImage').submit();
+    });
+    document.getElementById('deleteDOMButton').addEventListener('click', function() {
+        document.getElementById('deleteFormDOM').submit();
     });
 
     function handleModalActivation(activeSubmitId) {

@@ -11,6 +11,7 @@ class DashboardController extends Controller {
             $events = $this->model('Event')->getAllEvents();
             $urls = $this->model('Uri')->getAllUris();
             $doms = $this->getDomElements();
+            // print_r($doms);
             $this->view('dashboard', ['maps' => $reformattedMapData, 'users' => $users, 'events' => $events, 'documents' => $documents, 'urls' => $urls, 'doms' => $doms]);
         }
         else{
@@ -286,6 +287,37 @@ class DashboardController extends Controller {
         }
         else{
             $this->redirectBack();
+        }
+    }
+
+    public function deleteDOM(){
+        $_SESSION['message_type'] = 'error';
+        $redirect_url = BASE_URL. 'dashboard/index';
+        if($this->is_authorized()){
+            if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+                if(isset($_POST['image_id'])){
+                    $id = $_POST['image_id'];
+                    $is_deleted = $this->model('DomElements')->deleteDOMImage($id);
+                }
+                else{
+                    $id = $_POST['id'];
+                    $is_deleted = $this->model('DomElements')->deleteDOM($id);
+                }
+                if ($is_deleted){
+                    $_SESSION['message_type'] = 'success'; 
+                    $_SESSION['message'] = "Successfully Deleted";
+                    return $this->redirect($redirect_url);
+                }
+                else{
+                    $_SESSION['message'] = "Something Went Wrong. Please Try AGAIN \n";
+                    return $this->redirectBack();
+                }
+                 
+            }else{
+                return $this->redirectBack();
+            }
+        }else{
+            return $this->redirectBack();
         }
     }
 

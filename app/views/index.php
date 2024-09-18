@@ -41,7 +41,7 @@
           foreach($main_slider as $item):
               foreach($item['images'] as $image): ?>
                 <div id="<?php echo 'top-banner-' . $image_counter; ?>" class="banner" 
-                    style="background-image: url('<?php echo BASE_IMAGE_URL . 'doms/' . $image; ?>'); background-size: cover; background-position: center center;"></div>
+                    style="background-image: url('<?php echo BASE_IMAGE_URL . 'doms/' . $image['file_name']; ?>'); background-size: cover; background-position: center center;"></div>
                 <?php 
                 $image_counter++;
               endforeach;
@@ -84,7 +84,7 @@
             <div class="logo-wrapper">
                 <?php 
                     foreach($partner_dom_section[0]['images'] as $item):
-                        $image_url = BASE_IMAGE_URL . 'doms/' . $item;
+                        $image_url = BASE_IMAGE_URL . 'doms/' . $item['file_name'];
                 ?>
                 <div class="logo-container">
                     <img src="<?php echo($image_url); ?>" class="partner-logo" />
@@ -93,18 +93,6 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="call-to-action">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12">
-          <h2></h2>
-          <h4>Make A Reservation By Clicking The Button</h4>
-        </div>
-        
       </div>
     </div>
   </div>

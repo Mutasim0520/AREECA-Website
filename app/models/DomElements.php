@@ -96,11 +96,12 @@ class DomElements extends Model {
 
     public function getAllDomByPageName($html_page_name) {
         $sql = "SELECT 
+                    domElements.id AS id,
                     domElements.dom_id AS dom_id,
                     domElements.html_page_name AS html_page_name,
                     domElements.dom_text AS dom_text,
                     domElements.dom_header AS dom_header,
-                    GROUP_CONCAT(domElement_pictures.file_name) AS images
+                    GROUP_CONCAT(CONCAT(domElement_pictures.id, '|', domElement_pictures.file_name) SEPARATOR ',') AS images_with_ids
                 FROM
                     domElements
                 LEFT JOIN
@@ -108,10 +109,9 @@ class DomElements extends Model {
                 WHERE 
                     domElements.html_page_name = :html_page_name
                 GROUP BY
-                    domElements.dom_id,
-                    domElements.html_page_name,
-                    domElements.dom_text,
-                    domElements.dom_header
+                    
+                    domElements.dom_id
+                    
                 ORDER BY
                     domElements.id DESC";
                     
@@ -121,12 +121,35 @@ class DomElements extends Model {
         $results = $query->fetchAll(PDO::FETCH_ASSOC);
     
         // Convert the comma-separated image list into an array
-        foreach ($results as &$row) {
-            $row['images'] = $row['images'] ? explode(',', $row['images']) : [];  // Handle empty or null case
+        foreach ($results as &$result) {
+            if (!empty($result['images_with_ids'])) {
+                // Split the concatenated 'images_with_ids' field
+                $images_with_ids = explode(',', $result['images_with_ids']);
+                
+                // Initialize an array to store the images with their id and file_name
+                $images_array = [];
+            
+                foreach ($images_with_ids as $image_with_id) {
+                    // Split the id and file_name by the pipe '|' delimiter
+                    list($id, $file_name) = explode('|', $image_with_id);
+            
+                    // Add the id and file_name as an associative array to the images_array
+                    $images_array[] = [
+                        'id' => $id,
+                        'file_name' => $file_name
+                    ];
+                }
+            
+                // Replace the 'images_with_ids' with the actual array of images
+                $result['images'] = $images_array;
+            } else {
+                $result['images'] = []; // If no images, set an empty array
+            }
         }
     
         return $results;
     }
+    
 
     public function getEventByID($id) {
         $sql = "SELECT 
@@ -160,6 +183,27 @@ class DomElements extends Model {
         return $results;
     }
 
+    public function deleteDOMImage($id){
+        try{
+            $query = $this->db->prepare("DELETE FROM domElement_pictures WHERE id = :id");
+            $query->bindParam(':id', $id);
+            $query->execute();
+            return TRUE;
+        }catch(Exception $e){
+            return false;
+        }
+    }
+
+    public function deleteDOM($id){
+        try{
+            $query = $this->db->prepare("DELETE FROM domElements WHERE id = :id");
+            $query->bindParam(':id', $id);
+            $query->execute();
+            return TRUE;
+        }catch(Exception $e){
+            return false;
+        }
+    }
     
 }
 
