@@ -45,26 +45,23 @@
             <div class="itme"></div>
           </div>
         </div>
-        <div class="row">
-        <div class="row">
+        <div class="container">
+          <div class="row">
             <div class="col-lg-12">
-                <div class="section-heading text-center">
-                    <h1><?php echo $text_dom_sections_link[0]['dom_header']; ?></h1>
-                    <hr>
-                    <p id="map_data_detail"><?php echo $text_dom_sections_link[0]['dom_text']; ?></p>
-                </div>
+              <div class="section-heading text-center">
+                <h1><?php echo $text_dom_sections_link[0]['dom_header']; ?></h1>
+                <hr>
+                <p id="map_data_detail"><?php echo $text_dom_sections_link[0]['dom_text']; ?></p>
               </div>
             </div>
-            <div class="col-lg-5 offset-lg-3">
+            <div class="offset-lg-4 col-lg-4" style="justify-content: center;">
               <div class="owl-weekly-urls owl-carousel">
-                <?php foreach($urls as $url): 
-                 
-                  ?>
+                <?php foreach($urls as $url): ?>
                   <div class="item">
                     <div class="thumb">
-                      <div class="event-image-container" style="text-align:center; font-size: larger; font-weight: 500;">
+                      <div class="event-image-container" style="border-radius:0px; width: 100%; height: 100%; overflow: hidden; position: relative;text-align:center; font-size: larger; font-weight: 500;">
                         <a href="<?php echo($url['perma_link']); ?>" target="_blank" rel="noopener noreferrer">
-                          <img src="<?php echo(BASE_IMAGE_URL).'link.png' ?>" alt=""> <?php echo($url['name']); ?> 
+                          <img src="<?php echo(BASE_IMAGE_URL).'link.png' ?>" alt="" style="padding:0px; object-fit:cover; height:100%; width:100%"> <?php echo($url['name']); ?> 
                         </a>
                       </div>
                     </div>

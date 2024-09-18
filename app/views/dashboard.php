@@ -107,7 +107,6 @@
                         <th scope="col">Username</th>
                         <th scope="col">Email</th>
                         <th scope="col">Role</th>
-                        <th scope="col">Actions</th>
                       </tr>
                     </thead>
                     <tbody></tbody>
@@ -376,9 +375,7 @@
         function loadUserDataTable() {
           let user_data = JSON.parse(document.getElementById('user-data').textContent);
           let user_data_indexes = ['user_id','username','user_email', 'role_name'];
-          let user_row_actions = [{ type: "view", uri: '#', popup_element_id: "#viewModalMap" },
-                                    { type: "update", uri: '#', popup_element_id: "#updateModalMap" },
-                                    { type: "delete", uri: '#', popup_element_id: "#deleteModalMap" }];
+          let user_row_actions = [];
           renderTable('user',user_data, user_data_indexes, user_row_actions);
         }
 

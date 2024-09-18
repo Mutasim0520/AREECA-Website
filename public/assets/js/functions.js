@@ -41,15 +41,27 @@ function renderTable(table, data, data_indexes, row_actions) {
         index_counter += 1;
         
         //Prepare the action elements for each row of the table
-        actionElements = renderActionUrlForTableRow(row_actions,row.id,row.name);
-        tdElementsActions += `<td><div class="main-button">${actionElements}</div></td>`;
+        if(!row_actions.length == 0){
+            actionElements = renderActionUrlForTableRow(row_actions,row.id,row.name);
+            tdElementsActions += `<td><div class="main-button">${actionElements}</div></td>`;
+        }else{
 
-        $(element).append(`
-            <tr>
-                ${tdElements}
-                ${tdElementsActions}
-            </tr>
-        `);
+        }
+        if(tdElementsActions === ''){
+            $(element).append(`
+                <tr>
+                    ${tdElements}
+                </tr>
+            `);
+        }
+        else{
+            $(element).append(`
+                <tr>
+                    ${tdElements}
+                    ${tdElementsActions}
+                </tr>
+            `);
+        }
     });
 
     renderTablePagination(table,data);
