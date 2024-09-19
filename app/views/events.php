@@ -30,7 +30,7 @@
         <div class="col-lg-12">
           <div class="owl-weekly-offers owl-carousel">
             <?php foreach($events as $event): 
-              $file_path = 'events/'.$event['images'][0];
+              $file_path = 'events/'.$event['cover'];
               ?>
               <div class="item">
                 <div class="thumb">

@@ -17,7 +17,7 @@ class DomElements extends Model {
                     id INT AUTO_INCREMENT PRIMARY KEY,
                     html_page_name VARCHAR(100) NOT NULL,
                     dom_id VARCHAR(100) NOT NULL,
-                    dom_text  VARCHAR(1000) NULL,
+                    dom_text  LONGTEXT NULL,
                     dom_header VARCHAR(200) NULL,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -109,7 +109,8 @@ class DomElements extends Model {
                 WHERE 
                     domElements.html_page_name = :html_page_name
                 GROUP BY
-                    
+                    domElements.id,
+                    domElements.html_page_name,
                     domElements.dom_id
                     
                 ORDER BY
@@ -150,38 +151,6 @@ class DomElements extends Model {
         return $results;
     }
     
-
-    public function getEventByID($id) {
-        $sql = "SELECT 
-                    events.id AS id,
-                    events.name AS name,
-                    events.date AS date,
-                    events.description AS description,
-                    events.venue AS venue,
-                    events.intro AS intro,
-                    GROUP_CONCAT(event_pictures.file_name) AS images
-                FROM
-                    events
-                LEFT JOIN
-                    event_pictures ON events.id = event_pictures.event_id
-                WHERE
-                    events.id = :id
-                GROUP BY
-                    events.id
-                ORDER BY
-                    events.id DESC";
-                    
-        $query = $this->db->prepare($sql);
-        $query->execute(['id' => $id]);
-        $results = $query->fetchAll(PDO::FETCH_ASSOC);
-    
-        // Convert the comma-separated image list into an array
-        foreach ($results as &$row) {
-            $row['images'] = $row['images'] ? explode(',', $row['images']) : [];  // Handle empty or null case
-        }
-    
-        return $results;
-    }
 
     public function deleteDOMImage($id){
         try{

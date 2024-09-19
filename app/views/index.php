@@ -5,8 +5,8 @@
 
 <style>
   <?php 
+      $i=1;
       foreach($main_slider as $item){
-        $i=1;
           foreach($item['images'] as $image){ ?>
             .section-1 .content-slider #banner<?php echo $i; ?>:checked ~ .slider #top-banner-<?php echo $i; ?>
             {
@@ -41,7 +41,9 @@
           foreach($main_slider as $item):
               foreach($item['images'] as $image): ?>
                 <div id="<?php echo 'top-banner-' . $image_counter; ?>" class="banner" 
-                    style="background-image: url('<?php echo BASE_IMAGE_URL . 'doms/' . $image['file_name']; ?>'); background-size: cover; background-position: center center;"></div>
+                    style="background-size: cover; background-position: center center; object-fit:cover; max-height:85vh;">
+                  <img src="<?php echo BASE_IMAGE_URL . 'doms/' . $image['file_name'];?>">
+                </div>
                 <?php 
                 $image_counter++;
               endforeach;
@@ -66,7 +68,7 @@
           </div>
           <div class="col-lg-12">
             <p style="text-align:justify">
-              <?php echo $section['dom_text']; ?>
+              <?php echo (str_replace(["\r\n", "\n"], '<br><br>', $section['dom_text'])); ?>
             </p>
           </div>
         </div>
@@ -96,6 +98,7 @@
       </div>
     </div>
   </div>
+
 
   <!-- Scripts -->
   <!-- Bootstrap core JavaScript -->

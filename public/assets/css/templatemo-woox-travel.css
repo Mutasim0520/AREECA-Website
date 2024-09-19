@@ -758,9 +758,7 @@ Banner Style
 
 .section-1 {
   margin-top: 0px;
-  height: 65%;
-  /* margin-left: 16%;
-  margin-right: 16%; */
+  height: 75%;
   color: #fff;
   position: relative;
 }
@@ -946,20 +944,6 @@ Banner Style
   max-width: 150px;         
              
 }
-
-/* .section-1 .content-slider #banner1:checked ~ .slider #top-banner-1,
-.section-1 .content-slider #banner2:checked ~ .slider #top-banner-2,
-.section-1 .content-slider #banner3:checked ~ .slider #top-banner-3,
-.section-1 .content-slider #banner4:checked ~ .slider #top-banner-4,
-.section-1 .content-slider #banner5:checked ~ .slider #top-banner-5,
-.section-1 .content-slider #banner6:checked ~ .slider #top-banner-6,
-.section-1 .content-slider #banner7:checked ~ .slider #top-banner-7,
-.section-1 .content-slider #banner8:checked ~ .slider #top-banner-8,
-.section-1 .content-slider #banner9:checked ~ .slider #top-banner-9,
-.section-1 .content-slider #banner10:checked ~ .slider #top-banner-10 {
-  opacity: 1;
-  z-index: 1;
-} */
 .section-1 .content-slider #banner1:checked ~ nav label:nth-of-type(1),
 .section-1 .content-slider #banner2:checked ~ nav label:nth-of-type(2),
 .section-1 .content-slider #banner3:checked ~ nav label:nth-of-type(3),

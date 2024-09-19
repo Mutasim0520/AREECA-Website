@@ -42,9 +42,10 @@ class DashboardController extends Controller {
                     $date = trim($_POST['date']);
                     $description = trim($_POST['description']);
                     $uploaded_images = $this->moveImagesToDirectorie('events');
+                    $cover_photo = $this->moveImageToDirectorie('events');
 
                     if($uploaded_images['valid_images']){
-                        $event = $this->model('Event')->insert($name, $venue, $date, $description, $uploaded_images['valid_images'],$intro);
+                        $event = $this->model('Event')->insert($name, $venue, $date, $description, $uploaded_images['valid_images'],$intro,$cover_photo);
                         if($event){
                             $_SESSION['message_type'] = 'success'; 
                             $_SESSION['message'] = "Event Created Successfully";
@@ -121,7 +122,40 @@ class DashboardController extends Controller {
         return $imageFileUploadStat;
         
     }
-    
+
+    private function moveImageToDirectorie($directorie=NULL){
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $temp_file = $_FILES['image']['tmp_name'];
+            if($directorie){
+                $target_directory = BASE_IMAGE_PATH. $directorie .'/';
+            }
+            else{
+                $target_directory = BASE_IMAGE_PATH;
+            }
+
+            $target_file = $target_directory . basename($_FILES['image']['name']);
+            
+            // Check file type (e.g., only allow JPEG and PNG)
+            $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+            $allowed_types = ['jpg', 'jpeg', 'png'];
+            
+            if (!in_array($file_type, $allowed_types)) {
+                return false;
+            }
+        
+            // Check file size (e.g., limit to 5MB)
+            if ($_FILES['image']['size'] > 5 * 1024 * 1024) {
+                return false;
+            }
+            
+            // Move the file
+            if (move_uploaded_file($temp_file, $target_file)) {
+                return basename($_FILES['image']['name']);
+            } else {
+                return false;
+            }
+        }
+    }
 
     private function validateInputs(){
         $name = $_POST['event_name'];
@@ -129,8 +163,8 @@ class DashboardController extends Controller {
         $date = $_POST['date'];
         $description = $_POST['description'];
         $intro = $_POST['intro'];
-        $validType = FALSE;
-        $validLength = FALSE;
+        $validType = TRUE;
+        $validLength = TRUE;
 
         if($name && $date && $description && $venue){
             //Length Check

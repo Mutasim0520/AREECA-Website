@@ -17,10 +17,11 @@ class Event extends Model {
             $sql = "CREATE TABLE IF NOT EXISTS events (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 name VARCHAR(200) NOT NULL,
-                date DATE NOT NULL,
-                venue VARCHAR(100) NOT NULL,
+                date DATE NULL,
+                venue VARCHAR(100) NULL,
                 description LONGTEXT NOT NULL,
                 intro VARCHAR(100) NOT NULL,
+                cover VARCHAR(100) NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )";
@@ -45,10 +46,10 @@ class Event extends Model {
         }
     }
 
-    public function insert($name, $venue, $date, $description, $images, $intro) {
+    public function insert($name, $venue, $date, $description, $images, $intro, $cover) {
         try {
             // Prepare an SQL statement
-            $sql = "INSERT INTO events (name,date,venue,description,intro) VALUES (:name, :date, :venue, :description, :intro)";
+            $sql = "INSERT INTO events (name,date,venue,description,intro,cover) VALUES (:name, :date, :venue, :description, :intro, :cover)";
             $query = $this->db->prepare($sql);
             
             // Bind parameters
@@ -57,6 +58,7 @@ class Event extends Model {
             $query->bindParam(':venue', $venue);
             $query->bindParam(':description', $description);
             $query->bindParam(':intro', $intro);
+            $query->bindParam(':cover', $cover);
 
             // Execute the query
             if ($query->execute()) {
@@ -101,6 +103,7 @@ class Event extends Model {
         $sql = "SELECT 
                     events.id AS id,
                     events.name AS name,
+                    events.cover AS cover,
                     events.date AS date,
                     events.description AS description,
                     events.venue AS venue,
@@ -131,6 +134,7 @@ class Event extends Model {
         $sql = "SELECT 
                     events.id AS id,
                     events.name AS name,
+                    events.cover AS cover,
                     events.date AS date,
                     events.description AS description,
                     events.venue AS venue,
