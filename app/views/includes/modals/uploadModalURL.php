@@ -11,17 +11,23 @@
         <div class="modal-body">
           <form id="uploadFormURL" action="<?php echo BASE_URL?>dashboard/uploadURL" method="POST" enctype="multipart/form-data">
             <div class="row">
-              <div class="col-md-10">
+              <div class="col-md-8">
                 <div class="form-group">
                   <label for="perma-link">Perma Link</label>
                   <input type="url" class="form-control" id="perma-link" name="perma_link" required>
                 </div>
               </div>
-              <div class="col-md-2">
+              <div class="col-md-4">
                 <div class="form-group">
                   <label for="url_name">URL Name</label>
                   <input type="text" class="form-control" id="url_name" name="name" required>
                 </div>
+              </div>
+              <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="images">Choose Logo</label>
+                    <input type="file" class="form-control" id="image" name="image" required>
+                  </div>
               </div>
             </div>
           </form>

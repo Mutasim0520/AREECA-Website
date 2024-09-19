@@ -269,8 +269,9 @@ class DashboardController extends Controller {
             if ($_SERVER['REQUEST_METHOD'] == 'POST'){
                 $url = $_POST['perma_link'];
                 $name = $_POST['name'];
+                $logo = $this->moveImageToDirectorie('url-logos');
                 if (filter_var($url, FILTER_VALIDATE_URL) && strlen($name) <=100 && (preg_match("/^[a-zA-Z-0-9.:' ]+$/", $name))) {
-                    $add_url = $this->model('Uri')->insert($name,$url);
+                    $add_url = $this->model('Uri')->insert($name,$url,$logo);
                     if($add_url){
                         $_SESSION['message_type'] = 'success'; 
                         $_SESSION['message'] = "URL Successfully Added";
@@ -340,6 +341,87 @@ class DashboardController extends Controller {
                 if ($is_deleted){
                     $_SESSION['message_type'] = 'success'; 
                     $_SESSION['message'] = "Successfully Deleted";
+                    return $this->redirect($redirect_url);
+                }
+                else{
+                    $_SESSION['message'] = "Something Went Wrong. Please Try AGAIN \n";
+                    return $this->redirectBack();
+                }
+                 
+            }else{
+                return $this->redirectBack();
+            }
+        }else{
+            return $this->redirectBack();
+        }
+    }
+
+    public function deleteEvent(){
+        $_SESSION['message_type'] = 'error';
+        $redirect_url = BASE_URL. 'dashboard/index';
+        if($this->is_authorized()){
+            if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+                if(isset($_POST['id'])){
+                    $id = $_POST['id'];
+                    $is_deleted = $this->model('Event')->deleteEvent($id);
+                }
+                if ($is_deleted){
+                    $_SESSION['message_type'] = 'success'; 
+                    $_SESSION['message'] = "Event Successfully Deleted";
+                    return $this->redirect($redirect_url);
+                }
+                else{
+                    $_SESSION['message'] = "Something Went Wrong. Please Try AGAIN \n";
+                    return $this->redirectBack();
+                }
+                 
+            }else{
+                return $this->redirectBack();
+            }
+        }else{
+            return $this->redirectBack();
+        }
+    }
+
+    public function deleteDocument(){
+        $_SESSION['message_type'] = 'error';
+        $redirect_url = BASE_URL. 'dashboard/index';
+        if($this->is_authorized()){
+            if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+                if(isset($_POST['id'])){
+                    $id = $_POST['id'];
+                    $is_deleted = $this->model('Document')->deleteDocument($id);
+                }
+                if ($is_deleted){
+                    $_SESSION['message_type'] = 'success'; 
+                    $_SESSION['message'] = "Document Successfully Deleted";
+                    return $this->redirect($redirect_url);
+                }
+                else{
+                    $_SESSION['message'] = "Something Went Wrong. Please Try AGAIN \n";
+                    return $this->redirectBack();
+                }
+                 
+            }else{
+                return $this->redirectBack();
+            }
+        }else{
+            return $this->redirectBack();
+        }
+    }
+
+    public function deleteURL(){
+        $_SESSION['message_type'] = 'error';
+        $redirect_url = BASE_URL. 'dashboard/index';
+        if($this->is_authorized()){
+            if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+                if(isset($_POST['id'])){
+                    $id = $_POST['id'];
+                    $is_deleted = $this->model('Uri')->deleteUri($id);
+                }
+                if ($is_deleted){
+                    $_SESSION['message_type'] = 'success'; 
+                    $_SESSION['message'] = "URL Successfully Deleted";
                     return $this->redirect($redirect_url);
                 }
                 else{

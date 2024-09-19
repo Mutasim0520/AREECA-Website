@@ -161,6 +161,17 @@ class Event extends Model {
         }
     
         return $results;
-    }    
+    }
+    
+    public function deleteEvent($id){
+        try{
+            $query = $this->db->prepare("DELETE FROM events WHERE id = :id");
+            $query->bindParam(':id', $id);
+            $query->execute();
+            return TRUE;
+        }catch(Exception $e){
+            return false;
+        }
+    }
     
 }

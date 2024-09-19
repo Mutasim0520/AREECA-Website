@@ -144,12 +144,12 @@
                     <div class="row">
                       <div class="col-md-6">
                         <div class="border-button">
-                          <a href="#" data-toggle="modal" data-target="#uploadModalDocument">Add New Document</a>
+                          <a href="#" data-toggle="modal" data-target="#deleteModalDocument">Add New Document</a>
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="border-button">
-                          <a href="#" data-toggle="modal" data-target="#uploadModalURL">Add New URL</a>
+                          <a href="#" data-toggle="modal" data-target="#deleteModalURL">Add New URL</a>
                         </div>
                       </div>
                     </div>
@@ -288,6 +288,9 @@
   <?php require 'includes/modals/deleteModalMap.php';?>
   <?php require 'includes/modals/deleteModalDOM.php';?>
   <?php require 'includes/modals/deleteModalDOMImage.php';?>
+  <?php require 'includes/modals/deleteModalEvent.php';?>
+  <?php require 'includes/modals/deleteModalDocument.php';?>
+  <?php require 'includes/modals/deleteModalURL.php';?>
 
     
 
@@ -352,7 +355,7 @@
           let event_data = JSON.parse(document.getElementById('event-data').textContent);
           let aggregated_data_indicies = {aggregated_data:['Area','HaUnderRes']};
           let data_indexes = ['id','name','description'];
-          let row_actions = [{ type: "delete", uri: '#', popup_element_id: "#deleteModalMap" }];
+          let row_actions = [{ type: "delete", uri: '#', popup_element_id: "#deleteModalEvent" }];
           renderTable('event',event_data, data_indexes, row_actions);
         }
 
@@ -360,7 +363,7 @@
           let document_data = JSON.parse(document.getElementById('document-data').textContent);
           let aggregated_data_indicies = {aggregated_data:['Area','HaUnderRes']};
           let data_indexes = ['id','real_name'];
-          let row_actions = [{ type: "delete", uri: '#', popup_element_id: "#deleteModalMap" }];
+          let row_actions = [{ type: "delete", uri: '#', popup_element_id: "#deleteModalDocument" }];
           renderTable('document',document_data, data_indexes, row_actions);
         }
 
@@ -368,7 +371,7 @@
           let url_data = JSON.parse(document.getElementById('url-data').textContent);
           let aggregated_data_indicies = {aggregated_data:['Area','HaUnderRes']};
           let data_indexes = ['id','perma_link','name'];
-          let row_actions = [{ type: "delete", uri: '#', popup_element_id: "#deleteModalMap" }];
+          let row_actions = [{ type: "delete", uri: '#', popup_element_id: "#deleteModalURL" }];
           renderTable('url',url_data, data_indexes, row_actions);
         }
 
@@ -427,6 +430,7 @@
               var modal = $(this);
               modal.find('#dom_id_delete').val(recordId);
             });
+
             $('#deleteModalDOMImage').on('show.bs.modal', function (event) {
               // Get the button or link that triggered the modal
               var button = $(event.relatedTarget); 
@@ -437,6 +441,42 @@
                   // Update the modal's hidden input with this ID
               var modal = $(this);
               modal.find('#dom_image_id_delete').val(recordId);
+            });
+
+            $('#deleteModalEvent').on('show.bs.modal', function (event) {
+              // Get the button or link that triggered the modal
+              var button = $(event.relatedTarget); 
+                  
+                  // Extract the ID from data-id attribute
+              var recordId = button.data('id'); 
+                  
+                  // Update the modal's hidden input with this ID
+              var modal = $(this);
+              modal.find('#event_id_delete').val(recordId);
+            });
+
+            $('#deleteModalDocument').on('show.bs.modal', function (event) {
+              // Get the button or link that triggered the modal
+              var button = $(event.relatedTarget); 
+                  
+                  // Extract the ID from data-id attribute
+              var recordId = button.data('id'); 
+                  
+                  // Update the modal's hidden input with this ID
+              var modal = $(this);
+              modal.find('#document_id_delete').val(recordId);
+            });
+
+            $('#deleteModalURL').on('show.bs.modal', function (event) {
+              // Get the button or link that triggered the modal
+              var button = $(event.relatedTarget); 
+                  
+                  // Extract the ID from data-id attribute
+              var recordId = button.data('id'); 
+                  
+                  // Update the modal's hidden input with this ID
+              var modal = $(this);
+              modal.find('#URL_id_delete').val(recordId);
             });
             
             document.getElementById('pageSelect').addEventListener('change', function() {
@@ -473,6 +513,15 @@
     });
     document.getElementById('deleteDOMButton').addEventListener('click', function() {
         document.getElementById('deleteFormDOM').submit();
+    });
+    document.getElementById('deleteEventButton').addEventListener('click', function() {
+        document.getElementById('deleteFormEvent').submit();
+    });
+    document.getElementById('deleteDocumentButton').addEventListener('click', function() {
+        document.getElementById('deleteFormDocument').submit();
+    });
+    document.getElementById('deleteURLtButton').addEventListener('click', function() {
+        document.getElementById('deleteFormURL').submit();
     });
 
     function handleModalActivation(activeSubmitId) {

@@ -60,6 +60,17 @@ class Document extends Model {
         return $results;
     }
 
+    public function deleteDocument($id){
+        try{
+            $query = $this->db->prepare("DELETE FROM documents WHERE id = :id");
+            $query->bindParam(':id', $id);
+            $query->execute();
+            return TRUE;
+        }catch(Exception $e){
+            return false;
+        }
+    }
+
     
 }
 
