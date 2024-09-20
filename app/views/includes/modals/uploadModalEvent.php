@@ -32,13 +32,13 @@
               <div class="col-md-4">
                   <div class="form-group">
                     <label for="images">Choose Images For Galerry</label>
-                    <input type="file" class="form-control" id="images" name="images[]" multiple required>
+                    <input type="file" class="form-control" id="images" name="images[]" multiple accept="image/*" required>
                   </div>
               </div>
               <div class="col-md-4">
                   <div class="form-group">
                     <label for="images">Choose Cover Photo</label>
-                    <input type="file" class="form-control" id="image" name="image" required>
+                    <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
                   </div>
               </div>
               <div class="col-md-12">

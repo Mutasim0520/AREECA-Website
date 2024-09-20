@@ -30,13 +30,13 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="dom_header">DOM Header</label>
-                  <input type="text" class="form-control" id="dom_header" name="dom_header" required>
+                  <input type="text" class="form-control" id="dom_header" name="dom_header">
                 </div>
               </div>
               <div class="col-md-6">
                   <div class="form-group">
                     <label for="images">Choose file</label>
-                    <input type="file" class="form-control" id="images" name="images[]" multiple>
+                    <input type="file" class="form-control" id="images" name="images[]" accept="image/*" multiple>
                   </div>
               </div>
               <div class="col-md-12">
