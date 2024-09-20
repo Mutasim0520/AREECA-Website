@@ -144,12 +144,12 @@
                     <div class="row">
                       <div class="col-md-6">
                         <div class="border-button">
-                          <a href="#" data-toggle="modal" data-target="#deleteModalDocument">Add New Document</a>
+                          <a href="#" data-toggle="modal" data-target="#uploadModalDocument">Add New Document</a>
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="border-button">
-                          <a href="#" data-toggle="modal" data-target="#deleteModalURL">Add New URL</a>
+                          <a href="#" data-toggle="modal" data-target="#uploadModalURL">Add New URL</a>
                         </div>
                       </div>
                     </div>

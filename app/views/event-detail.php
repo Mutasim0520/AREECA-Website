@@ -32,7 +32,7 @@
               <h1><?php echo($event[0]['name']);?></h1>
             </div>
             <div class="col-lg-6">
-              <p style="text-align:justify"><?php echo($event[0]['description']);?></p>
+              <p style="text-align:justify"><?php echo (str_replace(["\r\n", "\n"], '<br><br>', $event[0]['description'])); ?></p>
             </div>
             <div class="col-lg-6" style="margin-top:8px;">
               <section class="section-1" style="min-height:45vh; object-fit:cover;">

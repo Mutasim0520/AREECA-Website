@@ -36,7 +36,7 @@ class DashboardController extends Controller {
         if($this->is_authorized()){
             if ($_SERVER['REQUEST_METHOD'] == 'POST'){
                 if($this->validateInputs()){
-                    $name = trim($_POST['event_name']);
+                    $name = ucwords(trim($_POST['event_name']));
                     $intro = trim($_POST['intro']);
                     $venue = trim($_POST['venue']);
                     $date = trim($_POST['date']);
@@ -54,6 +54,7 @@ class DashboardController extends Controller {
                     }
                     else{
                         $_SESSION['message'] = "ERROR: The image files are not valid. Please Upload in the following format .PNG, .JPEG. No Event was created.\n";
+                    
                         $this->redirectBack();
                     }
 
@@ -74,49 +75,30 @@ class DashboardController extends Controller {
             "invalid_images" => array()
         );
         if (isset($_FILES['images']) && !empty($_FILES['images']['name'][0])){
-            $target_dir = BASE_IMAGE_PATH. $directorie .'/';
-            
+            $target_dir = BASE_IMAGE_PATH. $directorie .'/';      
             $valid_images = array();
             $invalid_images = array();
-        
-            foreach ($_FILES['images']['name'] as $key => $name) {
-                $imageFileType = strtolower(pathinfo($name, PATHINFO_EXTENSION)); 
-                $newFileName = uniqid() . '_' . time() . '.' . $imageFileType;
-                
-                // Define the full path for the new file
-                $target_file = $target_dir . $newFileName;     
-                $uploadOk = 1;
-                
-                // Check if the file is an actual image
-                $check = getimagesize($_FILES['images']['tmp_name'][$key]);
-                if ($check !== false) {
-                    $uploadOk = 1;
-                } else {
-                    $uploadOk = 0;
-                }
-                
-                // Check file size (e.g., 5MB maximum)
-                if ($_FILES['images']['size'][$key] > 6000000) {
-                    $uploadOk = 0;
-                }
-                
-                // Allow certain file formats
-                if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
-                    $uploadOk = 0;
-                }
-                
-                // If all checks pass, move the file
-                if ($uploadOk == 1) {
+            $is_valid_image = $this->validateImage();
+            
+            if ($is_valid_image){
+                foreach ($_FILES['images']['name'] as $key => $name) {
+                    $imageFileType = strtolower(pathinfo($name, PATHINFO_EXTENSION)); 
+                    $newFileName = uniqid() . '_' . time() . '.' . $imageFileType;
+                    
+                    // Define the full path for the new file
+                    $target_file = $target_dir . $newFileName;     
+                   
+                    // If all checks pass, move the file
                     if (move_uploaded_file($_FILES['images']['tmp_name'][$key], $target_file)) {
                         array_push($valid_images, $newFileName); // Store the new file name
+                    }else{
+                        array_push($invalid_images, $newFileName); // Store the new file name
                     }
-                } else {
-                    array_push($invalid_images, $newFileName); // Store the original file name if the file is invalid
                 }
+            
+                $imageFileUploadStat['valid_images'] = $valid_images;
+                $imageFileUploadStat['invalid_images'] = $invalid_images;
             }
-        
-            $imageFileUploadStat['valid_images'] = $valid_images;
-            $imageFileUploadStat['invalid_images'] = $invalid_images;
         }
 
         return $imageFileUploadStat;
@@ -124,36 +106,34 @@ class DashboardController extends Controller {
     }
 
     private function moveImageToDirectorie($directorie=NULL){
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $temp_file = $_FILES['image']['tmp_name'];
-            if($directorie){
-                $target_directory = BASE_IMAGE_PATH. $directorie .'/';
-            }
-            else{
-                $target_directory = BASE_IMAGE_PATH;
-            }
+        $temp_file = $_FILES['image']['tmp_name'];
+        if($directorie){
+            $target_directory = BASE_IMAGE_PATH. $directorie .'/';
+        }
+        else{
+            $target_directory = BASE_IMAGE_PATH;
+        }
 
-            $target_file = $target_directory . basename($_FILES['image']['name']);
+        $target_file = $target_directory . basename($_FILES['image']['name']);
             
-            // Check file type (e.g., only allow JPEG and PNG)
-            $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-            $allowed_types = ['jpg', 'jpeg', 'png'];
+         // Check file type (e.g., only allow JPEG and PNG)
+        $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        $allowed_types = ['jpg', 'jpeg', 'png'];
             
-            if (!in_array($file_type, $allowed_types)) {
-                return false;
-            }
+        if (!in_array($file_type, $allowed_types)) {
+            return false;
+        }
         
             // Check file size (e.g., limit to 5MB)
-            if ($_FILES['image']['size'] > 5 * 1024 * 1024) {
-                return false;
-            }
+        if ($_FILES['image']['size'] > 6 * 1024 * 1024) {
+            return false;
+        }
             
             // Move the file
-            if (move_uploaded_file($temp_file, $target_file)) {
-                return basename($_FILES['image']['name']);
-            } else {
+        if (move_uploaded_file($temp_file, $target_file)) {
+            return basename($_FILES['image']['name']);
+        } else {
                 return false;
-            }
         }
     }
 
@@ -209,6 +189,36 @@ class DashboardController extends Controller {
         }
 
         return ($validLength && $validType);
+    }
+
+    private function validateImage(){
+        $uploadOk = true;
+        if (isset($_FILES['images']) && !empty($_FILES['images']['name'][0])){
+            foreach ($_FILES['images']['name'] as $key => $name) {
+                
+                $check = getimagesize($_FILES['images']['tmp_name'][$key]);
+                $imageFileType = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+                
+                // Check if the file is an actual image
+                if ($check !== false) {
+                    $uploadOk = true;
+                } else {
+                    return false;
+                }
+                
+                // Check file size (e.g., 5MB maximum)
+                if ($_FILES['images']['size'][$key] > 6000000) {
+                    return false;
+                }
+                
+                // Allow certain file formats
+                $allowed_types = ['jpg', 'jpeg', 'png'];
+                if (!in_array($imageFileType, $allowed_types)) {
+                    return false;
+                }
+            }
+        }
+        return $uploadOk;
     }
 
     public function uploadDocument(){
@@ -269,7 +279,7 @@ class DashboardController extends Controller {
             if ($_SERVER['REQUEST_METHOD'] == 'POST'){
                 $url = $_POST['perma_link'];
                 $name = $_POST['name'];
-                $logo = $this->moveImageToDirectorie('url-logos');
+                $logo = $this->moveImageToDirectorie('doms');
                 if (filter_var($url, FILTER_VALIDATE_URL) && strlen($name) <=100 && (preg_match("/^[a-zA-Z-0-9.:' ]+$/", $name))) {
                     $add_url = $this->model('Uri')->insert($name,$url,$logo);
                     if($add_url){

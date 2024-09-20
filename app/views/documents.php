@@ -61,7 +61,12 @@
                     <div class="thumb">
                       <div class="event-image-container" style="border-radius:0px; width: 100%; height: 100%; overflow: hidden; position: relative;text-align:center; font-size: larger; font-weight: 500;">
                         <a href="<?php echo($url['perma_link']); ?>" target="_blank" rel="noopener noreferrer">
-                          <img src="<?php echo(BASE_IMAGE_URL).'link.png' ?>" alt="" style="padding:0px; object-fit:cover; height:100%; width:100%"> <?php echo($url['name']); ?> 
+                          <?php if($url['logo']){
+                            $url_to_image = BASE_IMAGE_URL.'doms/'. $url['logo'];
+                          }else{
+                            $url_to_image = BASE_IMAGE_URL.'link.png';
+                          } ?>
+                          <img src="<?php echo($url_to_image); ?>" alt="" style="padding:0px; object-fit:cover; height:100%; width:100%"> <?php echo($url['name']); ?> 
                         </a>
                       </div>
                     </div>
