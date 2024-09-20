@@ -265,9 +265,11 @@ class DashboardController extends Controller {
                     $_SESSION['message'] = "ERROR: The uploaded file Type is not allowed. Only the following types oof file can be uploaded 'pdf', 'txt', 'docx', 'ppt', 'pptx', 'doc', 'xlsx'\n";
                     $this->redirectBack();
                 }
+            }else{
+                $_SESSION['message'] = "ERROR: The uploaded file Type is not allowed. Only the following types oof file can be uploaded 'pdf', 'txt', 'docx', 'ppt', 'pptx', 'doc', 'xlsx'\n";
+                $this->redirectBack();
             }
-        }
-        else{
+        }else{
             $this->redirectBack();
         }
     }

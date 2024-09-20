@@ -20,13 +20,13 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="venue">Venue</label>
-                  <input type="text" class="form-control" id="venue" name="venue" required>
+                  <input type="text" class="form-control" id="venue" name="venue">
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="date">Date</label>
-                  <input type="date" class="form-control" id="date" name="date" required>
+                  <input type="date" class="form-control" id="date" name="date">
                 </div>
               </div>
               <div class="col-md-4">
@@ -44,13 +44,13 @@
               <div class="col-md-12">
                   <div class="form-group">
                     <label for="intro">Intro</label>
-                    <textarea class="form-control" id="intro" name="intro" rows="2"></textarea>
+                    <textarea class="form-control" id="intro" name="intro" rows="2" required></textarea>
                   </div>
               </div>
               <div class="col-md-12">
                 <div class="form-group">
                     <label for="description">Description</label>
-                    <textarea class="form-control" id="description" name="description" rows="10"></textarea>
+                    <textarea class="form-control" id="description" name="description" rows="10" required></textarea>
                   </div>
               </div>
             </div>

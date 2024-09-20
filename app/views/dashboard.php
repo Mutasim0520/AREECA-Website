@@ -340,9 +340,6 @@
         <?php echo(json_encode($urls)); ?>
   </script>
   <script>
-        // const rowsPerPage = 10;
-        // let currentPage = 1;
-
         function loadMapDataTable() {
           let map_data = JSON.parse(document.getElementById('map-data').textContent);
           let aggregated_data_indicies = {aggregated_data:['Area','HaUnderRes']};
@@ -490,20 +487,31 @@
     </script>
 
   <script>
+
+    function submitModal(modal_name){
+      var form = document.getElementById(modal_name);
+      // Trigger form submission
+      if (form.checkValidity()) {
+          form.submit();  // Submit the form if all fields are valid
+      } else {
+          form.reportValidity();  // Show validation messages
+      }
+    }
+
     document.getElementById('uploadButtonDocument').addEventListener('click', function() {
-        document.getElementById('uploadFormDocument').submit();
+        submitModal('uploadFormDocument');
     });
     document.getElementById('uploadButtonMap').addEventListener('click', function() {
-        document.getElementById('uploadFormMap').submit();
+      submitModal('uploadFormMap');
     });
     document.getElementById('uploadButtonEvent').addEventListener('click', function() {
-        document.getElementById('uploadFormEvent').submit();
+      submitModal('uploadFormEvent');
     });
     document.getElementById('uploadButtonURL').addEventListener('click', function() {
-        document.getElementById('uploadFormURL').submit();
+      submitModal('uploadFormURL');
     });
     document.getElementById('uploadButtonDOM').addEventListener('click', function() {
-        document.getElementById('uploadFormDOM').submit();
+      submitModal('uploadFormDOM');
     });
     document.getElementById('deleteMapButton').addEventListener('click', function() {
         document.getElementById('deleteFormMap').submit();

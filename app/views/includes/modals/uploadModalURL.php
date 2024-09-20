@@ -26,7 +26,7 @@
               <div class="col-md-12">
                   <div class="form-group">
                     <label for="images">Choose Logo</label>
-                    <input type="file" class="form-control" id="image" name="image" required>
+                    <input type="file" class="form-control" id="image" name="image">
                   </div>
               </div>
             </div>
