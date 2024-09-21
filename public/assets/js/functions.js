@@ -1,4 +1,4 @@
-const rowsPerPage = 10;
+const rowsPerPage = 1000;
 let currentPage = 1;
 var BASE_URL = '<?php echo BASE_URL; ?>';
 const USER_ROLE = getCookie('role');

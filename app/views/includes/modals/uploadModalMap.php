@@ -3,7 +3,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="uploadModalLabel">Upload File</h5>
+          <h5 class="modal-title" id="uploadModalLabel"><i class="fa fa-map-marker"></i> Upload Map File</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -11,7 +11,7 @@
         <div class="modal-body">
           <form id="uploadFormMap" action="<?php echo BASE_URL?>/map/upload" method="POST" enctype="multipart/form-data">
             <div class="form-group">
-              <label for="fileInput">Choose file</label>
+              <label for="fileInput">Select Only (.geojson) Formatted File <span style="color: red;">*</span></label>
               <input type="file" class="form-control" id="fileInput" name="file" required>
             </div>
           </form>

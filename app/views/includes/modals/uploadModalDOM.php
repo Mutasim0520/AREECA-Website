@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-xl" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h2>Add a DOM ELEMENT</h2>
+          <h2><i class='fa fa-cog'></i> Add a DOM ELEMENT</h2>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -13,17 +13,17 @@
             <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                  <label for="dom_type">Select html Page</label>
+                  <label for="dom_type">Select html Page <span style="color: red;">*</span></label>
                   <select class="form-control" id="pageSelect" name="html_page_name" required>
-                    <option value="" seleted>Select Type</option>
+                    <option value="" seleted>Select Page</option>
                   </select>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="dom_type">Select DOM Type</label>
+                  <label for="dom_type">Select DOM Type <span style="color: red;">*</span></label>
                   <select class="form-control" id="dom_id_select" name="dom_id" required>
-                    <option value="" seleted>Select Type</option>
+                    <option value="" seleted>Select html page first</option>
                   </select>
                 </div>
               </div>

@@ -8,7 +8,7 @@
             <h5 class="modal-title" id="deleteModalMapLabel"><i class="fas fa-exclamation-triangle"></i><span> </span>Confimation: Delete Map </h5>
           </div>
           <div class="modal-body">
-            <p>Are you sure about Deleting this file?</p>
+            <p>Are you sure about Deleting this <i class="fa fa-map-marker"></i> file?</p>
             <form id="deleteFormMap" action="<?php echo BASE_URL?>/map/delete" method="POST">
                 <input type="hidden" name="id" id="map_id_delete"> <!-- Item ID to delete -->
             </form>

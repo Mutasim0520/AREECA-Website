@@ -8,7 +8,7 @@
             <h5 class="modal-title" id="deleteModalEventLabel"><i class="fas fa-exclamation-triangle"></i><span> </span>Confimation: Delete Event </h5>
           </div>
           <div class="modal-body">
-            <p>Are you sure about Deleting this item?</p>
+            <p>Are you sure about Deleting this <i class='fa-regular fa-file-lines'></i> item?</p>
             <form id="deleteFormEvent" action="<?php echo BASE_URL?>dashboard/deleteEvent" method="POST">
                 <input type="hidden" name="id" id="event_id_delete"> <!-- Item ID to delete -->
             </form>

@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-xl" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h2>Add a New URL</h2>
+          <h2><i class="fa-solid fa-link"></i> Add a New URL</h2>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -13,13 +13,13 @@
             <div class="row">
               <div class="col-md-8">
                 <div class="form-group">
-                  <label for="perma-link">Perma Link</label>
+                  <label for="perma-link">URL to Website<span style="color: red;">*</span></label>
                   <input type="url" class="form-control" id="perma-link" name="perma_link" required>
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="form-group">
-                  <label for="url_name">URL Name</label>
+                  <label for="url_name">URL Name <span style="color: red;">*</span></label>
                   <input type="text" class="form-control" id="url_name" name="name" required>
                 </div>
               </div>

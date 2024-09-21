@@ -5,10 +5,10 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header alert alert-danger">
-            <h5 class="modal-title" id="deleteModalDOMLabel"><i class="fas fa-exclamation-triangle"></i><span> </span>Confimation: Delete Item </h5>
+            <h5 class="modal-title" id="deleteModalDOMLabel"><i class="fas fa-exclamation-triangle"></i><span> </span>Confimation: Delete DOM </h5>
           </div>
           <div class="modal-body">
-            <p>Are you sure about Deleting this item?</p>
+            <p>Are you sure about Deleting this <i class='fa fa-cog'></i> item?</p>
             <form id="deleteFormDOM" action="<?php echo BASE_URL?>dashboard/deleteDOM" method="POST">
                 <input type="hidden" name="id" id="dom_id_delete"> <!-- Item ID to delete -->
             </form>

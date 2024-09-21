@@ -10,21 +10,19 @@
   
   <div class="wrapper">
     <div class="visit-country">
-    <div class="container">
-    <?php foreach($text_dom_sections as $section): ?>
-      <div class="row" id="event-page-main-text-section" style="margin-bottom:50px;">
-        <div class="col-lg-12">
-          <div class="section-heading text-center">
-            <h1><?php echo $section['dom_header']; ?></h1>
-            <hr>
-            <p><?php echo $section['dom_text']; ?></p>
+      <div class="container">
+        <?php foreach($text_dom_sections as $section): ?>
+          <div class="row" id="event-page-main-text-section" style="margin-bottom:50px;">
+            <div class="col-lg-12">
+              <div class="section-heading text-center">
+                <h1><?php echo $section['dom_header']; ?></h1>
+                <hr>
+                <p><?php echo $section['dom_text']; ?></p>
+              </div>
+            </div>
           </div>
-        </div>
+        <?php endforeach;?>
       </div>
-
-<?php endforeach;?>
-      
-    </div>
     <div class="container-fluid">
       <div class="row">
         <div class="col-lg-12">
@@ -37,10 +35,8 @@
                   <div class="event-image-container"><img src="<?php echo(BASE_IMAGE_URL).$file_path ?>" alt=""></div>
                   <div class="text">
                     <h4><?php echo($event['name']); ?></h4>
-                    
                     <div class="line-dec"></div>
                     <ul>
-                     
                       <li><?php echo($event['intro']); ?></li>
                     </ul>
                     <div class="main-button">
@@ -54,19 +50,6 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="call-to-action">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12">
-          <h2>Are You Looking To Travel ?</h2>
-          <h4>Make A Reservation By Clicking The Button</h4>
-        </div>
-        
-      </div>
-    </div>
-  </div>
   </div>
 
   <!-- Scripts -->

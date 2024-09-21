@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-xl" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h2>Add a New Event</h2>
+          <h2><i class='fa-regular fa-file-lines'></i> Add a New Event</h2>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -13,7 +13,7 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="form-group">
-                  <label for="event_name">Event Name</label>
+                  <label for="event_name">Event Name <span style="color: red;">*</span></label>
                   <input type="text" class="form-control" id="event_name" name="event_name" required>
                 </div>
               </div>
@@ -31,25 +31,25 @@
               </div>
               <div class="col-md-4">
                   <div class="form-group">
-                    <label for="images">Choose Images For Galerry</label>
+                    <label for="images">Choose Images For Galerry <span style="color: red;">*</span></label>
                     <input type="file" class="form-control" id="images" name="images[]" multiple accept="image/*" required>
                   </div>
               </div>
               <div class="col-md-4">
                   <div class="form-group">
-                    <label for="images">Choose Cover Photo</label>
+                    <label for="images">Choose Cover Photo <span style="color: red;">*</span></label>
                     <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
                   </div>
               </div>
               <div class="col-md-12">
                   <div class="form-group">
-                    <label for="intro">Intro</label>
+                    <label for="intro">Intro <span style="color: red;">*</span></label>
                     <textarea class="form-control" id="intro" name="intro" rows="2" required></textarea>
                   </div>
               </div>
               <div class="col-md-12">
                 <div class="form-group">
-                    <label for="description">Description</label>
+                    <label for="description">Description <span style="color: red;">*</span></label>
                     <textarea class="form-control" id="description" name="description" rows="10" required></textarea>
                   </div>
               </div>

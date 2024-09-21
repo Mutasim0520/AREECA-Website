@@ -80,22 +80,23 @@ class Controller {
 
 
             //prepare some aggregated data to use in frontend
-            foreach($properties as $item){
-                if(array_key_exists('Area', $item['properties'])) {
-                    $area = $item['properties']['Area'] + $area;
-                }
-                if(array_key_exists('HaUnderRes', $item['properties'])) {
-                    $area_res = $item['properties']['HaUnderRes'] + $area_res;
-                }
-
-                if(!$tmp_district){
-                    $tmp_district = $item['properties']['District'];
-                }
-                if(!in_array($item['properties']['Type'], $tmp_type_tags)){
-                    array_push($tmp_type_tags, $item['properties']['Type']);
+            if($properties){
+                foreach($properties as $item){
+                    if(array_key_exists('Area', $item['properties'])) {
+                        $area = $item['properties']['Area'] + $area;
+                    }
+                    if(array_key_exists('HaUnderRes', $item['properties'])) {
+                        $area_res = $item['properties']['HaUnderRes'] + $area_res;
+                    }
+    
+                    if(!$tmp_district){
+                        $tmp_district = $item['properties']['District'];
+                    }
+                    if(!in_array($item['properties']['Type'], $tmp_type_tags)){
+                        array_push($tmp_type_tags, $item['properties']['Type']);
+                    }
                 }
             }
-            
 
             //add the values
             $formatted_data['id'] = $id;
