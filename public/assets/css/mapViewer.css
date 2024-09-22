@@ -1,0 +1,112 @@
+/* Style the legend container */
+.custom-legend {
+    background-color: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    font-family: Arial, sans-serif;
+    max-width: 200px;
+    width: 100%;
+    z-index: 999;
+}
+
+/* Style each legend item */
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+/* Style the color indicator */
+.legend-color {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+/* Style the legend label */
+.legend-label {
+    font-size: 0.9em;
+    color: #333;
+}
+
+.graph-container{
+    background-color: #f7f7f7;
+    padding: 20px;
+    margin-bottom: 30px;
+  }
+  .custom-legend {
+    background-color: white;
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    line-height: 1.5;  /* Optional: adjust spacing between lines */
+}
+
+/* Media query to make the legend responsive */
+@media screen and (max-width: 600px) {
+    .custom-legend {
+        max-width: 100%;
+        padding: 8px;
+        font-size: 0.85em;
+    }
+
+    .legend-color {
+        height: 18px;
+        width: 18px;
+    }
+
+    .legend-label {
+        font-size: 0.8em;
+    }
+}
+
+@media screen and (max-width: 300px) {
+    .custom-legend {
+        max-width: 100%;
+        padding: 4px;
+        font-size: 0.55em;
+    }
+
+    .legend-color {
+        height: 10px;
+        width: 10px;
+    }
+
+    .legend-label {
+        font-size: 0.8em;
+    }
+
+    /* Ensure figure and canvas adjust based on viewport size */
+    .responsive-figure {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 25vh; /* Adjust this based on how much vertical space you want */
+        width: 100%; /* Full width */
+        margin: 0; /* Remove any default margin */
+    }
+
+    .responsive-canvas {
+        width: 100%; /* Full width of the figure */
+        height: 100%; /* Full height of the figure */
+        max-width: 100%; /* Prevent overflow */
+        max-height: 100%; /* Prevent overflow */
+    }
+
+    /* Make the figure responsive on smaller screens */
+    @media (max-width: 768px) {
+        .responsive-figure {
+            height: 20vh; /* Slightly smaller on small screens */
+        }
+    }
+
+    @media (max-width: 480px) {
+        .responsive-figure {
+            height: 15vh; /* Even smaller on very small screens */
+        }
+    }
+
+}

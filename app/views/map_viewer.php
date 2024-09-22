@@ -6,104 +6,115 @@
 
 <?php require 'includes/header.php'; ?>
 <style>
+  /* Style the legend container */
+  .custom-legend {
+    background-color: #ede3e385;
+    padding: 10px;
+    border: 1px solid #18331a;
+    border-radius: 8px;
+    max-width: 200px;
+    width: 100%;
+    z-index: 999;
+  }
+
+  /* Style each legend item */
+  .legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  /* Style the color indicator */
+  .legend-color {
+    height:12px;
+    width: 12px;
+    border-radius: 50%;
+    margin-right: 10px;
+    margin-top: 4px;
+    border: 1px solid #18331a;
+  }
+
+  /* Style the legend label */
+  .legend-label {
+    font-size: 0.9em;
+    color: #18331a;
+  }
+
   .graph-container{
     background-color: #f7f7f7;
     padding: 20px;
     margin-bottom: 30px;
   }
-  .custom-legend {
-    background-color: white;
-    padding: 10px;
-    border: 2px solid black;
-    border-radius: 5px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    line-height: 1.5;  /* Optional: adjust spacing between lines */
-}
+
+  .responsive-canvas{
+    display: block;
+    height: 45vh !important;
+    width: auto !important;
+  }
 </style>
+
 <body>
   <!-- ***** Menu bar ***** -->
   <?php require 'includes/menu.php'; ?>
 
   <div class="wrapper">
     <div class="visit-country">
-    <div class="container-fluid">
-      <div class="row" id="map-viewer-page-top-text-section" style="margin-bottom:20px;">
-        <div class="col-lg-12">
-          <div class="section-heading text-center">
-            <h1><?php echo $text_dom_sections[0]['dom_header']; ?></h1>
-            <hr>
-            <p id="map_data_detail"><?php echo $text_dom_sections[0]['dom_text']; ?></p>
+      <div class="container-fluid">
+        <div class="row" id="map-viewer-page-top-text-section" style="margin-bottom:20px;">
+          <div class="col-lg-12">
+            <div class="section-heading text-center">
+              <h1><?php echo $text_dom_sections[0]['dom_header']; ?></h1>
+              <hr>
+              <p class="text-center" id="map_data_detail"><?php echo $text_dom_sections[0]['dom_text']; ?></p>
+            </div>
           </div>
         </div>
-        <div class="col-sm-12">
-          <div id="graph-container"></div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-2">
         <div class="row">
-          <div class="col-sm-12">
-          <table class="table table-responsive" id="data-table" style="font-size:smaller;">
-                <thead class="thead-light">
-                  <tr>
-                    <th colspan="3">
-                      <div class="row">
-                        <div class="col-md-12">
-                          <select name="district" class="form-select" style ="font-size:smaller" aria-label="Default select example" id="map-table-district-filter" onChange="filterTable()">
-                            <option value="" selected>Filter District ....</option>
-                            <?php
-                              $filePath = 'C:\xampp\htdocs\AREECA\public\assets\districts.txt';
-              
-                              $districts = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-                              foreach($districts as $item): ?>
-                                <option value="<?php echo $item; ?>"><?php echo $item; ?></option> 
-                            <?php endforeach ?>
-                          </select>
-                        </div>
-                        
-                        <!-- <div class="col-md-6">
-                          <select name="type" class="form-select" style ="font-size:smaller" aria-label="Default select example" id="map-table-type-filter" onChange="filterTable()">
-                            <option selected value="">filter Type ....</option>
-                            <?php
-                              $filePath = 'C:\xampp\htdocs\AREECA\public\assets\types.txt';
-                                // Read the file content into an array
-                              $districts = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-                              foreach($districts as $item): ?>
-                                <option value="<?php echo $item; ?>"><?php echo $item; ?></option> 
-                            <?php endforeach ?>
-                          </select>
-                        </div> -->
-                      </div>
-                    </th>
-                  </tr>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Table of Content</th>
-                    <th scope="col"></th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-              <nav>
-                <ul class="pagination" id="pagination">
-                      <!-- Pagination links will be inserted here -->
-                </ul>
-              </nav>
+          <div class="col-lg-12">
+            <div id="graph-container"></div>
           </div>
         </div>
-        
-          
-          
-        </div>
-        <!-- <div class="col-lg-4">
-          <canvas id="myChart" width="400" height="200"></canvas>
-        </div> -->
-        <div class="col-lg-10">
-          <div id="map"></div>
+        <div class="row">
+          <div class="col-sm-2">
+            <table class="table table-responsive" id="data-table" style="font-size:smaller;">
+              <thead class="thead-light">
+                <tr>
+                  <th colspan="3">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <select name="district" class="form-select" style ="font-size:smaller" aria-label="Default select example" id="map-table-district-filter" onChange="filterTable()">
+                          <option value="" selected>Filter District ....</option>
+                            <?php
+                              $filePath = 'C:\xampp\htdocs\AREECA\public\assets\districts.txt';              
+                              $districts = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+                              foreach($districts as $item): ?>
+                                <option value="<?php echo $item; ?>"><?php echo $item; ?></option> 
+                              <?php endforeach ?>
+                        </select>
+                      </div>
+                    </div>
+                  </th>
+                </tr>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Table of Content</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+            <nav>
+              <ul class="pagination" id="pagination">
+                        <!-- Pagination links will be inserted here -->
+              </ul>
+            </nav>
+          </div>
+          <div class="col-lg-10">
+            <div id="map"></div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
   </div>
 
   <?php require 'includes/footer.php'; ?>
@@ -306,8 +317,8 @@
             var legendHtml = '<h6>Forestation Types</h6>';
             for (var key in colorMap) {
                 legendHtml +=
-                    '<div style="display:flex;"><div style="max-height:25px;width:25px;border-radius:50%;background:' + colorMap[key] + '"></div> ' +
-                    '<p style="font-size:smaller; color:black; margin-left:7px;">' + key + '</p></div>';
+                    '<div style="display:flex;"><div class="legend-color" style="background:' + colorMap[key] + '"></div> ' +
+                    '<span class="legend-label">' + key + '</span></div>';
             }
 
             div.innerHTML = legendHtml;
@@ -365,9 +376,9 @@
 
         $(element).empty();
         $(element).append(`
-            <figure>
-                <canvas id="myChart" style="max-height:400px;"></canvas>
-            </figure>
+            
+          <canvas id="myChart" class="responsive-canvas"></canvas>
+            
         `);
 
         var ctx = document.getElementById('myChart').getContext('2d');
@@ -437,6 +448,8 @@
                 ]
             },
             options: {
+              responsive: true, // Make the chart responsive
+              maintainAspectRatio: false, // Allow it to break the aspect ratio
                 scales: {
                     x: {
                         stacked: false,  // Disable stacking on x-axis to show grouped bars
