@@ -2180,7 +2180,9 @@ Reservation Page Style
 }
 
 .reservation-form {
-  margin: 120px 0px;
+  padding-bottom: 120px;
+  margin-top: 70px;
+  border-bottom: 1px solid #eee;
 }
 
 .table-container {
@@ -2244,6 +2246,55 @@ Reservation Page Style
   padding: 0px 20px;
   cursor: pointer;
   margin-bottom: 30px;
+}
+
+.address-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #bdd3b4;
+  max-width: 400px;
+  margin: 2em auto;
+}
+
+/* Style for the image */
+.address-image img {
+  width: 150px;
+  height: auto;
+  border-radius: 5px;
+  margin-right: 20px; /* Space between image and address details */
+}
+
+/* Style for the address text */
+.address-details h4 {
+  margin: 0;
+  font-size: 1.5em;
+  color: #333;
+}
+
+.address-details p {
+  margin: 5px 0 0;
+  font-size: 1em;
+  line-height: 1.6;
+  color: #555;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .address-container {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+  }
+
+  .address-image img {
+      margin-right: 0;
+      margin-bottom: 10px;
+      width: 100%; /* Make image responsive on small screens */
+  }
 }
 
 .reservation-form #reservation-form input.date {

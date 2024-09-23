@@ -16,6 +16,7 @@
                         <li><a href="<?php echo BASE_URL?>map/index">Map Viewer</a></li>
                         <?php if (isset($_SESSION['auth_token'])): ?><li><a href="<?php echo BASE_URL?>dashboard/index">Dashboard</a></li><?php endif ?>
                         <li><a href="<?php echo BASE_URL?>home/documents">Document/Information</a></li>
+                        <li><a href="<?php echo BASE_URL?>home/contact">Contact</a></li>
                         <?php if (!isset($_SESSION['auth_token'])): ?><li><a href="<?php echo BASE_URL?>auth/signInForm">Sign In</a></li><?php endif ?>
                         <?php if (isset($_SESSION['auth_token'])): ?><li><a href="<?php echo BASE_URL?>auth/signout">Sign Out</a></li><?php endif ?>
                     </ul>   

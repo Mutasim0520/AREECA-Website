@@ -32,4 +32,8 @@ class HomeController extends Controller {
         return $this->view('documents', ['documents' => $documents, 'urls' => $urls, 'text_dom_sections_doc' => $text_dom_sections_doc, 'text_dom_sections_link' => $text_dom_sections_link]);
     }
 
+    public function contact(){
+        return $this->view('contact');
+    }
+
 }

@@ -18,7 +18,7 @@ class SetupController extends Controller {
     }
 
     public function map(){
-        $jsonFilePath = __DIR__ .'\Blantyre.geojson';
+        $jsonFilePath = __DIR__ .'\Lilongwe.json';
         $jsonString = file_get_contents($jsonFilePath);
         $dataArray = json_decode($jsonString, true);
         $features = $dataArray['features']; ///all the features
@@ -30,7 +30,7 @@ class SetupController extends Controller {
         // }
         $maps = $this->model('Map')->getMaps();
         $reformmedData = $this->formatGeoData($maps);
-        $this->make_json(json_encode($reformmedData));
+        // $this->make_json(json_encode($reformmedData));
     }
 
     public function make_json($content){
@@ -59,6 +59,7 @@ class SetupController extends Controller {
 
     private function formatGeoData($data){
         $finalData = [];
+        $counter = 1;
         foreach($data as $row){
             $formatted_data = array(
                 "id" => NULL,
@@ -80,6 +81,8 @@ class SetupController extends Controller {
             $file_path = $row['file_path'];
             $geometry = json_decode($row['geometry'], true);
             $properties = json_decode($row['properties'], true);
+            $tmp_district = NULL;
+            echo($counter. "\n");
             
             $area = 0;
             $area_res = 0;
@@ -91,6 +94,11 @@ class SetupController extends Controller {
                 }
                 if (array_key_exists('HaUnderRes', $item['properties'])) {
                     $area_res = $item['properties']['HaUnderRes'] + $area_res;
+                }
+                if(!$tmp_district){
+                    $tmp_district = $item['properties']['District'];
+                    echo(
+                        $tmp_district. "\n");
                 }
             }
             
@@ -104,6 +112,7 @@ class SetupController extends Controller {
             $formatted_data['aggregated_data']['HaUnderRes'] = $area_res;
 
             array_push($finalData, $formatted_data);
+            $counter++;
         }
 
         return $finalData;

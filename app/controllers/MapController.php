@@ -40,55 +40,60 @@ class MapController extends Controller {
         $mapModel = $this->model('Map');
         $redirect_url = BASE_URL. 'dashboard/index';
         
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if (isset($_FILES['file']) && $_FILES['file']['error'] == 0) {
-                $allowedExtensions = ['geojson', 'json'];
-                $fileName = $_FILES['file']['name'];
-                $fileTmpName = $_FILES['file']['tmp_name'];
-                $fileSize = $_FILES['file']['size'];
-                $fileError = $_FILES['file']['error'];
-                $fileType = $_FILES['file']['type']; 
-                $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
-        
-                if (in_array($fileExt, $allowedExtensions)) {
-                    // Check file size (optional)
-                    if ($fileSize < 5000000) { // 5MB max size
-                        // Validate the GeoJSON content
-                        $fileContent = file_get_contents($fileTmpName);
-                        if ($this->validateGeoJSON($fileContent)) {
-                            $uploadDir = Storage_Path.'map_data_files/';
-                            $fileNewName =$fileName;
-                            $fileDestination = $uploadDir . $fileNewName;
-        
-                            if (move_uploaded_file($fileTmpName, $fileDestination)) {
-                                $geo_data_tmp = json_decode($fileContent, true);
-                                $geo_data = json_encode($geo_data_tmp['features']);
-                                $maps = $mapModel->insert($fileNewName, $uploadDir, $geo_data);
-                                if($maps){
-                                    $_SESSION['message_type'] = 'success'; 
-                                    $_SESSION['message'] = "File uploaded successfully";
+        try{
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                if (isset($_FILES['file']) && $_FILES['file']['error'] == 0) {
+                    $allowedExtensions = ['geojson', 'json'];
+                    $fileName = $_FILES['file']['name'];
+                    $fileTmpName = $_FILES['file']['tmp_name'];
+                    $fileSize = $_FILES['file']['size'];
+                    $fileError = $_FILES['file']['error'];
+                    $fileType = $_FILES['file']['type']; 
+                    $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+            
+                    if (in_array($fileExt, $allowedExtensions)) {
+                        // Check file size (optional)
+                        if ($fileSize < 5000000) { // 5MB max size
+                            // Validate the GeoJSON content
+                            $fileContent = file_get_contents($fileTmpName);
+                            if ($this->validateGeoJSON($fileContent)) {
+                                $uploadDir = Storage_Path.'map_data_files/';
+                                $fileNewName =$fileName;
+                                $fileDestination = $uploadDir . $fileNewName;
+            
+                                if (move_uploaded_file($fileTmpName, $fileDestination)) {
+                                    $geo_data_tmp = json_decode($fileContent, true);
+                                    $geo_data = json_encode($geo_data_tmp['features']);
+                                    $maps = $mapModel->insert($fileNewName, $uploadDir, $geo_data);
+                                    if($maps){
+                                        $_SESSION['message_type'] = 'success'; 
+                                        $_SESSION['message'] = "File uploaded successfully";
+                                        $this->redirect($redirect_url);
+                                    }
+                                } else {
+                                    $_SESSION['message'] = "Error uploading file.\n";
                                     $this->redirect($redirect_url);
                                 }
                             } else {
-                                $_SESSION['message'] = "Error uploading file.\n";
+                                $_SESSION['message'] = "Uploaded file is not a valid GeoJSON.\n";
                                 $this->redirect($redirect_url);
                             }
                         } else {
-                            $_SESSION['message'] = "Uploaded file is not a valid GeoJSON.\n";
+                            $_SESSION['message'] = "File size is too large.\n";
                             $this->redirect($redirect_url);
                         }
                     } else {
-                        $_SESSION['message'] = "File size is too large.\n";
+                        $_SESSION['message'] = "Invalid file type. Only .geojson and .json files are allowed.\n";
                         $this->redirect($redirect_url);
                     }
                 } else {
-                    $_SESSION['message'] = "Invalid file type. Only .geojson and .json files are allowed.\n";
+                    $_SESSION['message'] = "No file was uploaded or there was an error.\n";
                     $this->redirect($redirect_url);
                 }
-            } else {
-                $_SESSION['message'] = "No file was uploaded or there was an error.\n";
-                $this->redirect($redirect_url);
             }
+        }catch(exception $e){
+            $_SESSION['message'] = $e;
+            $this->redirect($redirect_url);
         }
     }
 

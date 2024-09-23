@@ -293,10 +293,6 @@
                       // Adjust map bounds to fit new data
                       var bounds = newLayer.getBounds();
                       map.fitBounds(bounds);
-
-                      // Update content to show the loaded file name
-                      var contentDiv = document.getElementById("loaded_file_name");
-                      contentDiv.innerHTML = `<span style="font-weight:bold;">Current File: ${file_name}</span>`;
                       loadGraph();
 
                 
