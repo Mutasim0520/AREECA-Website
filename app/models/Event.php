@@ -16,11 +16,11 @@ class Event extends Model {
             // SQL to create Roles table
             $sql = "CREATE TABLE IF NOT EXISTS events (
                 id INT AUTO_INCREMENT PRIMARY KEY,
-                name VARCHAR(200) NOT NULL,
+                name VARCHAR(100) NOT NULL,
                 date DATE NULL,
                 venue VARCHAR(100) NULL,
                 description LONGTEXT NOT NULL,
-                intro VARCHAR(100) NOT NULL,
+                intro VARCHAR(200) NOT NULL,
                 cover VARCHAR(100) NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

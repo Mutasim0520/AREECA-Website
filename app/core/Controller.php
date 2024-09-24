@@ -126,7 +126,49 @@ class Controller {
         }
 
         return $matching_dom_elemnts;
+    }
 
+    protected function validateInputs($inputs_rules){
+        foreach($inputs_rules as $rules){
+            $input = $_POST[$rules['field_name']];
+            $input_type = $rules['type'];
+            $input_max_length = $rules['max_length'];
+            $validation_result = array("is_valid" => True, "message" => NULL);
+            
+            $validType = True;
+            $validLength = True;
+
+            //Length check
+            if(strlen($input) >= $input_max_length){
+                $validLength = false;
+                $message = "Inputs are not correct length";
+                $validation_result["is_valid"] = $validType && $validLength;
+                $validation_result["message"] = $message;
+                return $validation_result;
+            }else{
+                //Email check
+                if($input_type == 'email' && !filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL)){
+                    $validType = false;
+                    $message = "Email is not correct";
+                    $validation_result["is_valid"] = $validType && $validLength;
+                    $validation_result["message"] = $message;
+                    return $validation_result;
+                }
+                
+                //Url check
+                if($input_type == 'url' && !filter_input(INPUT_POST, 'url', FILTER_VALIDATE_URL)){
+                    $validType = false;
+                    $message = "URL is not correct";
+                    $validation_result["is_valid"] = $validType && $validLength;
+                    $validation_result["message"] = $message;
+                    return $validation_result;
+                }
+
+                $validation_result["is_valid"] = $validType && $validLength;
+                $validation_result["message"] = 'Inputs are okey';
+                return $validation_result;
+            }
+        }
     }
 
 }

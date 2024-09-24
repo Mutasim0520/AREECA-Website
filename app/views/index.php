@@ -85,12 +85,13 @@
           <div class="col-lg-12">
             <div class="logo-wrapper">
                 <?php 
-                    foreach($partner_dom_section[0]['images'] as $item):
-                        $image_url = BASE_IMAGE_URL . 'doms/' . $item['file_name'];
-                ?>
-                <div class="logo-container">
-                    <img src="<?php echo($image_url); ?>" class="partner-logo" />
-                </div>
+                    foreach($partner_dom_section as $dom):
+                      foreach($dom['images'] as $item):
+                        $image_url = BASE_IMAGE_URL . 'doms/' . $item['file_name'];?>
+                        <div class="logo-container">
+                            <img src="<?php echo($image_url); ?>" class="partner-logo" />
+                        </div>
+                      <?php endforeach; ?>
                 <?php endforeach; ?>
             </div>
           </div>

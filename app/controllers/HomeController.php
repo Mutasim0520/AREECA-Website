@@ -36,4 +36,42 @@ class HomeController extends Controller {
         return $this->view('contact');
     }
 
+    public function message(){
+        if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+            if(isset($_POST['name']) && isset($_POST['email']) && isset($_POST['message'])){
+                $inputs_rules = array(['field_name' => 'name', 'max_length' => 100, 'type' => 'string'],
+                                ['field_name' => 'email', 'max_length' => 100, 'type' => 'email'],
+                                ['field_name' => 'message', 'max_length' => 1000, 'type' => 'string']
+                );
+                $validation_result = $this->validateInputs($inputs_rules);
+                if($validation_result['is_valid']){
+                    $name = filter_var($_POST['name'], FILTER_SANITIZE_SPECIAL_CHARS);
+                    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+                    $message = filter_var($_POST['message'], FILTER_SANITIZE_SPECIAL_CHARS);
+
+                    $to = "mutasimfuad0520@gmail.com";
+                    $subject = "Test Email from PHP";
+                    $headers = "From: ".$email;
+
+                    // Send the email
+                    if (mail($to, $subject, $message, $headers)) {
+                        echo "Email sent successfully!";
+                    } else {
+                        echo "Failed to send the email.";
+                    }
+                } else{
+                    $_SESSION['message'] = "Please fill up all required fields \n";
+                    return $this->redirectBack();
+                }
+                
+            }else{
+                $_SESSION['message'] = $validation_result['message']. "\n";
+                return $this->redirectBack();
+            }
+            
+        }else{
+            return $this->redirectBack();
+        }
+    }
+
 }

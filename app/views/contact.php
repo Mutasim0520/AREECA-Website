@@ -15,9 +15,20 @@
           <div class="section-heading text-center">
             <h1>Contact Us</h1>
             <hr>
+            <div class="col-lg-12">
+              <div class="address-container">
+                  <div class="address-image">
+                      <img src=" <?php echo(BASE_IMAGE_URL."home.png"); ?>" alt="Address Image">
+                  </div>
+                  <div class="address-details">
+                      <h4>Head Office</h4>
+                      <p>Director<br>Department of Forestry<br>Nkhalango house<br>PO box 30048<br>Lilongwe-3, Malawi</p>
+                  </div>
+              </div>
+            </div>
           </div>
           <div class="col-lg-12">
-          <form id="reservation-form" action="<?php echo BASE_URL?>/auth/login" method="POST" enctype="multipart/form-data">
+          <form id="reservation-form" action="<?php echo BASE_URL?>home/message" method="POST" enctype="multipart/form-data">
             <div class="row">
               <div class="col-lg-6">
                   <div class="form-group">
@@ -44,19 +55,6 @@
                 </div>
               </div>
             </form>
-          </div>
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="address-container">
-                  <div class="address-image">
-                      <img src=" <?php echo(BASE_IMAGE_URL."home.png"); ?>" alt="Address Image">
-                  </div>
-                  <div class="address-details">
-                      <h4>Head Office</h4>
-                      <p>Director<br>Department of Forestry<br>Nkhalango house<br>PO box 30048<br>Lilongwe-3, Malawi</p>
-                  </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>

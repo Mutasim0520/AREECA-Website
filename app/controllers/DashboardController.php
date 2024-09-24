@@ -34,34 +34,51 @@ class DashboardController extends Controller {
         $_SESSION['message_type'] = 'error';
         $redirect_url = BASE_URL. 'dashboard/index';
         if($this->is_authorized()){
-            if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-                if($this->validateInputs()){
-                    $name = ucwords(trim($_POST['event_name']));
-                    $intro = trim($_POST['intro']);
-                    $venue = trim($_POST['venue']);
-                    $date = trim($_POST['date']);
-                    $description = trim($_POST['description']);
-                    $uploaded_images = $this->moveImagesToDirectorie('events');
-                    $cover_photo = $this->moveImageToDirectorie('events');
-
-                    if($uploaded_images['valid_images']){
-                        $event = $this->model('Event')->insert($name, $venue, $date, $description, $uploaded_images['valid_images'],$intro,$cover_photo);
-                        if($event){
-                            $_SESSION['message_type'] = 'success'; 
-                            $_SESSION['message'] = "Event Created Successfully";
-                            $this->redirect($redirect_url);
+            if(isset($_POST['event_name']) && isset($_POST['intro']) && isset($_POST['description']) && isset($_FILES['images'])){
+                $inputs_rules = array(['field_name' => 'event_name', 'max_length' => 100, 'type' => 'string'],
+                                ['field_name' => 'intro', 'max_length' => 200, 'type' => 'string'],
+                                ['field_name' => 'venue', 'max_length' => 200, 'type' => 'string'],
+                                ['field_name' => 'date', 'max_length' => 1000, 'type' => 'string'],
+                                ['field_name' => 'description', 'max_length' => 1000, 'type' => 'string']
+                );
+                $validation_result = $this->validateInputs($inputs_rules);
+                if($validation_result['is_valid']){
+                    $name = ucwords(filter_var($_POST['event_name'], FILTER_SANITIZE_SPECIAL_CHARS));
+                    $intro = filter_var($_POST['intro'], FILTER_SANITIZE_SPECIAL_CHARS);
+                    $venue = filter_var($_POST['venue'], FILTER_SANITIZE_SPECIAL_CHARS);
+                    $date = filter_var($_POST['date'], FILTER_SANITIZE_SPECIAL_CHARS);
+                    $description = filter_var($_POST['description'], FILTER_SANITIZE_SPECIAL_CHARS);
+                    $is_valid_image = $this->validateImage();
+                    if($is_valid_image){
+                        $cover_photo = $this->moveImageToDirectorie('events');
+                        $uploaded_images = $this->moveImagesToDirectorie('events');
+                        if($cover_photo){
+                            if(!$uploaded_images['invalid_images']){
+                                $event = $this->model('Event')->insert($name, $venue, $date, $description, $uploaded_images['valid_images'],$intro,$cover_photo);
+                                if($event){
+                                    $_SESSION['message_type'] = 'success'; 
+                                    $_SESSION['message'] = "Event Created Successfully";
+                                    $this->redirect($redirect_url);
+                                }
+                            }else{
+                                $_SESSION['message'] = "ERROR: The image files are not valid or too big. Please Upload in the following format .PNG, .JPEG. No Event was created.\n";
+                                $this->redirectBack();
+                            }
+                        }else{
+                            $_SESSION['message'] = "ERROR: The image files are not valid or too big. Please Upload in the following format .PNG, .JPEG. No Event was created.\n";
+                            $this->redirectBack();
                         }
-                    }
-                    else{
+                    }else{
                         $_SESSION['message'] = "ERROR: The image files are not valid. Please Upload in the following format .PNG, .JPEG. No Event was created.\n";
-                    
                         $this->redirectBack();
                     }
-
                 }else{
-                    $_SESSION['message'] = "ERROR: The inputs were not valid. No Event was created.\n";
+                    $_SESSION['message'] = $validation_result['is_valid']."\n";
                     $this->redirectBack();
                 }
+            }else{
+                $_SESSION['message'] = "ERROR: The inputs were not valid. No Event was created.\n";
+                $this->redirectBack();
             }
         }
         else{
@@ -78,27 +95,23 @@ class DashboardController extends Controller {
             $target_dir = BASE_IMAGE_PATH. $directorie .'/';      
             $valid_images = array();
             $invalid_images = array();
-            $is_valid_image = $this->validateImage();
-            
-            if ($is_valid_image){
-                foreach ($_FILES['images']['name'] as $key => $name) {
-                    $imageFileType = strtolower(pathinfo($name, PATHINFO_EXTENSION)); 
-                    $newFileName = uniqid() . '_' . time() . '.' . $imageFileType;
-                    
-                    // Define the full path for the new file
-                    $target_file = $target_dir . $newFileName;     
-                   
-                    // If all checks pass, move the file
-                    if (move_uploaded_file($_FILES['images']['tmp_name'][$key], $target_file)) {
-                        array_push($valid_images, $newFileName); // Store the new file name
-                    }else{
-                        array_push($invalid_images, $newFileName); // Store the new file name
-                    }
+            foreach ($_FILES['images']['name'] as $key => $name) {
+                $imageFileType = strtolower(pathinfo($name, PATHINFO_EXTENSION)); 
+                $newFileName = uniqid() . '_' . time() . '.' . $imageFileType;
+                
+                // Define the full path for the new file
+                $target_file = $target_dir . $newFileName;     
+               
+                // If all checks pass, move the file
+                if (move_uploaded_file($_FILES['images']['tmp_name'][$key], $target_file)) {
+                    array_push($valid_images, $newFileName); // Store the new file name
+                }else{
+                    array_push($invalid_images, $newFileName); // Store the new file name
                 }
-            
-                $imageFileUploadStat['valid_images'] = $valid_images;
-                $imageFileUploadStat['invalid_images'] = $invalid_images;
             }
+        
+            $imageFileUploadStat['valid_images'] = $valid_images;
+            $imageFileUploadStat['invalid_images'] = $invalid_images;
         }
 
         return $imageFileUploadStat;
@@ -135,29 +148,6 @@ class DashboardController extends Controller {
         } else {
                 return false;
         }
-    }
-
-    private function validateInputs(){
-        $name = $_POST['event_name'];
-        $venue = $_POST['venue'];
-        $date = $_POST['date'];
-        $description = $_POST['description'];
-        $intro = $_POST['intro'];
-        $validType = TRUE;
-        $validLength = TRUE;
-
-        if($name && $date && $description && $venue){
-            //Length Check
-            if((strlen($name) <= 200 ) && (strlen($venue) <= 100) && (strlen($description) <= 1000) && (strlen($intro) <= 200)){
-                $validLength = TRUE;
-            }
-
-            if(!(preg_match("/^[$:;*]+$/", $description)) && !(preg_match("/^[$:;}* ]+$/", $intro)) && (preg_match("/^[a-zA-Z-0-9.:' ]+$/", $name)) && (preg_match("/^[a-zA-Z-0-9.:' ]+$/", $venue))){
-                $validType = TRUE;
-            }
-        }
-
-        return ($validLength && $validType);
     }
 
     private function validateInputsDOM(){
@@ -311,17 +301,18 @@ class DashboardController extends Controller {
                     $dom_id = trim($_POST['dom_id']);
                     $dom_text = trim($_POST['dom_text']);
                     $dom_header = ucwords(trim($_POST['dom_header']));
-                    $uploaded_images = $this->moveImagesToDirectorie('doms');
-
-                    if(!$uploaded_images['invalid_images']){
-                        $event = $this->model('DomElements')->insert($html_page_name, $dom_id, $dom_text, $dom_header, $uploaded_images['valid_images']);
-                        if($event){
-                            $_SESSION['message_type'] = 'success'; 
-                            $_SESSION['message'] = "DOM Created Successfully";
-                            $this->redirect($redirect_url);
+                    $is_valid_image = $this->validateImage();
+                    if($is_valid_image){
+                        $uploaded_images = $this->moveImagesToDirectorie('doms');
+                        if(!$uploaded_images['invalid_images']){
+                            $event = $this->model('DomElements')->insert($html_page_name, $dom_id, $dom_text, $dom_header, $uploaded_images['valid_images']);
+                            if($event){
+                                $_SESSION['message_type'] = 'success'; 
+                                $_SESSION['message'] = "DOM Created Successfully";
+                                $this->redirect($redirect_url);
+                            }
                         }
-                    }
-                    else{
+                    }else{
                         $_SESSION['message'] = "ERROR: The image files are not valid. Please Upload in the following format .PNG, .JPEG. No Event was created.\n";
                         $this->redirectBack();
                     }
