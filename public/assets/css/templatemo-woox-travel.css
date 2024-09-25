@@ -2484,3 +2484,76 @@ body {
     padding: 0px;
   }
 }
+
+@media (max-width: 520px) {
+  h1{
+    font-size: 16px;
+  }
+  h2{
+    font-size: 14px;
+  }
+  h3,h4,h5{
+    font-size: 12px;
+  }
+  
+  p{
+    font-size: 9px;
+    line-height: 1.5em;
+  }
+
+  .visit-country .item .thumb .text{
+    position: absolute;
+    max-width: 45%;
+    right: 25px;
+    top: 45%;
+    transform: translateY(-50%);
+    box-shadow: 0px 0px 15px rgba(0,0,0,0.15);
+    padding: 12px;
+  }
+
+  .visit-country .item .thumb .text h4{
+    font-size: 12px;
+  }
+
+  .visit-country .item .thumb .text ul {
+    margin-top: 10px;
+    padding-top: 10px;
+  }
+
+  .visit-country .item .thumb .text ul li{
+      font-size: 9px;
+      line-height: 1.5em;
+      text-align: justify;
+  }
+
+  .visit-country .item .thumb .text .main-button {
+    margin-top: 15px;
+  }
+  .main-button a {
+    font-size: 9px;
+    padding: 7px 16px;
+    display: inline-block;
+    border-radius: 20px;
+    font-weight: 500;
+    text-transform: capitalize;
+    letter-spacing: 0.3px;
+  }
+
+}
+
+@media (max-width: 768px) {
+  h1{
+    font-size: 20px;
+  }
+  h2{
+    font-size: 18px;
+  }
+  h3,h4,h5{
+    font-size: 16px;
+  }
+  
+  p{
+    font-size: 10px;
+    line-height: 1.8em;
+  }
+}
