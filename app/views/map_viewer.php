@@ -161,7 +161,7 @@
       const paginatedData = data.slice(startIndex, endIndex);
 
       $('#data-table tbody').empty();
-      var index_counter = 1;
+      var index_counter = startIndex + 1;
           
       paginatedData.forEach(row => {
         var check_box_id = 'check-box-' + index_counter;
@@ -181,18 +181,19 @@
         });
       }
 
-      function renderPagination(data) {
-        const pageCount = Math.ceil(data.length / rowsPerPage);
-        $('#pagination').empty();
+    function renderPagination(data) {
+      const pageCount = Math.ceil(data.length / rowsPerPage);
+       $('#pagination').empty();
 
-        for (let i = 1; i <= pageCount; i++) {
-          $('#pagination').append(`
-            <li class="page-item ${i === currentPage ? 'active' : ''}">
-              <a class="page-link" href="#" data-page="${i}">${i}</a>
-            </li>
-          `);
-        }
+      for (let i = 1; i <= pageCount; i++) {
+        $('#pagination').append(`
+          <li class="page-item ${i === currentPage ? 'active' : ''}">
+            <a class="page-link" href="#" data-page="${i}">${i}</a>
+          </li>
+        `);
       }
+    }
+
 
     //-----------------Initial map----------------------
     var map = L.map('map').setView([-14.996665839805985, 35.04404396532377], 7.5);
@@ -322,20 +323,22 @@
 
     function filterTable(){
       var selectedDistrict = document.getElementById("map-table-district-filter").value;
-      if (selectedDistrict === ""){
-        loadData(original_data);
-      }
-          
-      else{
+      
+      // If no district is selected, load all data
+      if (selectedDistrict === "") {
+        loadData(original_data); // Load all data if no district is selected
+      } else {
+        // Filter data from the entire dataset
         let filtered_data = original_data.filter(row => { 
-          if (selectedDistrict) {
-            return row['district'] == selectedDistrict;
-          }
+          return row['district'].toLowerCase().includes(selectedDistrict.toLowerCase()); // Case-insensitive search
         });
 
-        loadData(filtered_data);
+        // Load the filtered data and reset pagination
+        currentPage = 1; // Reset to the first page
+        loadData(filtered_data); // Load filtered data
       }
     }
+
 
     function loadGraph() {
       let valuesArray = Object.keys(layers);
@@ -452,23 +455,20 @@
         });
     }
 
-
-
-
-    $(document).ready(function() {
-      loadData(original_data);
-      loadGraph(); // Load data when the document is ready
-      $(document).on('click', '#pagination .page-link', function(e) {
-        e.preventDefault();
-        currentPage = $(this).data('page');
-        renderTable(original_data);
-        renderPagination();
-        });
-      $(".option").click(function(){
-        $(".option").removeClass("active");
-        $(this).addClass("active"); 
+  $(document).ready(function() {
+    loadData(original_data);
+    loadGraph(); // Load data when the document is ready
+    $(document).on('click', '#pagination .page-link', function(e) {
+      e.preventDefault();
+      currentPage = $(this).data('page');
+      renderTable(original_data);
+      renderPagination(original_data);
       });
+    $(".option").click(function(){
+      $(".option").removeClass("active");
+      $(this).addClass("active"); 
     });
+  });
   </script>
 </body>
 </html>
