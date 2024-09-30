@@ -2333,6 +2333,9 @@ Reservation Page Style
 #map_data_table{
   max-width: 100%;
 }
+.map-viewer{
+  padding: 2em;
+}
 
 
 

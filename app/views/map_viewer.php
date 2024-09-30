@@ -59,58 +59,72 @@
 
   <div class="wrapper">
     <div class="visit-country">
-      <div class="container-fluid">
-        <div class="row" id="map-viewer-page-top-text-section" style="margin-bottom:20px;">
-          <div class="col-lg-12">
-            <div class="section-heading text-center">
-              <h1><?php echo $text_dom_sections[0]['dom_header']; ?></h1>
-              <hr>
-              <p class="text-center" id="map_data_detail"><?php echo $text_dom_sections[0]['dom_text']; ?></p>
+      <div class="container-fluid map-viewer-container">
+        <div class="map-viewer-container">
+          <div class="row" id="map-viewer-page-top-text-section" style="margin-bottom:20px;">
+            <div class="col-lg-12">
+              <div class="section-heading text-center">
+                <h1><?php echo $text_dom_sections[0]['dom_header']; ?></h1>
+                <hr>
+                <p class="text-center" id="map_data_detail"><?php echo $text_dom_sections[0]['dom_text']; ?></p>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-12">
-            <div id="graph-container"></div>
+
+          <div class="row">
+            <div class="col-lg-6">
+                <label for="type-filter">Select Restoration Type:</label>
+                <select id="restoration-type-filter" class="form-select" style="margin-bottom: 20px;" onChange="applyTypeFilter()">
+                  <option value="">All Types</option>
+                  <option value="River and Stream bank Restoration">River and Stream bank Restoration</option>
+                  <option value="Soil and Water Conservation">Soil and Water Conservation</option>
+                  <option value="Community Forest and Woodlots">Community Forest and Woodlots</option>
+                  <option value="Forest Management">Forest Management</option>
+                  <option value="Improved Agricultural Technologies">Improved Agricultural Technologies</option>
+                </select>
+              </div>
+            <div class="col-lg-12">
+              <div id="graph-container"></div>
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-2">
-            <table class="table table-responsive" id="data-table" style="font-size:smaller;">
-              <thead class="thead-light">
-                <tr>
-                  <th colspan="3">
-                    <div class="row">
-                      <div class="col-md-12">
-                        <select name="district" class="form-select" style ="font-size:smaller" aria-label="Default select example" id="map-table-district-filter" onChange="filterTable()">
-                          <option value="" selected>Filter District ....</option>
-                            <?php
-                              $filePath = 'C:\xampp\htdocs\AREECA\public\assets\districts.txt';              
-                              $districts = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-                              foreach($districts as $item): ?>
-                                <option value="<?php echo $item; ?>"><?php echo $item; ?></option> 
-                              <?php endforeach ?>
-                        </select>
+          <div class="row">
+            <div class="col-lg-2">
+              <table class="table table-responsive" id="data-table" style="font-size:smaller;">
+                <thead class="thead-light">
+                  <tr>
+                    <th colspan="3">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <select name="district" class="form-select" style ="font-size:smaller" aria-label="Default select example" id="map-table-district-filter" onChange="filterTable()">
+                            <option value="" selected>Filter District ....</option>
+                              <?php
+                                $filePath = BASE_PATH.'\public\assets\districts.txt';              
+                                $districts = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+                                foreach($districts as $item): ?>
+                                  <option value="<?php echo $item; ?>"><?php echo $item; ?></option> 
+                                <?php endforeach ?>
+                          </select>
+                        </div>
                       </div>
-                    </div>
-                  </th>
-                </tr>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Table of Content</th>
-                  <th scope="col"></th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-            <nav>
-              <ul class="pagination" id="pagination">
-                        <!-- Pagination links will be inserted here -->
-              </ul>
-            </nav>
-          </div>
-          <div class="col-lg-10">
-            <div id="map"></div>
+                    </th>
+                  </tr>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Table of Content</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+              <nav>
+                <ul class="pagination" id="pagination">
+                          <!-- Pagination links will be inserted here -->
+                </ul>
+              </nav>
+            </div>
+            <div class="col-lg-10">
+              <div id="map"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -132,6 +146,7 @@
   <script src="/AREECA/public/assets/js/tabs.js"></script>
   <script src="/AREECA/public/assets/js/popup.js"></script>
   <script src="/AREECA/public/assets/js/custom.js"></script>
+  <script src="/AREECA/public/assets/js/map_viewer_functions.js"></script>
 
   <!-- table pagination -->
   <script id="data-script" type="application/json">
@@ -339,121 +354,6 @@
       }
     }
 
-
-    function loadGraph() {
-      let valuesArray = Object.keys(layers);
-      let selectedDistricts = valuesArray.map(item => item.replace(".geojson", ""));
-
-        // If no districts are selected, populate selectedDistricts with all districts from original_data
-      if (selectedDistricts.length === 0) {
-          selectedDistricts = [...new Set(original_data.map(row => row['district']))]; // Get unique districts
-      }
-
-      let graph_data = original_data.filter(row => {
-        return selectedDistricts.includes(row['district']); // Check if the row's district is in the selectedDistricts array
-      });
-
-      var element = '#graph-container';
-      var caption = "Accumulated HAUnderRes of the following Districts: " + selectedDistricts.join(', ');
-
-      if(selectedDistricts) {
-        document.getElementById('graph-container').classList.add('graph-container');
-      }
-
-      $(element).empty();
-      $(element).append(`
-        <canvas id="myChart" class="responsive-canvas"></canvas>
-      `);
-
-      var ctx = document.getElementById('myChart').getContext('2d');
-      var column_names = selectedDistricts; // Now, labels represent districts
-
-        // Initialize counters for each forestation type and district
-      let counters = {
-            'River and Stream bank Restoration': new Array(selectedDistricts.length).fill(0),
-            'Soil and Water Conservation': new Array(selectedDistricts.length).fill(0),
-            'Community Forest and Woodlots': new Array(selectedDistricts.length).fill(0),
-            'Forest Management': new Array(selectedDistricts.length).fill(0),
-            'Improved Agricultural Technologies': new Array(selectedDistricts.length).fill(0)
-        };
-
-      // Populate counters with data from graph_data
-      graph_data.forEach(row => {
-        const districtIndex = selectedDistricts.indexOf(row['district']); // Find index of the district in selectedDistrict
-          row['features']['properties'].forEach(item => {
-              let type = item['properties']['Type'];
-              if (counters[type]) {
-                counters[type][districtIndex] += parseFloat(item['properties']['HaUnderRes']);
-              }
-            });
-        });
-
-      var myChart = new Chart(ctx, {
-        type: 'bar',  // Bar chart type (for grouped bars)
-          data: {
-                labels: column_names,  // District labels
-                datasets: [
-                    {
-                        label: 'River and Stream bank Restoration',
-                        data: counters['River and Stream bank Restoration'],  // Data for each district
-                        backgroundColor: 'rgba(2, 205, 255, 0.7)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'Soil and Water Conservation',
-                        data: counters['Soil and Water Conservation'],
-                        backgroundColor: 'rgba(122, 68, 0, 0.7)',
-                        borderColor: 'rgba(82, 45, 0, 1)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'Community Forest and Woodlots',
-                        data: counters['Community Forest and Woodlots'],
-                        backgroundColor: 'rgba(142, 255, 133, 0.7)',
-                        borderColor: 'rgba(21, 249, 3, 1)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'Forest Management',
-                        data: counters['Forest Management'],
-                        backgroundColor: 'rgba(2, 87, 42, 0.7)',
-                        borderColor: 'rgba(1, 158, 10, 1)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'Improved Agricultural Technologies',
-                        data: counters['Improved Agricultural Technologies'],
-                        backgroundColor: 'rgba(247, 240, 15, 0.7)',
-                        borderColor: 'rgba(247, 240, 15, 1)',
-                        borderWidth: 1
-                    }
-                ]
-            },
-            options: {
-              responsive: true, // Make the chart responsive
-              maintainAspectRatio: false, // Allow it to break the aspect ratio
-                scales: {
-                    x: {
-                        stacked: false,  // Disable stacking on x-axis to show grouped bars
-                    },
-                    y: {
-                        beginAtZero: true  // Keep y-axis starting at zero
-                    }
-                },
-                plugins: {
-                    legend: {
-                        position: 'top',  // Align the legend to the top
-                        labels: {
-                            padding: 20,
-                            textAlign: 'left',
-                            usePointStyle: true
-                        }
-                    }
-                }
-            }
-        });
-    }
 
   $(document).ready(function() {
     loadData(original_data);
