@@ -224,11 +224,13 @@
     addLegend(map, colorMap);
 
     function handelCheckboxAction(file_name,id){
+      var selectedType = document.getElementById("restoration-type-filter").value;
       var checkbox = document.getElementById(id);
-      renderMap(file_name, checkbox.checked);
+      renderMap(file_name, checkbox.checked, selectedType);
+      updateMap(selectedType);
     }
         
-    function renderMap(file_name, addLayer) {
+    function renderMap(file_name, addLayer, selectedType) {
       var data_file_path = BASE_URL + 'app/storage/map_data_files/' + file_name;
 
       // If addLayer is false, remove the layer
@@ -237,7 +239,7 @@
           map.removeLayer(layers[file_name]);  // Remove the layer from the map
           delete layers[file_name];            // Remove from layers object
         }
-        loadGraph();
+        loadGraph(selectedType);
         return;
       }
 
@@ -306,7 +308,7 @@
           // Adjust map bounds to fit new data
           var bounds = newLayer.getBounds();
           map.fitBounds(bounds);
-          loadGraph();
+          loadGraph(selectedType);
         }).catch(error => console.error('Error loading GeoJSON:', error));
       }
 

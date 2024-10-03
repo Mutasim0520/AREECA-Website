@@ -103,15 +103,7 @@
 
   <!-- Scripts -->
   <!-- Bootstrap core JavaScript -->
-  <script src="/AREECA/vendor/jquery/jquery.min.js"></script>
-  <script src="/AREECA/vendor/bootstrap/js/bootstrap.min.js"></script>
-
-  <script src="/AREECA/public/assets/js/isotope.min.js"></script>
-  <script src="/AREECA/public/assets/js/owl-carousel.js"></script>
-  <script src="/AREECA/public/assets/js/wow.js"></script>
-  <script src="/AREECA/public/assets/js/tabs.js"></script>
-  <script src="/AREECA/public/assets/js/popup.js"></script>
-  <script src="/AREECA/public/assets/js/custom.js"></script>
+  <?php require 'includes/load_scripts.php'; ?>
 
   <!-- ***** footer ***** -->
   <?php require 'includes/footer.php'; ?>
