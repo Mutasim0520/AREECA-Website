@@ -66,7 +66,7 @@ class Controller {
             $id = $row['id'];
             $file_name = $row['file_name'];
             $file_path = $row['file_path'];
-            $geometry = json_decode($row['geometry'], true);
+            $geometry = $row['geometry'];
             $properties = json_decode($row['properties'], true);
             
             $area = 0;

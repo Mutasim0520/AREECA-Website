@@ -300,19 +300,14 @@
 
   <!-- Scripts -->
   <!-- Bootstrap core JavaScript -->
-  <script src="/AREECA/vendor/jquery/jquery.min.js"></script>
-  <script src="/AREECA/vendor/bootstrap/js/bootstrap.min.js"></script>
-
-  <script src="/AREECA/public/assets/js/isotope.min.js"></script>
-  <script src="/AREECA/public/assets/js/owl-carousel.js"></script>
-  <script src="/AREECA/public/assets/js/wow.js"></script>
-  <script src="/AREECA/public/assets/js/tabs.js"></script>
-  <script src="/AREECA/public/assets/js/popup.js"></script>
-  <script src="/AREECA/public/assets/js/custom.js"></script>
+  <?php require 'includes/load_scripts.php'; ?>
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- <script src="/AREECA/public/assets/js/ckEditor.js"> -->
+  <script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
   <script src="/AREECA/public/assets/js/functions.js"></script>
+  
 
   <script>
     $(".option").click(function(){
@@ -475,6 +470,23 @@
               var modal = $(this);
               modal.find('#URL_id_delete').val(recordId);
             });
+
+            $('#uploadModalDOM').on('shown.bs.modal', function () {
+              initializeEditors(); // Initialize CKEditor when the modal is shown
+            });
+
+            $('#uploadModalEvent').on('shown.bs.modal', function () {
+              initializeEditors(); // Initialize CKEditor when the modal is shown
+            });
+
+            $('#uploadModalDOM').on('hidden.bs.modal', function () {
+              // destroyEditors(); // Initialize CKEditor when the modal is shown
+            });
+
+            $('#uploadModalEvent').on('hidden.bs.modal', function () {
+              destroyEditors(); // Initialize CKEditor when the modal is shown
+            });
+
             
             document.getElementById('pageSelect').addEventListener('change', function() {
               const selectedPage = this.value;
@@ -490,9 +502,13 @@
 
     function submitModal(modal_name){
       var form = document.getElementById(modal_name);
+    
+      if(modal_name == "uploadFormEvent"){
+        form.submit();
+      }
       // Trigger form submission
-      if (form.checkValidity()) {
-          form.submit();  // Submit the form if all fields are valid
+      else if (form.checkValidity()) {  
+        form.submit();  // Submit the form if all fields are valid
       } else {
           form.reportValidity();  // Show validation messages
       }

@@ -37,9 +37,7 @@ class DashboardController extends Controller {
             if(isset($_POST['event_name']) && isset($_POST['intro']) && isset($_POST['description']) && isset($_FILES['images'])){
                 $inputs_rules = array(['field_name' => 'event_name', 'max_length' => 100, 'type' => 'string'],
                                 ['field_name' => 'intro', 'max_length' => 200, 'type' => 'string'],
-                                ['field_name' => 'venue', 'max_length' => 200, 'type' => 'string'],
-                                ['field_name' => 'date', 'max_length' => 1000, 'type' => 'string'],
-                                ['field_name' => 'description', 'max_length' => 1000, 'type' => 'string']
+                                ['field_name' => 'venue', 'max_length' => 200, 'type' => 'string']
                 );
                 $validation_result = $this->validateInputs($inputs_rules);
                 if($validation_result['is_valid']){
@@ -47,14 +45,14 @@ class DashboardController extends Controller {
                     $intro = filter_var($_POST['intro'], FILTER_SANITIZE_SPECIAL_CHARS);
                     $venue = filter_var($_POST['venue'], FILTER_SANITIZE_SPECIAL_CHARS);
                     $date = filter_var($_POST['date'], FILTER_SANITIZE_SPECIAL_CHARS);
-                    $description = filter_var($_POST['description'], FILTER_SANITIZE_SPECIAL_CHARS);
+                    $description = $_POST['description'];
                     $is_valid_image = $this->validateImage();
                     if($is_valid_image){
                         $cover_photo = $this->moveImageToDirectorie('events');
                         $uploaded_images = $this->moveImagesToDirectorie('events');
                         if($cover_photo){
                             if(!$uploaded_images['invalid_images']){
-                                $event = $this->model('Event')->insert($name, $venue, $date, $description, $uploaded_images['valid_images'],$intro,$cover_photo);
+                                $event = $this->model('Event')->insert($name, $venue, $description, $uploaded_images['valid_images'],$intro,$cover_photo);
                                 if($event){
                                     $_SESSION['message_type'] = 'success'; 
                                     $_SESSION['message'] = "Event Created Successfully";
@@ -227,8 +225,8 @@ class DashboardController extends Controller {
                 if (in_array($fileExt, $allowedExtensions)) {
                     
                     // Check file size (optional)
-                    if ($fileSize < 5000000) { // 5MB max size
-                        $uploadDir = Storage_Path.'docs/';
+                    if ($fileSize < 20000000) { // 5MB max size
+                        $uploadDir = DOC_STORAGE;
                         $fileNewName =uniqid() . '_' . time() . '.' . $fileExt;
                         $fileDestination = $uploadDir . $fileNewName;
 
@@ -393,9 +391,12 @@ class DashboardController extends Controller {
             if ($_SERVER['REQUEST_METHOD'] == 'POST'){
                 if(isset($_POST['id'])){
                     $id = $_POST['id'];
+                    $doc = $this->model('Document')->getDocumentById($id);
                     $is_deleted = $this->model('Document')->deleteDocument($id);
                 }
-                if ($is_deleted){
+                if($is_deleted){
+                    $file_path = DOC_STORAGE.$doc['name'];
+                    $is_deleted_from_storage = $this->deleteFileFromDirectory($file_path);
                     $_SESSION['message_type'] = 'success'; 
                     $_SESSION['message'] = "Document Successfully Deleted";
                     return $this->redirect($redirect_url);
@@ -438,6 +439,21 @@ class DashboardController extends Controller {
         }else{
             return $this->redirectBack();
         }
+    }
+
+    private function deleteFileFromDirectory($filePath){
+        // Check if the file exists before trying to delete it
+        if (file_exists($filePath)) {
+            // Try to delete the file
+            if (unlink($filePath)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+
     }
 
 

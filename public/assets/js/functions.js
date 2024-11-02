@@ -219,11 +219,49 @@ function updateDomSelect(selectedPage) {
       }
     }
   }      
-      
-      // Event listener for the page select field
-    //   document.getElementById('pageSelect').addEventListener('change', function() {
-    //     const selectedPage = this.value;
-    //     updateDomSelect(selectedPage);
-    //   });
+
+  let editorInstances = {}; // Global variable for editor instances
+
+  function initializeEditors() {
+    document.querySelectorAll('.ckeditor-textarea').forEach((textarea) => {
+        // Destroy any existing CKEditor instance to avoid duplication
+        if (editorInstances[textarea.id]) {
+            editorInstances[textarea.id].destroy()
+                .then(() => {
+                    delete editorInstances[textarea.id]; // Remove reference from the object
+                });
+        }
+
+        // Initialize CKEditor on the current textarea
+        ClassicEditor.create(textarea)
+            .then(editor => {
+                editorInstances[textarea.id] = editor; // Store editor instance
+
+                // Update textarea value on form submission
+                const form = textarea.closest('form');
+                form.addEventListener('submit', (event) => {
+                    textarea.value = editor.getData(); // Update textarea value with CKEditor data
+                    console.log(`Textarea ID: ${textarea.id} updated with data: ${textarea.value}`);
+                });
+            })
+            .catch(error => {
+                console.error('CKEditor initialization error:', error);
+            });
+    });
+}
+
+
+
+function destroyEditors() {
+    document.querySelectorAll('.ckeditor-textarea').forEach((textarea) => {
+        if (editorInstances[textarea.id]) {
+            // Destroy the editor instance
+            editorInstances[textarea.id].destroy()
+                .then(() => {
+                    delete editorInstances[textarea.id]; // Remove the instance reference
+                });
+        }
+    });
+}
     
 

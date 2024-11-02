@@ -40,8 +40,7 @@
           $image_counter = 1; 
           foreach($main_slider as $item):
               foreach($item['images'] as $image): ?>
-                <div id="<?php echo 'top-banner-' . $image_counter; ?>" class="banner" 
-                    style="background-size: cover; background-position: center center; object-fit:cover; max-height:85vh;">
+                <div id="<?php echo 'top-banner-' . $image_counter; ?>" class="banner custom-banner">
                   <img src="<?php echo BASE_IMAGE_URL . 'doms/' . $image['file_name'];?>">
                 </div>
                 <?php 
@@ -75,7 +74,6 @@
 
         <?php endforeach;?>
       </div>
-      <br></br><br></br>
       <div class="container">
         <div class="row" id="index-page-partners" style="box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15); padding:20px;background-color:#f6fff6;">
           <div class="section-heading text-center">

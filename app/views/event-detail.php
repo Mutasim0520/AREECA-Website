@@ -27,36 +27,42 @@
     <div class="wrapper">
       <div class="visit-country">
         <div class="container">
-          <div class="row" style="box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15); padding-bottom:30px; background-color:#f6fff6;">
+          <div class="row">
             <div class="section-heading text-center">
               <h1><?php echo($event[0]['name']);?></h1>
             </div>
-            <div class="col-lg-6">
-              <p style="text-align:justify"><?php echo (str_replace(["\r\n", "\n"], '<br><br>', $event[0]['description'])); ?></p>
-            </div>
-            <div class="col-lg-6" style="margin-top:8px;">
-              <section class="section-1" style="min-height:45vh; object-fit:cover;">
-                <div class="content-slider">
-                  <?php 
-                    $image_counter = 1 ;
-                    foreach($event[0]['images'] as $image):?>
-                      <input type="radio" id="<?php echo 'banner' . $image_counter; ?>" class="sec-1-input" name="banner" <?php echo $image_counter === 1 ? 'checked' : ''; ?>>
-                      <?php $image_counter++ ; ?>
-                    <?php endforeach; ?>
-                  <div class="slider">
-                  <?php 
-                    $image_counter = 1 ;
-                    foreach($event[0]['images'] as $image):?>
-                      <div id="<?php echo 'top-banner-' . $image_counter; ?>" class="banner" 
-                          style="background-image: url('<?php echo BASE_IMAGE_URL . 'events/' . $image; ?>'); background-size: cover; background-position: center center;"></div>
-                  <?php $image_counter++ ; 
-                    endforeach; ?>
-                  </div>
-                </div>
-              </section>
-            </div>
+            <div class="event-detail">
+            <!-- Image Slider Floated Right -->
+              <div class="image-slider">
+                  <section class="section-1">
+                      <div class="content-slider">
+                          <?php 
+                          $image_counter = 1;
+                          foreach($event[0]['images'] as $image): ?>
+                              <input type="radio" id="<?php echo 'banner' . $image_counter; ?>" class="sec-1-input" name="banner" <?php echo $image_counter === 1 ? 'checked' : ''; ?>>
+                              <?php $image_counter++; ?>
+                          <?php endforeach; ?>
+                          
+                          <div class="slider">
+                              <?php 
+                              $image_counter = 1;
+                              foreach($event[0]['images'] as $image): ?>
+                                  <div id="<?php echo 'top-banner-' . $image_counter; ?>" class="banner" 
+                                      style="background-image: url('<?php echo BASE_IMAGE_URL . 'events/' . $image; ?>'); background-size: cover; background-position: center center;">
+                                  </div>
+                              <?php $image_counter++;
+                              endforeach; ?>
+                          </div>
+                      </div>
+                  </section>
+              </div>
+            <!-- Description Text -->
+              <div class="event-description">
+                  <p style="text-align: justify;">
+                      <?php echo (str_replace(["\r\n", "\n"], '<br>', $event[0]['description'])); ?>
+                  </p>
+              </div>
           </div>
-
           <br>
           <div class="row">
             <div class="col-lg-12">
@@ -92,15 +98,7 @@
 
   <!-- Scripts -->
   <!-- Bootstrap core JavaScript -->
-  <script src="/AREECA/vendor/jquery/jquery.min.js"></script>
-  <script src="/AREECA/vendor/bootstrap/js/bootstrap.min.js"></script>
-
-  <script src="/AREECA/public/assets/js/isotope.min.js"></script>
-  <script src="/AREECA/public/assets/js/owl-carousel.js"></script>
-  <script src="/AREECA/public/assets/js/wow.js"></script>
-  <script src="/AREECA/public/assets/js/tabs.js"></script>
-  <script src="/AREECA/public/assets/js/popup.js"></script>
-  <script src="/AREECA/public/assets/js/custom.js"></script>
+  <?php require 'includes/load_scripts.php'; ?>
 
   <!-- ***** footer ***** -->
 

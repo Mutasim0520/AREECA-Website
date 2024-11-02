@@ -42,7 +42,7 @@
               <div class="col-md-12">
                   <div class="form-group">
                     <label for="dom_text">DOM Text</label>
-                    <textarea class="form-control" id="dom_text" name="dom_text" rows="5"></textarea>
+                    <textarea class="form-control ckeditor-textarea" id="dom_text" name="dom_text" rows="5"></textarea>
                   </div>
               </div>
             </div>

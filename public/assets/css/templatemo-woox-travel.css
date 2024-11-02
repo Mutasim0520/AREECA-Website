@@ -50,6 +50,7 @@ html, body {
   min-height: 100%;
   display: flex;
   flex-direction: column;
+  background-color: #fbfff4;
 }
 
 .visit-country {
@@ -663,14 +664,14 @@ Header Style
   }
   .header-area.header-sticky .nav li a:hover,
   .header-area.header-sticky .nav li a.active {
-    color: #226027!important;
+    color: #003218!important;
     opacity: 1;
   }
   .header-area.header-sticky .nav li.search-icon a {
     width: 100%;
   }
   .header-area {
-    background-color: #226027;
+    background-color: #003218;
     padding: 0px 15px;
     height: 100px;
     box-shadow: none;
@@ -724,7 +725,7 @@ Header Style
   }
   .header-area .main-nav .nav li a:hover {
     background: #f7f7f7 !important;
-    color: #226027!important;
+    color: #003218!important;
   }
   .header-area .main-nav .nav li.has-sub ul.sub-menu {
     position: relative;
@@ -766,7 +767,7 @@ Banner Style
 */
 
 .section-1 {
-  margin-top: 0px;
+  margin-top: 70px;
   height: 75%;
   color: #fff;
   position: relative;
@@ -797,7 +798,15 @@ Banner Style
   background-repeat: no-repeat;
   background-position: 50% 50%;
   transition: all 0.5s ease;
+  background-size: cover;
+  background-position: center center;
+  object-fit: cover;
 }
+
+.custom-banner {
+  max-height: 85vh;
+}
+
 .section-1 .more-info {
   margin-top: 60px;
   background-color: #fff;
@@ -2345,6 +2354,50 @@ Responsive Style
 --------------------------------------------- 
 */
 
+.event-detail{
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15); 
+  padding:30px !important;
+  background-color:#f6fff6;
+  overflow: hidden;
+}
+.image-slider {
+      margin-top: 20px;
+      float: right; width: 40%;
+      margin-left: 20px; 
+      margin-bottom: 20px;
+}
+.slider{
+  height: 75vh !important;
+}
+body li{
+  color: #afafaf;
+}
+
+.event-detail li{
+  list-style-type: circle;
+  font-style: italic;
+  text-align: justify;
+}
+
+.event-detail p img {
+    width: 50%; /* Set image width to 50% */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Make the image a block element */
+    margin: 0 auto; /* Center the block element */
+}
+
+/* Center only the <p> tags that contain images */
+.event-detail p:has(img) {
+    text-align: center; /* Center the content of the <p> that has an image */
+}
+
+/* Target the <p> tags immediately following the <p> with images */
+.event-detail p + p {
+    font-size: smaller; /* Adjust font size for the next <p> tag (label) */
+    margin-top: 0; /* Optional: remove top margin */
+    text-align: center;
+}
+
 body {
   overflow-x: hidden;
 }
@@ -2488,7 +2541,21 @@ body {
   }
 }
 
-@media (max-width: 520px) {
+@media (max-width: 768px) {
+    
+    .image-slider {
+        float: none; 
+        width: 100%; 
+        margin-left: 0;
+        margin-bottom: 20px;
+        margin-top:20px;
+    }
+  .header-area .main-nav .logo {
+    left: 45%;
+  }
+  .visit-country{
+    margin-top: -60px;
+  }
   h1{
     font-size: 16px;
   }
@@ -2540,6 +2607,19 @@ body {
     font-weight: 500;
     text-transform: capitalize;
     letter-spacing: 0.3px;
+  }
+
+  .partner-logo{
+    max-width: 40px;
+  }
+  .logo-wrapper{
+    gap: 0px;
+  }
+  .logo-container{
+    padding: 5px; 
+  }
+  br{
+    line-height: 0px;
   }
 
 }

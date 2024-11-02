@@ -63,7 +63,7 @@ class MapController extends Controller {
             
                                 if (move_uploaded_file($fileTmpName, $fileDestination)) {
                                     $geo_data_tmp = json_decode($fileContent, true);
-                                    $geo_data = json_encode($geo_data_tmp['features']);
+                                    $geo_data = json_encode($geo_data_tmp['features'],true);
                                     $maps = $mapModel->insert($fileNewName, $uploadDir, $geo_data);
                                     if($maps){
                                         $_SESSION['message_type'] = 'success'; 

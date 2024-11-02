@@ -17,7 +17,6 @@ class Event extends Model {
             $sql = "CREATE TABLE IF NOT EXISTS events (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 name VARCHAR(100) NOT NULL,
-                date DATE NULL,
                 venue VARCHAR(100) NULL,
                 description LONGTEXT NOT NULL,
                 intro VARCHAR(200) NOT NULL,
@@ -46,15 +45,14 @@ class Event extends Model {
         }
     }
 
-    public function insert($name, $venue, $date, $description, $images, $intro, $cover) {
+    public function insert($name, $venue, $description, $images, $intro, $cover) {
         try {
             // Prepare an SQL statement
-            $sql = "INSERT INTO events (name,date,venue,description,intro,cover) VALUES (:name, :date, :venue, :description, :intro, :cover)";
+            $sql = "INSERT INTO events (name,venue,description,intro,cover) VALUES (:name, :venue, :description, :intro, :cover)";
             $query = $this->db->prepare($sql);
             
             // Bind parameters
             $query->bindParam(':name', $name);
-            $query->bindParam(':date', $date);
             $query->bindParam(':venue', $venue);
             $query->bindParam(':description', $description);
             $query->bindParam(':intro', $intro);
@@ -104,7 +102,6 @@ class Event extends Model {
                     events.id AS id,
                     events.name AS name,
                     events.cover AS cover,
-                    events.date AS date,
                     events.description AS description,
                     events.venue AS venue,
                     events.intro AS intro,
@@ -135,7 +132,6 @@ class Event extends Model {
                     events.id AS id,
                     events.name AS name,
                     events.cover AS cover,
-                    events.date AS date,
                     events.description AS description,
                     events.venue AS venue,
                     events.intro AS intro,

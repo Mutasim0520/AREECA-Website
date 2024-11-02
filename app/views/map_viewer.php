@@ -72,58 +72,62 @@
           </div>
 
           <div class="row">
-            <div class="col-lg-6">
-                <label for="type-filter">Select Restoration Type:</label>
-                <select id="restoration-type-filter" class="form-select" style="margin-bottom: 20px;" onChange="applyTypeFilter()">
-                  <option value="">All Types</option>
-                  <option value="River and Stream bank Restoration">River and Stream bank Restoration</option>
-                  <option value="Soil and Water Conservation">Soil and Water Conservation</option>
-                  <option value="Community Forest and Woodlots">Community Forest and Woodlots</option>
-                  <option value="Forest Management">Forest Management</option>
-                  <option value="Improved Agricultural Technologies">Improved Agricultural Technologies</option>
-                </select>
+            <div class="graph-wrapper">
+              <div class="col-lg-6">
+                  <label for="type-filter">Select Restoration Type:</label>
+                  <select id="restoration-type-filter" class="form-select" style="margin-bottom: 20px;" onChange="applyTypeFilter()">
+                    <option value="">All Types</option>
+                    <option value="River and Stream bank Restoration">River and Stream bank Restoration</option>
+                    <option value="Soil and Water Conservation">Soil and Water Conservation</option>
+                    <option value="Community Forest and Woodlots">Community Forest and Woodlots</option>
+                    <option value="Forest Management">Forest Management</option>
+                    <option value="Improved Agricultural Technologies">Improved Agricultural Technologies</option>
+                  </select>
+                </div>
+              <div class="col-lg-12">
+                <div id="graph-container"></div>
               </div>
-            <div class="col-lg-12">
-              <div id="graph-container"></div>
             </div>
           </div>
           <div class="row">
-            <div class="col-lg-2">
-              <table class="table table-responsive" id="data-table" style="font-size:smaller;">
-                <thead class="thead-light">
-                  <tr>
-                    <th colspan="3">
-                      <div class="row">
-                        <div class="col-md-12">
-                          <select name="district" class="form-select" style ="font-size:smaller" aria-label="Default select example" id="map-table-district-filter" onChange="filterTable()">
-                            <option value="" selected>Filter District ....</option>
-                              <?php
-                                $filePath = BASE_PATH.'\public\assets\districts.txt';              
-                                $districts = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-                                foreach($districts as $item): ?>
-                                  <option value="<?php echo $item; ?>"><?php echo $item; ?></option> 
-                                <?php endforeach ?>
-                          </select>
+            <div class="map-wrapper">
+              <div class="col-lg-2">
+                <table class="table table-responsive" id="data-table" style="font-size:smaller;">
+                  <thead class="thead-light">
+                    <tr>
+                      <th colspan="3">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <select name="district" class="form-select" style ="font-size:smaller" aria-label="Default select example" id="map-table-district-filter" onChange="filterTable()">
+                              <option value="" selected>Filter District ....</option>
+                                <?php
+                                  $filePath = BASE_PATH.'\public\assets\districts.txt';              
+                                  $districts = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+                                  foreach($districts as $item): ?>
+                                    <option value="<?php echo $item; ?>"><?php echo $item; ?></option> 
+                                  <?php endforeach ?>
+                            </select>
+                          </div>
                         </div>
-                      </div>
-                    </th>
-                  </tr>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Table of Content</th>
-                    <th scope="col"></th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-              <nav>
-                <ul class="pagination" id="pagination">
-                          <!-- Pagination links will be inserted here -->
-                </ul>
-              </nav>
-            </div>
-            <div class="col-lg-10">
-              <div id="map"></div>
+                      </th>
+                    </tr>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Table of Content</th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+                <nav>
+                  <ul class="pagination" id="pagination">
+                            <!-- Pagination links will be inserted here -->
+                  </ul>
+                </nav>
+              </div>
+              <div class="col-lg-10">
+                <div id="map"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -137,15 +141,7 @@
   <!-- Scripts -->
   <!-- Bootstrap core JavaScript -->
 
-  <script src="/AREECA/vendor/jquery/jquery.min.js"></script>
-  <script src="/AREECA/vendor/bootstrap/js/bootstrap.min.js"></script>
-
-  <script src="/AREECA/public/assets/js/isotope.min.js"></script>
-  <script src="/AREECA/public/assets/js/owl-carousel.js"></script>
-  <script src="/AREECA/public/assets/js/wow.js"></script>
-  <script src="/AREECA/public/assets/js/tabs.js"></script>
-  <script src="/AREECA/public/assets/js/popup.js"></script>
-  <script src="/AREECA/public/assets/js/custom.js"></script>
+  <?php require 'includes/load_scripts.php'; ?>                               
   <script src="/AREECA/public/assets/js/map_viewer_functions.js"></script>
 
   <!-- table pagination -->

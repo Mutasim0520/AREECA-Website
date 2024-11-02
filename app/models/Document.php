@@ -71,6 +71,23 @@ class Document extends Model {
         }
     }
 
+    public function getDocumentById($id){
+        $sql = "SELECT 
+                    *
+                FROM
+                    documents
+                WHERE
+                    id = :id
+                ORDER BY
+                    name ASC";
+                    
+        $query = $this->db->prepare($sql);
+        query->bindParam(':id', $id);
+        $query->execute();
+        $results = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $results;
+    }
+
     
 }
 

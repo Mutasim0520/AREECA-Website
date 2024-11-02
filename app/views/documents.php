@@ -59,7 +59,7 @@
                 <?php foreach($urls as $url): ?>
                   <div class="item">
                     <div class="thumb">
-                      <div class="event-image-container" style="border-radius:0px; width: 100%; height: 100%; overflow: hidden; position: relative;text-align:center; font-size: larger; font-weight: 500;">
+                      <div class="event-image-container" style="border-radius:0px; width: 100%; height: 100%; overflow: hidden; position: relative;text-align:center; font-size: smaller; font-weight: 200;">
                         <a href="<?php echo($url['perma_link']); ?>" target="_blank" rel="noopener noreferrer">
                           <?php if($url['logo']){
                             $url_to_image = BASE_IMAGE_URL.'doms/'. $url['logo'];
@@ -82,15 +82,7 @@
 
   <!-- Scripts -->
   <!-- Bootstrap core JavaScript -->
-  <script src="/AREECA/vendor/jquery/jquery.min.js"></script>
-  <script src="/AREECA/vendor/bootstrap/js/bootstrap.min.js"></script>
-
-  <script src="/AREECA/public/assets/js/isotope.min.js"></script>
-  <script src="/AREECA/public/assets/js/owl-carousel.js"></script>
-  <script src="/AREECA/public/assets/js/wow.js"></script>
-  <script src="/AREECA/public/assets/js/tabs.js"></script>
-  <script src="/AREECA/public/assets/js/popup.js"></script>
-  <script src="/AREECA/public/assets/js/custom.js"></script>
+  <?php require 'includes/load_scripts.php'; ?>
 
   <!-- ***** footer ***** -->
 
@@ -98,13 +90,14 @@
         <?php echo(json_encode($documents)); ?>
   </script>
   <script id="data-script-storage-path" type="application/json">
-        <?php echo(Storage_Path); ?>
+        <?php echo(DOC_URL); ?>
   </script>
   <script>
     const rowsPerPage = 10;
         let currentPage = 1;
         let original_data = JSON.parse(document.getElementById('data-script').textContent);
-        let storage_path = (document.getElementById('data-script-storage-path').textContent) + "docs/";
+        let storage_path = (document.getElementById('data-script-storage-path').textContent);
+        storage_path = storage_path.replace(/\s+/g, '').trim();
 
         function loadData(data) {
           renderTable(data);
