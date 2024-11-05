@@ -229,7 +229,7 @@ body {
 }
 
 section {
-  margin-top: 120px;
+  margin-top: 70px;
 }
 
 .section-heading {
@@ -675,7 +675,6 @@ Header Style
     padding: 0px 15px;
     height: 100px;
     box-shadow: none;
-    text-align: center;
   }
   .header-area .container {
     padding: 0px;
@@ -718,7 +717,6 @@ Header Style
   .header-area .main-nav .nav li a {
     height: 50px !important;
     line-height: 50px !important;
-    padding: 0px !important;
     border: none !important;
     background: #f7f7f7 !important;
     color: #1e1e1e !important;
@@ -767,8 +765,7 @@ Banner Style
 */
 
 .section-1 {
-  margin-top: 70px;
-  height: 75%;
+  height: 70%;
   color: #fff;
   position: relative;
 }
@@ -2373,10 +2370,12 @@ body li{
   color: #afafaf;
 }
 
-.event-detail li{
+.event-detail li {
   list-style-type: circle;
   font-style: italic;
   text-align: justify;
+  font-size: x-small;
+  margin-left: 3rem;
 }
 
 .event-detail p img {
@@ -2386,13 +2385,25 @@ body li{
     margin: 0 auto; /* Center the block element */
 }
 
+
+
+.event-detail .table {
+  display: block; /* Make the image a block element */
+  margin: 0 auto; /* Center the block element */
+}
+
+.event-detail .table td, th {
+  color: #003218;
+  padding: 10px;
+}
+
 /* Center only the <p> tags that contain images */
 .event-detail p:has(img) {
     text-align: center; /* Center the content of the <p> that has an image */
 }
 
 /* Target the <p> tags immediately following the <p> with images */
-.event-detail p + p {
+.event-detail p:has(img) + p {
     font-size: smaller; /* Adjust font size for the next <p> tag (label) */
     margin-top: 0; /* Optional: remove top margin */
     text-align: center;
@@ -2553,8 +2564,8 @@ body {
   .header-area .main-nav .logo {
     left: 45%;
   }
-  .visit-country{
-    margin-top: -60px;
+  .section-1{
+    height: 40%;
   }
   h1{
     font-size: 16px;
